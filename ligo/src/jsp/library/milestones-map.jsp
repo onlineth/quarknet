@@ -59,7 +59,7 @@
 		  <div class="link-list">
 			  <a href="milestones.jsp">Milestones (text version)</a>
 			  |
-			  <a href="/glossary/index.php/LIGO_Glossary"
+			  <a href="http://www13.i2u2.org/glossary/index.php/I2U2_Glossary_and_Library"
 				 target="_blank">LIGO Glossary</a>
 			  | 
 			  <a href="../references/showAll.jsp?t=reference">All References for Study Guide <img src="../graphics/ref.gif"/></a>
