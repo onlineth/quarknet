@@ -11,7 +11,7 @@
 <%@ page import="java.text.*" %>
 
 <% 
-SimpleDateFormat DATEFORMAT = new SimpleDateFormat("MM/dd/yyyy");
+SimpleDateFormat DATEFORMAT = new SimpleDateFormat("MM/dd/yy");
 DATEFORMAT.setLenient(false);
 %>
 
