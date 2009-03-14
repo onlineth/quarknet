@@ -15,6 +15,7 @@
 <%@ page import="org.apache.commons.fileupload.servlet.*" %>
 <%@ page import="be.telio.mediastore.ui.upload.MonitoredDiskFileItemFactory" %>
 <%@ page import="be.telio.mediastore.ui.upload.UploadListener" %>
+<%@ page import="gov.fnal.elab.upload.*" %>
 <%@ page import="gov.fnal.elab.cosmic.beans.Geometries" %>
 <%@ page import="gov.fnal.elab.cosmic.beans.GeoEntryBean" %>
 <%@ page import="gov.fnal.elab.cosmic.Geometry" %>
@@ -102,7 +103,7 @@ Re: the upload progress stuff
 	    UploadListener listener = new UploadListener(request, 0);
 
 	    // Create a factory for disk-based file items
-	    FileItemFactory factory = new MonitoredDiskFileItemFactory(listener);
+	    FileItemFactory factory = new NewLineConvertingMonitoredDiskFileItemFactory(listener);
 
     	// Create a new file upload handler
 	    ServletFileUpload upload = new ServletFileUpload(factory);
@@ -170,9 +171,6 @@ Re: the upload progress stuff
     	    	CatalogEntry entry;
 		        //Split is in the portal.appdir along with the rest of our "Applications"
 		        String appDir = elab.getProperties().getProperty("app.dir");
-		        // This command is here to clean the Mac/DOS style line breaks
-		        // Probably could be done better, but this works for now.
-		        String cmdNLClean = "/usr/bin/perl -pi -e 's/\\r\\n?/\\n/g' " + f.getAbsolutePath();
 		        String cmdSplit = appDir + File.separator +  "Split.pl " + "\"" + f.getAbsolutePath() + "\"" + " " 
 		        	+ dataDir + File.separator + detectorId + " " + detectorId;
         		String cmdCompress = "gzip " + f.getAbsolutePath() + " &";
