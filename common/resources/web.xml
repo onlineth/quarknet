@@ -26,41 +26,6 @@
            elab.tld
 		</taglib-location>
 	</taglib>
-	<taglib>
-    	<taglib-uri>
-    		http://jakarta.apache.org/taglibs/xtags-1.0
-    	</taglib-uri>
-	    <taglib-location>
-	    	taglibs-xtags.tld
-	    </taglib-location>
-	</taglib>
-
-	<taglib>
-		<taglib-uri>
-			http://java.sun.com/jsp/jstl/fmt
-		</taglib-uri>
-		<taglib-location>
-			fmt.tld
-		</taglib-location>
-	</taglib>
-
-	<taglib>
-		<taglib-uri>
-			http://java.sun.com/jsp/jstl/xml
-		</taglib-uri>
-		<taglib-location>
-			x.tld
-		</taglib-location>
-	</taglib>
-	
-	<taglib>
-		<taglib-uri>
-			http://www.i2u2.org/jsp/ogretl
-		</taglib-uri>
-		<taglib-location>
-           ogre.tld
-		</taglib-location>
-	</taglib>
 	
 	<!-- dwr is used by the upload progress -->
 	<!-- being some kind of ajax life-simplifier, it could be used for other ajaxy things -->
@@ -80,22 +45,5 @@
 	<servlet-mapping>
         <servlet-name>dwr-invoker</servlet-name>
         <url-pattern>/dwr/*</url-pattern>
-    </servlet-mapping>
-    
-	<servlet>
-        <servlet-name>downloader</servlet-name>
-        <servlet-class>gov.fnal.elab.Downloader</servlet-class>
-    </servlet>
-    <servlet-mapping>
-    	<servlet-name>downloader</servlet-name>
-    	<url-pattern>/cosmic/data/download</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-    	<servlet-name>downloader</servlet-name>
-    	<url-pattern>/cms/data/download</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-    	<servlet-name>downloader</servlet-name>
-    	<url-pattern>/ligo/data/download</url-pattern>
     </servlet-mapping>
 </web-app>

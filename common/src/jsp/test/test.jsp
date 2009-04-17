@@ -14,7 +14,6 @@
 		<link rel="stylesheet" type="text/css" href="../css/style2.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/teacher.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/one-column.css"/>
-		<link rel="stylesheet" type="text/css" href="../css/test.css"/>
 	</head>
 
 	<body id="test">
@@ -51,7 +50,7 @@
 </p>
 
 <form name="test-form" method="post" action="record-answers.jsp">
-	<ol id="test">
+	<ol>
 		<c:forEach items="${test.questions}" var="question">
 			<li>
 				<strong>${question.text}</strong>
@@ -63,7 +62,7 @@
 						</li>
 					</c:forEach>
 				</ul>
-			 </li>
+			</li>
 		</c:forEach>
 	</ol>
 	<c:if test="${param.studentid != null && param.studentid != '0'}">
