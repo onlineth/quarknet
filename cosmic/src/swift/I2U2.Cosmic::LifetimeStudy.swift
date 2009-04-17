@@ -7,27 +7,15 @@ type AxisParams {
 }
 
 
-(File thresholdData) ThresholdTimes(File rawData, string detector, string cpldfreq) {
+(File thresholdData[]) ThresholdTimes(File rawData[], string detector, string cpldfreqs) {
 	app {
-		ThresholdTimes @filename(rawData) @filename(thresholdData) detector cpldfreq;
+		ThresholdTimes @filename(rawData) @filename(thresholdData) detector cpldfreqs;
 	}
 }
 
-(File thresholdData[]) ThresholdTimesMultiple(File rawData[], string detectors[], string cpldfreqs[]) {
-	foreach data, i in rawData {
-		thresholdData[i] = ThresholdTimes(rawData[i], detectors[i], cpldfreqs[i]);
-	}
-}
-
-(File wireDelayData) WireDelay(File thresholdData, string geoDir, File geoFile) {
+(File wireDelayData[]) WireDelay(File thresholdData[], string geoDir, File geoFiles[]) {
 	app {
 		WireDelay @filename(thresholdData) @filename(wireDelayData) @filename(geoDir);
-	}
-}
-
-(File wireDelayData[]) WireDelayMultiple(File thresholdData[], string geoDir, File geoFiles[]) {
-	foreach td, i in thresholdData {
-		wireDelayData[i] = WireDelay(thresholdData[i], geoDir, geoFiles[i]);
 	}
 }
 
@@ -66,8 +54,17 @@ type AxisParams {
 	app {
 		ExtraFunctions @filename(inf) @filename(out) @filename(rawFunctionFile)
 			etype 
-			xLowerBound xUpperBound alphaG alphaVar lifetimeG
-			lifetimeVar constantG constantVar turnedOn;
+			/*
+			"-lowx" xLowerBound "-highx" xUpperBound
+			"-alphaValue" @quote(alphaG)
+			"-alphaYN" alphaVar
+			"-lifetimeValue" @quote(lifetimeG)
+			"-lifetimeYN" lifetimeVar
+			"-constantValue" @quote(constantG)
+			"-constantYN" constantVar
+			"-fit" turnedOn
+			*/
+			;
 	}
 }
 
@@ -103,14 +100,11 @@ type AxisParams {
 
 
 File	rawData[] <fixed_array_mapper;files=@arg("rawData")>;
-//File thresholdAll[] <fixed_array_mapper;files=@arg("thresholdAll")>;
-//This is done to avoid corruption of threshold files when created
-//concurrently by multiple runs
-File 	thresholdAll[] <structured_regexp_mapper;source=rawData,match=".*/(.*)",transform="\\1.thresh">;
+File	thresholdAll[] <fixed_array_mapper;files=@arg("thresholdAll")>;
 File	wireDelayData[] <fixed_array_mapper;files=@arg("wireDelayData")>;
 
-string  detectors[] = @strsplit(@arg("detector"), "\\s");
-string  cpldfreqs[] = @strsplit(@arg("cpldfreqs"), "\\s");
+string 	detector = @arg("detector");
+string  cpldfreqs = @arg("cpldfreqs");
 
 string	extraFun_alpha_guess = @arg("extraFun_alpha_guess");
 string	extraFun_alpha_variate = @arg("extraFun_alpha_variate");
@@ -167,8 +161,8 @@ string	sort_sortKey1 = @arg("sort_sortKey1");
 string	sort_sortKey2 = @arg("sort_sortKey2");
 
 
-thresholdAll = ThresholdTimesMultiple(rawData, detectors, cpldfreqs);
-wireDelayData = WireDelayMultiple(thresholdAll, geoDir, geoFiles);
+thresholdAll = ThresholdTimes(rawData, detector, cpldfreqs);
+wireDelayData = WireDelay(thresholdAll, geoDir, geoFiles);
 combineOut = Combine(wireDelayData);
 sortOut = Sort(combineOut, sort_sortKey1, sort_sortKey2);
 lifetimeOut = Lifetime(sortOut, lifetime_coincidence, lifetime_energyCheck,

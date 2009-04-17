@@ -37,12 +37,12 @@
 	<e:trdefault name="plot_plot_type" value="2"/>
 	<e:trdefault name="plot_xlabel" value="East/West (meters)"/>
 	<e:trdefault name="plot_ylabel" value="North/South (meters)"/>
-	<e:trdefault name="plot_zlabel" value="Time\n(ns)"/>
+	<e:trdefault name="plot_zlabel" value="Time (nanosec)"/>
 	<e:trdefault name="sort_sortKey1" value="2"/>
 	<e:trdefault name="sort_sortKey2" value="3"/>
 	
 	<e:ifAnalysisIsOk>
-		<jsp:include page="../analysis/start.jsp?continuation=../analysis-shower/event-choice.jsp?submit=true&onError=../analysis-shower/analysis.jsp"/>
+		<jsp:include page="../analysis/start.jsp?continuation=../analysis-shower/output.jsp&onError=../analysis-shower/analysis.jsp"/>
 	</e:ifAnalysisIsOk>
 	<e:ifAnalysisIsNotOk>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">		
@@ -80,7 +80,7 @@
 			<tr>
 				<td id="center">
 					<p>
-						<a href="../analysis-shower/tutorial.jsp">Understand the graph</a>
+						<a href="tutorial.jsp">Understand the graph</a>
 					</p>
 					
 					<jsp:include page="../data/analyzing-list.jsp"/>

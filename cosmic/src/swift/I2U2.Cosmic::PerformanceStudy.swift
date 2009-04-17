@@ -6,15 +6,9 @@ type AxisParams {
 	string label;
 }
 
-(File thresholdData) ThresholdTimes(File rawData, string detector, string cpldfreq) {
+(File thresholdData[]) ThresholdTimes(File rawData[], string detector, string cpldfreqs) {
 	app {
-		ThresholdTimes @filename(rawData) @filename(thresholdData) detector cpldfreq;
-	}
-}
-
-(File thresholdData[]) ThresholdTimesMultiple(File rawData[], string detectors[], string cpldfreqs[]) {
-	foreach data, i in rawData {
-		thresholdData[i] = ThresholdTimes(rawData[i], detectors[i], cpldfreqs[i]);
+		ThresholdTimes @filename(rawData) @filename(thresholdData) detector cpldfreqs;
 	}
 }
 
@@ -30,15 +24,9 @@ type AxisParams {
 	}
 }
 
-(File out) Frequency (File inf, string binType, string binValue, string col) {
+(File out[]) Frequency (File inf[], string binType, string binValue, string col) {
 	app {
 		Frequency @filename(inf) @filename(out) col binType binValue;
-	}
-}
-
-(File out[]) FrequencyMultiple (File inf[], string binType, string binValue, string col) {
-	foreach data, i in inf {
-		out[i] = Frequency(inf[i], binType, binValue, col);
 	}
 }
 
@@ -73,20 +61,17 @@ type AxisParams {
 
 
 File rawData[] <fixed_array_mapper;files=@arg("rawData")>;
-//File thresholdAll[] <fixed_array_mapper;files=@arg("thresholdAll")>;
-//This is done to avoid corruption of threshold files when created
-//concurrently by multiple runs
-File thresholdAll[] <structured_regexp_mapper;source=rawData,match=".*/(.*)",transform="\\1.thresh">;
+File thresholdAll[] <fixed_array_mapper;files=@arg("thresholdAll")>;
 File combineOut;
 
-string detectors[] = @strsplit(@arg("detector"), "\\s");
-string cpldfreqs[] = @strsplit(@arg("cpldfreqs"), "\\s");
+string detector = @arg("detector");
+string cpldfreqs = @arg("cpldfreqs");
 
 string freq_binType = @arg("freq_binType");
 string freq_binValue = @arg("freq_binValue");
 string freq_col = @arg("freq_col");
 
-File singleChannelOut[] <fixed_array_mapper;files=@arg("singlechannelOut")>;
+File singlechannelOut[] <fixed_array_mapper;files=@arg("singlechannelOut")>;
 File freqOut[] <fixed_array_mapper;files=@arg("freqOut")>;
 
 string plot_caption = @arg("plot_caption");
@@ -115,10 +100,10 @@ string singlechannel_channel = @arg("singlechannel_channel");
 
 
 //the actual workflow
-thresholdAll = ThresholdTimesMultiple(rawData, detectors, cpldfreqs);
+thresholdAll = ThresholdTimes(rawData, detector, cpldfreqs);
 combineOut = Combine(thresholdAll);
 singleChannelOut = SingleChannel(combineOut, singlechannel_channel);
-freqOut = FrequencyMultiple(singleChannelOut, freq_binType, freq_binValue, freq_col);
+freqOut = Frequency(singleChannelOut, freq_binType, freq_binValue, freq_col);
 
 File svg;
 (svg, plot_outfile_param) = Plot(plot_plot_type, plot_caption, x, y, z, plot_title,

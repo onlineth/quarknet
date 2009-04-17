@@ -6,11 +6,7 @@ package gov.fnal.elab.tags;
 import gov.fnal.elab.analysis.ElabAnalysis;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.jsp.JspException;
@@ -62,10 +58,9 @@ public abstract class TRControl extends TagSupport implements DynamicAttributes 
     public void setOnError(String onError) {
         this.onError = onError;
     }
-
+    
     protected String getParamName() {
-        Map aliases = (Map) pageContext.getRequest().getAttribute(
-                ParamAlias.ATTR_ALIASES);
+        Map aliases = (Map) pageContext.getRequest().getAttribute(ParamAlias.ATTR_ALIASES);
         String alias = null;
         String name = getName();
         if (aliases != null) {
@@ -85,7 +80,7 @@ public abstract class TRControl extends TagSupport implements DynamicAttributes 
     }
 
     public Object getValue() throws JspException {
-        Object v = getControlValue();
+        Object v = evaluate("value", value);
         ElabAnalysis analysis = getAnalysis();
         if (v == null && analysis != null) {
             v = analysis.getParameter(getParamName());
@@ -105,40 +100,6 @@ public abstract class TRControl extends TagSupport implements DynamicAttributes 
         return v;
     }
     
-    protected Object getControlValue() throws JspException {
-        return getIntrinsicValue();
-    }
-    
-    protected Object getIntrinsicValue() throws JspException {
-        return evaluate("value", value);
-    }
-
-    /**
-     * Used to deal with the case when multiple parameters with the same name
-     * are passed. It generates an internal iterator which goes through all the
-     * values.
-     */
-    protected Object nextValue() throws JspException {
-        Object v = getValue();
-        if (v instanceof Collection) {
-            Iterator i = (Iterator) pageContext.getRequest().getAttribute(
-                    getName() + ":iter");
-            if (i == null) {
-                i = ((Collection) v).iterator();
-                pageContext.getRequest().setAttribute(getName() + ":iter", i);
-            }
-            if (i.hasNext()) {
-                return i.next();
-            }
-            else {
-                return "";
-            }
-        }
-        else {
-            return v;
-        }
-    }
-
     protected Object evaluate(String name, Object value) throws JspException {
         if (value instanceof String) {
             return ExpressionEvaluatorManager.evaluate(name, (String) value,
@@ -170,17 +131,16 @@ public abstract class TRControl extends TagSupport implements DynamicAttributes 
             throws JspException {
         attrs.put(localName, value);
     }
-
+    
     protected void writeDynamicLabelUpdater(JspWriter out) throws IOException {
         if (!getAttributes().containsKey("onChange")) {
-            // this bit to dynamically update labels in text controls
-            DynamicAttributesSupport.writeAttribute(out, "onChange",
-                    "javascript:updateLabels(this, '" + getName() + "')");
+            //this bit to dynamically update labels in text controls
+            DynamicAttributesSupport.writeAttribute(out, "onChange", "javascript:updateLabels(this, '" + getName() + "')");
         }
     }
-
+    
     public void setDynamicAttributes(Map attrs) {
-        this.attrs = attrs;
+        this.attrs = attrs; 
     }
 
     protected boolean isAnalysisParameterValid() {
@@ -197,21 +157,6 @@ public abstract class TRControl extends TagSupport implements DynamicAttributes 
         ElabAnalysis analysis = getAnalysis();
         if (analysis != null) {
             analysis.setParameter(getName(), value);
-        }
-    }
-    
-    protected List list(Collection c) {
-        if (c instanceof List) {
-            return (List) c;
-        }
-        else {
-            return new ArrayList(c);
-        }
-    }
-    
-    protected void clearAttributes() {
-        if (attrs != null) {
-            attrs.clear();
         }
     }
 }

@@ -45,7 +45,7 @@
 			}
 			//we must ensure the same iteration order, so singleChannels, singleChannelOuts, and
 			//freqOuts have the channels in the same order
-			Collection c = new TreeSet(channels);
+			List c = new LinkedList(channels);
 			
 			String singleChannels = ElabUtil.join(c, null, null, " ");
 			String singleChannelOuts = ElabUtil.join(c, "singleOut", null, " ");
@@ -113,7 +113,7 @@
 			<tr>
 				<td id="center">
 					<p>
-						<a href="../analysis-performance/tutorial.jsp">Understand the graph</a>
+						<a href="tutorial.jsp">Understand the graph</a>
 					</p>
 					
 					<jsp:include page="../data/analyzing-list.jsp"/>

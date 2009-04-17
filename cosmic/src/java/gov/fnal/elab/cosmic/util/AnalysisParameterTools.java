@@ -14,13 +14,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.Set;
 
 public class AnalysisParameterTools {
     
@@ -66,7 +64,7 @@ public class AnalysisParameterTools {
     }
     
     public static List getGeometryFiles(Elab elab, Collection rawData) {
-        List l = new ArrayList(rawData.size());
+        Set l = new HashSet(rawData.size());
         Iterator i = rawData.iterator();
         while (i.hasNext()) {
             String s = new File((String) i.next()).getName();
@@ -74,7 +72,7 @@ public class AnalysisParameterTools {
             l.add(elab.getProperties().getDataDir() + File.separator
                     + detectorID + File.separator + detectorID + ".geo");
         }
-        return l;
+        return new ArrayList(l);
     }
     
     public static List getWireDelayFiles(Elab elab, Collection rawData) {
@@ -95,41 +93,6 @@ public class AnalysisParameterTools {
         CHANNELS.put("chan4", "4");
     }
     
-    public static int getEventCount(Elab elab, Collection files) throws ElabException {
-        ResultSet rs = elab.getDataCatalogProvider().getEntries(files);
-        Iterator i = rs.iterator();
-        int sum = 0;
-        while (i.hasNext()) {
-            CatalogEntry e = (CatalogEntry) i.next();
-            sum += getEvents("chan1", e);
-            sum += getEvents("chan2", e);
-            sum += getEvents("chan3", e);
-            sum += getEvents("chan4", e);
-        }
-        return sum;
-    }
-    
-    public static int getEventCount(Elab elab, Collection files, int channel) throws ElabException {
-        ResultSet rs = elab.getDataCatalogProvider().getEntries(files);
-        Iterator i = rs.iterator();
-        int sum = 0;
-        while (i.hasNext()) {
-            CatalogEntry e = (CatalogEntry) i.next();
-            sum += getEvents("chan" + channel, e);
-        }
-        return sum;
-    }
-    
-    private static int getEvents(String chan, CatalogEntry e) {
-        Number ev = (Number) e.getTupleValue(chan);
-        if (ev == null) {
-            return 0;
-        }
-        else {
-            return ev.intValue();
-        }
-    }
-    
     private static final String[] STRING_ARRAY = new String[0];
 
     /**
@@ -141,13 +104,13 @@ public class AnalysisParameterTools {
      * @param files
      *            A set of logical file names
      * 
-     * @return A {@link List} containing used channels, each of each is
-     *         guaranteed to appear at most once. The channels are sorted.
+     * @return A {@link Collection} containing used channels, each of each is
+     *         guaranteed to appear at most once.
      */
-    public static List getValidChannels(Elab elab, Collection files)
+    public static Collection getValidChannels(Elab elab, Collection files)
             throws ElabException {
         ResultSet rs = elab.getDataCatalogProvider().getEntries(files);
-        SortedSet channels = new TreeSet();
+        Set channels = new HashSet();
         Iterator i = rs.iterator();
         while (i.hasNext()) {
             CatalogEntry e = (CatalogEntry) i.next();
@@ -164,7 +127,7 @@ public class AnalysisParameterTools {
                 }
             }
         }
-        return new ArrayList(channels);
+        return channels;
     }
     
     public static final Double DEFAULT_CPLD_FREQUENCY = new Double(41666667);

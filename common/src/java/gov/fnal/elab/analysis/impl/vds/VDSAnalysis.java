@@ -4,7 +4,6 @@
 package gov.fnal.elab.analysis.impl.vds;
 
 import gov.fnal.elab.analysis.AbstractAnalysis;
-import gov.fnal.elab.analysis.AnalysisParameterTransformer;
 import gov.fnal.elab.analysis.AnalysisTools;
 import gov.fnal.elab.analysis.ElabAnalysis;
 import gov.fnal.elab.beans.ElabBean;
@@ -46,9 +45,8 @@ public class VDSAnalysis extends ElabBean implements ElabAnalysis {
     private String type;
     private DatabaseSchema dbschema;
     private VDC vdc;
-    private Map arguments, defaults, attributes;
+    private Map arguments, defaults;
     private int connected;
-    private AnalysisParameterTransformer parameterTransformer;
 
     public VDSAnalysis() {
         defaults = new HashMap();
@@ -64,11 +62,6 @@ public class VDSAnalysis extends ElabBean implements ElabAnalysis {
 
     public void setType(String type) {
         setType(type, null);
-    }
-    
-    public String getName() {
-        String[] ts = type.split("::");
-        return ts[ts.length - 1];
     }
 
     public void setType(String type, Derivation pdv) {
@@ -226,12 +219,7 @@ public class VDSAnalysis extends ElabBean implements ElabAnalysis {
                 super.addToDV(name, (List) value);
             }
             else {
-                if (value == null) {
-                    super.addToDV(name, "");
-                }
-                else {
-                    super.addToDV(name, value.toString());
-                }
+                super.addToDV(name, String.valueOf(value));
             }
         }
         catch (ElabException e) {
@@ -333,39 +321,5 @@ public class VDSAnalysis extends ElabBean implements ElabAnalysis {
 
     public Map getTRArguments() {
         return arguments;
-    }
-
-    public AnalysisParameterTransformer getParameterTransformer() {
-        return parameterTransformer;
-    }
-
-    public void setParameterTransformer(
-            AnalysisParameterTransformer parameterTransformer) {
-        this.parameterTransformer = parameterTransformer;
-    }
-    
-    
-    public void setAttributes(Map attributes) {
-        this.attributes = attributes;
-    }
-    
-    public void setAttribute(String name, Object value) {
-        if (attributes == null) {
-            attributes = new HashMap();
-        }
-        attributes.put(name, value);
-    }
-    
-    public Object getAttribute(String name) {
-        if (attributes == null) {
-            return null;
-        }
-        else {
-            return attributes.get(name);
-        }
-    }
-    
-    public Map getAttributes() {
-        return attributes;
     }
 }

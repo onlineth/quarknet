@@ -1,13 +1,11 @@
 <script language="JavaScript" type="text/javascript">
 	var INITIAL = 1000;
 	var DELAY = 2000;
-	var TIMEOUT = 10000;
 	
 	function AsyncRequest(url, callback) {
 		self.browser = navigator.appName;
 		self.url = url;
 		self.rcb = callback;
-		self.responseReceived = false;
     
 		if(browser == "Microsoft Internet Explorer") {
 			self.ro = new ActiveXObject("Microsoft.XMLHTTP");
@@ -17,60 +15,31 @@
 		}
 		
 		self.handleResponse = function() {
-			if (self.ro.readyState == 4) {
-				self.responseReceived = true;
-				try {
-					var response = self.ro.responseText;
-					var i;
-					for(i = 0; i < response.length; i++) {
-						var c = response.charAt(i);
-						if (c != '\n' && c != '\t' && c != '\r' && c != ' ' && c != '\f') {
-							break;
-						}
+			if(self.ro.readyState == 4){
+				var response = self.ro.responseText;
+				var i;
+				for(i = 0; i < response.length; i++) {
+					var c = response.charAt(i);
+					if (c != '\n' && c != '\t' && c != '\r' && c != ' ' && c != '\f') {
+						break;
 					}
-					response = response.substring(i);
-					var update = new Array();
-					if(response.indexOf('&' != -1)) {
-						values = response.split('&');
-						for (v in values) {
-							var value = values[v];
-							var i = value.indexOf("=");
-							if (i == -1) {
-								update[value] = "";
-							}
-							else {
-								update[value.substr(0, i)] = value.substr(i+1);
-							}
+				}
+				response = response.substring(i);
+				var update = new Array();
+				if(response.indexOf('&' != -1)) {
+					values = response.split('&');
+					for (v in values) {
+						var value = values[v];
+						var i = value.indexOf("=");
+						if (i == -1) {
+							update[value] = "";
+						}
+						else {
+							update[value.substr(0, i)] = value.substr(i+1);
 						}
 					}
 				}
-				catch(err) {
-					self.rcb(null, "Error processing response from server: " + err);
-				}
-				try {				
-					self.rcb(update, null);
-				}
-				catch(err) {
-					self.callbackErr(err);
-				}
-			}
-		}
-		
-		self.callbackErr = function(err) {
-			try {
-				self.rcb(null, "Update failed: " + err);
-			}
-			catch(err2) {
-				//Probably should write something out to the page indicating that updates
-				//Are no longer being monitored
-				//window.alert("Callback failed to process error message\n" + err + "\n" + err2);
-				self.stopUpdates(); 
-			}
-		}
-		
-		self.replyTimeout = function() {
-			if (!self.responseReceived) {
-				self.callbackErr("Reply timeout");
+				self.rcb(update);
 			}
 		}
 	}
@@ -79,7 +48,6 @@
 		self.ro.open('get', self.url);
 		self.ro.onreadystatechange = self.handleResponse;
 		self.ro.send(null);
-		self.setTimeout(replyTimeout, TIMEOUT);
 	}
 		
 		
@@ -93,8 +61,8 @@
 			request.send();
 		}
 		
-		function reply(stuff, error) {
-			self.tcb(stuff, error);
+		function reply(stuff) {
+			self.tcb(stuff);
 			if (!self.done) {
 				self.setTimeout(tick, DELAY);
 			}

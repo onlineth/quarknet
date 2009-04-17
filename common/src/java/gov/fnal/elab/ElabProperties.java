@@ -20,13 +20,11 @@ public class ElabProperties extends AbstractProperties {
     public static final String PROP_USERDB_PASSWORD = "userdb.password";
     public static final String PROP_ELAB_LOGGED_IN_HOME_PAGE = "elab.logged.in.home.page";
     public static final String PROP_ELAB_LOGGED_OUT_HOME_PAGE = "elab.logged.out.home.page";
-    public static final String PROP_HOST = "elab.host";
-    public static final String PROP_PORT = "elab.port";
+    public static final String PROP_HOST = "host";
+    public static final String PROP_PORT = "port";
     public static final String PROP_RUN_DIR = "run.dir";
     public static final String PROP_USER_DIR = "users.dir";
     public static final String PROP_DATA_DIR = "data.dir";
-    
-    public static final String PROP_NEW_COSMIC_SURVEY = "cosmic.newsurvey";
 
     private String elabName;
 
@@ -108,9 +106,5 @@ public class ElabProperties extends AbstractProperties {
 
     public String getUsersDir() {
         return getRequired(ElabProperties.PROP_USER_DIR);
-    }
-    
-    public String getNewSurveyId() {
-    	return getRequired(ElabProperties.PROP_NEW_COSMIC_SURVEY);
     }
 }
