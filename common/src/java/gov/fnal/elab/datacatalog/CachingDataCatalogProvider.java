@@ -82,10 +82,6 @@ public class CachingDataCatalogProvider implements DataCatalogProvider {
             }
         }
     }
-    
-    public ResultSet runQueryNoMetadata(QueryElement q) throws ElabException {
-        return delegate.runQueryNoMetadata(q);
-    }
 
     public int getUniqueCategoryCount(String key) throws ElabException {
         return delegate.getUniqueCategoryCount(key);

@@ -126,7 +126,7 @@
 					</td>
 					
 					<td colspan = "2" align="right">
-					    Want to <a href="tutorial4.jsp">know more?</a>
+						Go back to the <a href="index.jsp">analysis</a>
 					</td>
 					
 				</tr>

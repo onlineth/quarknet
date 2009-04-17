@@ -36,7 +36,7 @@
 			<%@ include file="../include/left-alt.jsp" %>
 		</td>
 		<td id="center">
-			<h2>Assessing Your Work:</h2>
+			<h2>Assessment</h2>
 				
 			<p>
 				The following objectives outline what you will learn and be able 
@@ -46,26 +46,67 @@
 				
 			<ul>
 				<li>
-					Content and Investigation Objectives:
+					Content Objectives:
 					<ul>
 						<li>
 							Define and describe frequency in the context of wave 
 							behavior.
 						</li>
 						<li>
-							Describe causes effecting the environmental changes being measured by LIGO's environmental sensing data in your study.
-						</li>
-						<li>
 							Explain how LIGO's measurements of seismic waves 
-							contributes to the project's effort to detect 
+							contributes to the project's efforts to detect 
 							gravitational waves.
 						</li>
 						<li>
-							Design an investigation that asks a testable hypothesis, can be answered from seismic data and provides an explanation of what you learn about seismic data.								
+							Design an investigation that asks a researchable question, 
+							can be answered from seismic data and provides an 
+							explanation of what you learn about seismic data								
 						</li>
 					</ul>
 				</li>
-							<%@ include file="../teacher/learner-outcomes.jsp" %>
+				<li>
+					Process:
+					<ul>
+						<li>
+							Explain the data collection process including what 
+							corrections need to be made in order to obtain reliable data.
+						</li>
+						<li>
+							Evaluate the data to decide which are reliable/usable and 
+							which are not and explain how you arrived at the decision to 
+							include some data and exclude others.
+						</li>
+						<li>
+							Collect, organize and analyze data to obtain meaningful findings.
+						</li>
+						<li>
+							Use the data to provide evidence to support your claims.
+						</li>
+						<li>
+							Describe the contribution that class members make to each others' 
+							research projects.
+						</li>
+					</ul>
+				</li>
+				<li>
+					Technology/Grid:
+					<ul>
+						<li>
+							Demonstrate technical skill in accessing data from the Grid and 
+							Grid computing techniques.
+						</li>
+					</ul>
+				</li>
+				<li>
+					Literacy:
+					<ul>
+						<li>
+							Demonstrate an ability to articulate meaning in writing (such as 
+							in science notebooks, reports) and negotiate meaning with others 
+							(such as peer review, discussion).
+						</li>
+					</ul>
+				</li>
 			</ul>
 		</td>
 	</tr>
