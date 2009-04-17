@@ -1,5 +1,4 @@
 <%@ page import="java.util.*" %>
-<%@ page import="gov.fnal.elab.util.*" %>
 <%@ include file="common.jsp" %>
 <html>
     <head>
@@ -97,7 +96,7 @@ int itemCount=0;
      while (rs.next()){
           String log_id=rs.getString("log_id");
           String log_date=rs.getString("log_date");
-          String log_text=ElabUtil.whitespaceAdjust(rs.getString("log_text"));
+          String log_text=rs.getString("log_text");
           String log_date_show=log_date;
           String log_text_show=log_text;
           itemCount++;
@@ -117,7 +116,7 @@ int itemCount=0;
              String comment_existing="";
           while (innerRs.next()){
              comment_date=innerRs.getString("comment_date");
-             comment_existing=ElabUtil.whitespaceAdjust(innerRs.getString("comment"));
+             comment_existing=innerRs.getString("comment");
              commentCount++;
           if (commentCount>1) {
             log_text_show=" ";
@@ -208,7 +207,7 @@ int itemCount=0;
      rs = s.executeQuery(query);
      String cur_log_text="";
      if (rs.next()){
-          cur_log_text=rs.getString("log_date")+ " - "+ ElabUtil.whitespaceAdjust(rs.getString("cur_log_text"));
+          cur_log_text=rs.getString("log_date")+ " - "+ rs.getString("cur_log_text");
           }
    
    

@@ -21,8 +21,7 @@ public abstract class AbstractAnalysisRun implements AnalysisRun {
     private Map attributes;
     private Date startTime, endTime;
 
-    public AbstractAnalysisRun(ElabAnalysis analysis, Elab elab,
-            String outputDir) {
+    public AbstractAnalysisRun(ElabAnalysis analysis, Elab elab, String outputDir) {
         this.analysis = analysis;
         this.elab = elab;
         this.outputDir = outputDir;
@@ -97,13 +96,13 @@ public abstract class AbstractAnalysisRun implements AnalysisRun {
     }
 
     public Elab getElab() {
-        return elab;
+    	return elab;
     }
-
+    
     public String getOutputDir() {
         return outputDir;
     }
-
+    
     public String getOutputDirURL() {
         return outputDirURL;
     }
@@ -160,23 +159,6 @@ public abstract class AbstractAnalysisRun implements AnalysisRun {
     protected void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
-
-    public String getFormattedRunTime() {
-        if (endTime != null) {
-            return TimeIntervalFormatter.format(startTime, endTime);
-        }
-        else {
-            return TimeIntervalFormatter.format(startTime, new Date());
-        }
-    }
-
-    public String getFormattedEstimatedRunTime() {
-        Integer est = (Integer) getAttribute("estimatedTime");
-        if (est != null) {
-            return TimeIntervalFormatter.format(est.intValue() * 1000);
-        }
-        else {
-            return "-";
-        }
-    }
+    
+    
 }
