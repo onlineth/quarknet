@@ -39,13 +39,25 @@
 		<td>
 			<div id="center">
 				<p>
-					The CMS Test Beam e-Lab provides an opportunity for students to conduct studies of
-					high-energy particle collisions from CERN's Large Hadron Collider which will probe
-					deeper into matter than ever before. Currently, the project is designed for
-					students whose interest is in particle physics, and would like to understand
-					more about how the LHC gets ready to make actual runs.
+					The Cosmic Ray e-Lab provides an online environment in which students experience 
+					the excitement of scientific collaboration in this series of investigations into 
+					high-energy cosmic rays. Schools with cosmic ray detectors upload data to a 
+					"virtual data grid" portal where ALL the data resides. This approach allows 
+					students to analyze a much larger body of data and to share analysis code. Also, 
+					it allows schools that do not have cosmic ray detectors to participate in research 
+					by analyzing shared data.
 				</p>
 				
+
+				<p>
+					Students learn what cosmic rays are, where they come from and how they hit the Earth. 
+					While scientists understand cosmic rays with low to moderate energies, some cosmic 
+					rays have so much energy that scientists are not sure where they come from. A number 
+					of research projects are looking at this question. Students will have a chance to 
+					gain their own understanding of cosmic rays and may be fortunate enough to capture 
+					a rare highly-energetic cosmic ray shower on their classroom detector and analyze 
+					their results with this e-Lab.
+				</p>
 	
 				<a href="/elab"><strong>Information common for all e-Labs</strong></a>
 			</div>
@@ -70,6 +82,7 @@
 				<div class="logogroup">
 					<img src="../graphics/logo1sm.gif"/>
 					<img src="../graphics/seal.gif"/>
+					<img src="../graphics/logoos.jpg"/>
 				</div>
 			</div>
 		
