@@ -67,10 +67,10 @@
 			<!-- end content -->	
 		
 			<div id="footer">
-				<a href="../references/showAll.jsp?t=glossary">Glossary</a>
+				<a href="../jsp/showReferences.jsp?type=glossary">Glossary</a>
 				 - 
-				<a href="../references/showAll.jsp?t=reference">All References for Study Guide</a>
-				<a href="../references/showAll.jsp?t=reference">
+				<a href="../jsp/showReferences.jsp?t=reference&f=peruse">All Resources for Study Guide</a>
+				<a href="../jsp/showReferences.jsp?t=reference&f=peruse">
 					<img src="../graphics/ref.gif"/>
 				</a>
 				 - 

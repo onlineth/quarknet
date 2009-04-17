@@ -35,18 +35,8 @@
 	 else { 
 	 	analysis = (ElabAnalysis) session.getAttribute("analysisToRerun");
 	 	if (analysis == null) {
-	 		String id = request.getParameter("id");
-			if (id == null) {
-	    		throw new ElabJspException("Missing all of dvName parameter, analysisToRerun session attribute, and id parameter");
-			}
-			else {
-				AnalysisRun run = AnalysisManager.getAnalysisRun(elab, user, id); 
-				if (run == null) {
-		    		throw new ElabJspException("Invalid analysis id: " + id);
-				}
-				analysis = run.getAnalysis();
-			}
-	 	}
+	 		throw new ElabJspException("Both the dvName parameter and the analysisToRerun session attribute are missing");
+	 	}	 	
 	 }
 	 request.setAttribute(gov.fnal.elab.tags.Analysis.ATTR_ANALYSIS, analysis);
 	 request.setAttribute("analysis", analysis);
@@ -54,7 +44,7 @@
 
 <c:choose>
 	<c:when test="${analysis != null}">
-		<jsp:include page="../analysis-${study}/analysis.jsp?${request.queryString}&runMode=${analysis.attributes.runMode}"/>
+		<jsp:include page="../analysis-${study}/analysis.jsp?${request.queryString}"/>
 	</c:when>
 	<c:otherwise>
 		<% response.sendRedirect("../analysis-" + study); %>
