@@ -1,16 +1,5 @@
 <%@ include file="../include/elab.jsp" %>
-<%@ taglib prefix="e" uri="http://www.i2u2.org/jsp/elabtl" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%
-	// Check if the teacher is in the study
-	ElabGroup user = (ElabGroup) request.getAttribute("user");
-	if (user != null) {
-		boolean newSurvey = user.isStudy();
-		request.setAttribute("newSurvey", new Boolean(newSurvey));
-	}
-
-%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -48,7 +37,7 @@
 			<div id="center">
 				<h2>Abstract:</h2>
 				<p>
-					Working in a research group, students experience the environment of scientific collaborations 
+					Students experience the environment of scientific collaborations 
 					in this series of investigations into high-energy cosmic rays. 
 					From start to finish this is a student-led, teacher-guided project. 
 					Schools with cosmic ray detectors can upload data to the web. 
@@ -174,10 +163,9 @@
 					able to contribute data to these efforts.
 
 					Many experiments have measured cosmic array showers, including 
-					<a href="http://en.wikipedia.org/wiki/Chicago_Air_Shower_Array">CASA</a> 
-					(Chicago Area Scintillator Array), project <a href="http://www.nd.edu/~grand/index.html">G.R.A.N.D.</a>  
-					(Gamma Ray Astrophysics at Notre Dame) and the <a href="http://www.auger.org/">Pierre Auger 
-					Project</a> (an array being set up in Argentina). 
+					CASA (Chicago Area Scintillator Array), project G.R.A.N.D. 
+					(Gamma Ray Astrophysics at Notre Dame) and the Pierre Auger 
+					Project (an array being set up in Argentina). 
 				</p>
 				<p>
 					Students will be able to look into the size of cosmic ray 
@@ -198,29 +186,17 @@
 
 				<ul>
 					<li>
-						<B>Rubrics:</B> <A HREF="../assessment/rubric-ci.html">Content & Investigation</A>,
-						<A HREF="../assessment/rubric-r.html">Process</A>, <A HREF="../assessment/rubric-t.html">Computing</A>,
-						<A HREF="../assessment/rubric-wla.html">Literacy</A> and <A HREF="../assessment/rubric-p.html">Poster</A>
+						<B>Rubrics:</B> <A HREF="../assessment/rubric-ci.html">Overall Content & Investigation</A>,
+						<A HREF="../assessment/rubric-r.html">Research Skills</A>, <A HREF="../assessment/rubric-t.html">Technology Skills</A>,
+						<A HREF="../assessment/rubric-wla.html">Writing and Language Arts</A> and <A HREF="../assessment/rubric-p.html">Poster</A>
 					</li>
-					<e:restricted role="teacher">
-						<li>
-							<a href="../test/test.jsp?type=presurvey&studentid=0">Pre</a>
-							- and <a href="../test/test.jsp?type=postsurvey&studentid=0">post</a>
-							- tests of content knowledge and student results for 
-							<a href="../test/results.jsp?type=presurvey">pre</a>
-							- and <a href="../test/results.jsp?type=postsurvey">post</a>- tests.
-						</li>
-						<c:if test="${newSurvey == true }">
-							<li>
-								<i>For those of you recruited to beta-test the "new pre/post test" (you know who you are):</i>
-								<a href="../survey/survey.jsp?type=pre&studentid=0">Pre</a>
-								- and <a href="../survey/survey.jsp?type=post&studentid=0">post</a>
-								- tests of content knowledge and student results for 
-								<a href="../survey/results.jsp?type=pre">pre</a>
-								- and <a href="../survey/results.jsp?type=post">post</a>- tests.
-							</li>
-						</c:if>
-					</e:restricted>
+					<li>
+						<a href="../test/test.jsp?type=presurvey&studentid=0">Pre</a>
+						- and <a href="../test/test.jsp?type=postsurvey&studentid=0">post</a>
+						- tests of content knowledge and student results for 
+						<a href="../test/results.jsp?type=presurvey">pre</a>
+						- and <a href="../test/results.jsp?type=postsurvey">post</a>- tests.
+					</li>
 					<li>
 						e-Logbooks: Track and comment on student work. Review 
 						group logbook or all student entries for a particular 

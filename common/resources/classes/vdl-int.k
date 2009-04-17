@@ -13,6 +13,7 @@ global(LOG:FATAL, "fatal")
 
 namespace("vdl"
 	export(
+		
 		element(rmdir, [dir, host]
 			parallelFor(entry, file:list(dir, host=host)
 				epath := concat(dir, "/", entry)
@@ -27,25 +28,28 @@ namespace("vdl"
 		element(createdirs, [path, dir, host]
 			dc := dircat(dir, path)
 			log(LOG:INFO, "START path={path} dir={dir} - Creating directory structure")
-
 			dir:make(dc, host=host)
 		)
 							
 		element(isDone, [stageout]
-			sys:and(
+			and(
 				for(pv, stageout
 					[path, var] := each(pv)
 					vdl:isLogged(var, path)
 				)
-				sys:not(isEmpty(stageout))
+				not(isEmpty(stageout))
 			)
 		)
 			
-		element(mark, [restarts, err, optional(mapping)]
+		element(mark, [stageout, optional(err, mapping)]
 			if(
-				err for(pv, restarts
+				err for(pv, stageout
 					[path, var] := each(pv)
 					vdl:setFutureFault(var, path=path, mapping=mapping)
+				)
+				for(pv, stageout
+					[path, var] := each(pv)
+					maybe(vdl:setFieldValue(var, true, path=path))
 				)
 			)
 		)
@@ -97,8 +101,6 @@ namespace("vdl"
 		
 		element(initSharedDir, [rhost]
 			once(list(rhost, "shared")
-				vdl:setprogress("Initializing site shared directory")
-
 				log(LOG:INFO, "START host={rhost} - Initializing shared directory")
 
 				wfdir := "{VDL:SCRIPTNAME}-{VDL:RUNID}"
@@ -107,12 +109,7 @@ namespace("vdl"
 				transfer(srcdir="{vds.home}/libexec/", srcfile="wrapper.sh", destdir=sharedDir, desthost=rhost)
 				transfer(srcdir="{vds.home}/libexec/", srcfile="seq.sh", destdir=sharedDir, desthost=rhost)
 				dir:make(dircat(wfdir, "kickstart"), host=rhost)
-
-				statusMode := configProperty("status.mode",host=rhost)
-				if(statusMode == "files"
-					dir:make(dircat(wfdir, "status"), host=rhost)
-				)
-
+				dir:make(dircat(wfdir, "status"), host=rhost)
 				dir:make(dircat(wfdir, "info"), host=rhost)
 				wfdir, sharedDir
 				//we send the cleanup data to vdl:main()
@@ -246,13 +243,14 @@ namespace("vdl"
 					log(LOG:DEBUG, "FILE_STAGE_OUT_START srcname={bname} srcdir={rdir} srchost={host} ",
 							"destdir={ldir} desthost={dhost} provider={provider}")
 					//make sure we do have the directory on the client side
-					dir:make(ldir, host=dhost, provider=provider)
+					dir:make(ldir)
 					restartOnError(".*", 2
 					    task:transfer(srchost=host, srcfile=bname,
 					        srcdir=rdir, destdir=ldir, desthost=dhost, destprovider=provider)
 					)
-					log(LOG:DEBUG, "FILE_STAGE_OUT_END srcname={bname} srcdir={rdir} srchost={host} ",
-						"destdir={ldir} desthost={dhost} provider={provider}")
+			        vdl:logvar(var, path, host, dir, bname)
+			        log(LOG:DEBUG, "FILE_STAGE_OUT_END srcname={bname} srcdir={rdir} srchost={host} ",
+							"destdir={ldir} desthost={dhost} provider={provider}")
 	
 					list(bname, rdir, host, file:size(fullLocal))
 				)
@@ -265,26 +263,19 @@ namespace("vdl"
 			)
 			log(LOG:INFO, "END jobid={jobid} - Staging out finished")
 		)
-
-		element(doRestartlog, [restartouts]
-			uParallelFor(f, restartouts,
-				[path, var] := each(f)
-				vdl:logvar(var, path)
-			)
-		)
 		
 		element(graphStuff, [tr, stagein, stageout, err, optional(args)]
 			if(
 				vdl:configProperty("pgraph") != "false" then(
-					errprops := if(err ",color=lightsalmon" ",color=lightsteelblue1")
+					errprops := if(err ",color=lightsalmon" "")
 					tp := vdl:threadPrefix()
 					to(graph, 
-						concat(str:quote(tp), " [label=", str:quote(tr), "{errprops}]")
+						concat(str:quote(tp), " [label=", str:quote("{tr}{errprops}"), "]")
 					)
 					for(si, stagein
 						si := basename(si)
 						to(graph
-							concat(str:quote(si), " [shape=parallelogram]")
+							concat(str:quote(si), " [shape=parallelogram{errprops}]")
 							concat(str:quote(si), " -> ", str:quote(tp))
 						)
 					)
@@ -295,7 +286,7 @@ namespace("vdl"
 						label := vdl:niceName(var, path = path)
 						to(graph
 							concat(str:quote(file), " [shape=parallelogram,label=", 
-								str:quote(label), "]")
+								str:quote("{label}{errprops}"), "]")
 							concat(str:quote(tp), " -> ", str:quote(file))
 						)
 					)
@@ -309,7 +300,7 @@ namespace("vdl"
 			)
 		)
 		
-		element(transferStandardFiles, [rhost, tmpdir, jobid, stdout, stderr]
+		element(transferSTDs, [rhost, tmpdir, jobid, stdout, stderr]
 			concat(
 				for(f, list(list("stderr.txt", stderr), list("stdout.txt", stdout))	
 					[name, file] := each(f)
@@ -331,43 +322,22 @@ namespace("vdl"
 		)
 		
 		element(transferKickstartRec, [rhost, wfdir, jobid, jobdir]
-			if(sys:not(file:exists("{VDL:SCRIPTNAME}-{VDL:RUNID}.d"))
-				task:dir:make("{VDL:SCRIPTNAME}-{VDL:RUNID}.d")
-			)
 			recfile := "{jobid}-kickstart.xml"
 			srcdir := dircat(concat(wfdir, "/kickstart/"), jobdir)
 			try(
-				task:transfer(srchost=rhost, srcdir=srcdir, srcfile=recfile, destdir="{VDL:SCRIPTNAME}-{VDL:RUNID}.d/")
+				task:transfer(srchost=rhost, srcdir=srcdir, srcfile=recfile)
 				(
 					maybe(file:remove(recfile))
-					log(LOG:WARN, "Failed to transfer kickstart records from {srcdir} on {rhost}", exception)
+					log(LOG:WARN, "Failed to transfer kickstart records from {srcdir}/{rhost}", exception)
 				)
 			)
 			recfile
 		)
-
-		element(transferWrapperLog, [rhost, wfdir, jobid, jobdir]
-			if(sys:not(file:exists("{VDL:SCRIPTNAME}-{VDL:RUNID}.d"))
-				task:dir:make("{VDL:SCRIPTNAME}-{VDL:RUNID}.d")
-			)
-			recfile := "{jobid}-info"
-			srcdir := dircat(concat(wfdir, "/info/"), jobdir)
-			try(
-				task:transfer(srchost=rhost, srcdir=srcdir, srcfile=recfile, destdir="{VDL:SCRIPTNAME}-{VDL:RUNID}.d/")
-				(
-					maybe(file:remove(recfile))
-					log(LOG:WARN, "Failed to transfer wrapper log from {srcdir} on {rhost}")
-					log(LOG:DEBUG, "Exception for wrapper log failure from {srcdir} on {rhost}: ", exception)
-				)
-			)
-			recfile
-		)
-
-		element(execute2, [tr, optional(arguments, stdin, stdout, stderr), stagein, stageout,  restartout,
-			replicationGroup, replicationChannel]
+	
+		element(execute2, [tr, optional(arguments, stdin, stdout, stderr), stagein, stageout]
 			stagein := list(unique(each(stagein)))
 			stageout := list(unique(each(stageout)))
-			allocateHost(rhost, constraints=vdl:jobConstraints(tr, stagein=stagein)
+			allocateHost(rhost, constraints=vdl:jobConstraints(tr)
 				
 				[wfdir, sharedDir] := try(
 					initSharedDir(rhost)
@@ -378,11 +348,7 @@ namespace("vdl"
 				jobdir := substring(uid, from=0, to=1)
 				jobid := concat(tr, "-", uid)
 				
-				log(LOG:DEBUG, "THREAD_ASSOCIATION jobid={jobid} thread={#thread} host={rhost} replicationGroup={replicationGroup}")
-
-				statusMode := configProperty("status.mode",host=rhost)
-
-				vdl:setprogress("Stage in")
+				log(LOG:DEBUG, "THREAD_ASSOCIATION jobid={jobid} thread={#thread} host={rhost}")
 				tmpdir := dircat(concat(wfdir, "/jobs/", jobdir), jobid)
 				
 				stdout := try(stdout, "stdout.txt")
@@ -399,9 +365,8 @@ namespace("vdl"
 
 						log(LOG:DEBUG, "JOB_START jobid={jobid} tr={tr}", maybe(" arguments=", arguments), " tmpdir={tmpdir} host={rhost}")
 				
-						vdl:setprogress("Submitting")
-						vdl:execute("/bin/bash",
-							list("{sharedDir}/wrapper.sh", jobid,
+						task:execute("/bin/sh",
+							list("shared/wrapper.sh", jobid,
 								"-jobdir", jobdir,
 								"-e", vdl:executable(tr, rhost), 
 								"-out", stdout, 
@@ -411,60 +376,37 @@ namespace("vdl"
 								"-if", flatten(infiles(stagein)), 
 								"-of", flatten(outfiles(stageout)),
 								"-k", kickstart,
-								"-status", statusMode
 								"-a", maybe(each(arguments)))
 							directory=wfdir
 							redirect=false
 							host=rhost
 							vdl:tcprofile(tr, rhost) //this gets various app params from the tc, such as environment, walltime, etc
-							replicationGroup=replicationGroup
-							replicationChannel=replicationChannel
-							jobid=jobid
 						)
-						
-						if(statusMode == "files"
-							checkJobStatus(rhost, wfdir, jobid, tr, jobdir)
-						)
+							
+						checkJobStatus(rhost, wfdir, jobid, tr, jobdir)
 		
-						log(LOG:DEBUG, "STAGING_OUT jobid={jobid}")
+						log(LOG:DEBUG, "JOB_END jobid={jobid}")
 
 									
 						/* need to stage the files to upper scratch area in case they are not transfered to another site
 						   before all the files get cleaned out */
 					
 						
-						vdl:setprogress("Stage out")
 						doStageout(jobid, stageout, sharedDir, rhost)
-						doRestartlog(restartout)
 						if(
 							kickstart != "" & vdl:configProperty("kickstart.always.transfer") == "true"
 							discard(transferKickstartRec(rhost, wfdir, jobid, jobdir))
 						)
-						if(
-							vdl:configProperty("wrapperlog.always.transfer") == "true"
-							discard(transferWrapperLog(rhost, wfdir, jobid, jobdir))
-						)
 						vdl:cacheUnlockFiles(stagein, sharedDir, rhost, cleanupFiles(cacheFilesToRemove, rhost))
-						log(LOG:DEBUG, "JOB_END jobid={jobid}")
 					)
-					catch("^Abort$"
-						log(LOG:DEBUG, "JOB_CANCELED jobid={jobid}")
-						vdl:cacheUnlockFiles(stagein, sharedDir, rhost, force=false
-							cleanupFiles(cacheFilesToRemove, rhost)
-						)
-						throw(exception)
-					)
-					catch("^(?!Abort$).*"
-						vdl:setprogress("Failed but can retry")
+					catch(".*"
 						log(LOG:DEBUG, "APPLICATION_EXCEPTION jobid={jobid} - Application exception: ", exception)
 						vdl:cacheUnlockFiles(stagein, sharedDir, rhost, force=false
 							cleanupFiles(cacheFilesToRemove, rhost)
 						)
 						
-						outs := transferStandardFiles(rhost, tmpdir, jobid, stdout, stderr)
+						outs := transferSTDs(rhost, tmpdir, jobid, stdout, stderr)
 						
-						discard(maybe(transferWrapperLog(rhost, wfdir, jobid, jobdir)))
-							
 						kickstartRec := if(
 							kickstart == "" ""
 							else(

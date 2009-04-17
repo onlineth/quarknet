@@ -9,7 +9,9 @@
  */
 package gov.fnal.elab.tags;
 
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -18,7 +20,6 @@ import javax.servlet.jsp.JspWriter;
 
 public class TRInput extends TRControl {
     public int doEndTag() throws JspException {
-        clearAttributes();
         return EVAL_PAGE;
     }
 
@@ -26,44 +27,22 @@ public class TRInput extends TRControl {
         JspWriter out = pageContext.getOut();
         try {
             Object value = getValue();
-            String type = (String) getAttribute("type");
-            if (value instanceof Collection) {
-                Collection col = (Collection) value;
-                if ("hidden".equals(type)) {
-                    Iterator i = col.iterator();
+            if ("hidden".equals(getAttribute("type"))) {
+                if (value instanceof Collection) {
+                    Iterator i = ((Collection) value).iterator();
                     while (i.hasNext()) {
                         writeOne(out, i.next());
                         out.write('\n');
                     }
+                    commitToAnalysis(new ArrayList((Collection) value));
                 }
-                else if ("checkbox".equals(type)) {
-                    Object iv = getIntrinsicValue();
-                    if (iv != null && col.contains(iv)) {
-                        setDynamicAttribute(null, "checked", "checked");
-                    }
-                    writeOne(out, iv);
+                else if (value != null) {
+                    writeOne(out, value);
+                    commitToAnalysis(value);
                 }
-                else {
-                    writeOne(out, nextValue());
-                }
-                commitToAnalysis(list(col));
             }
             else {
-                if ("checkbox".equals(type)) {
-                    Object iv = getIntrinsicValue();
-                    if (value instanceof Boolean) {
-                    	if (((Boolean) value).booleanValue()) {
-                    		setDynamicAttribute(null, "checked", "checked");
-                    	}
-                    }
-                    else if ((iv == null && value != null) || (iv != null && iv.equals(value))) {
-                        setDynamicAttribute(null, "checked", "checked");
-                    }
-                    writeOne(out, iv);
-                }
-                else {
-                    writeOne(out, value);
-                }
+                writeOne(out, value);
                 commitToAnalysis(value);
             }
         }
@@ -71,14 +50,10 @@ public class TRInput extends TRControl {
             throw new JspException(e);
         }
         return EVAL_BODY_INCLUDE;
-    }    
+    }
 
-    protected void writeOne(JspWriter out, Object value) throws IOException,
-            JspException {
+    protected void writeOne(JspWriter out, Object value) throws IOException {
         out.write("<input");
-        if (!isAnalysisParameterValid()) {
-        	out.write(" class=\"invalid\"");
-        }
         writeAttribute(out, "name", getName());
         if (value != null) {
             writeAttribute(out, "value", value);
@@ -93,27 +68,6 @@ public class TRInput extends TRControl {
             out.write("<span class=\"param-error\">");
             out.write(getOnError());
             out.write("</span>");
-        }
-    }
-
-    protected Object getControlValue() throws JspException {
-        String type = (String) getAttribute("type");
-        Object iv = getIntrinsicValue();
-        if ("checkbox".equals(type)) {
-            if (getAttribute("checked") != null) {
-                if (iv != null) {
-                    return iv;
-                }
-                else {
-                    return "on"; 
-                }
-            }
-            else {
-                return null;
-            }
-        }
-        else {
-            return getIntrinsicValue();
         }
     }
 }

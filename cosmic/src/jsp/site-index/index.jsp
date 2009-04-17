@@ -1,7 +1,6 @@
 <%@ include file="../include/elab.jsp" %>
 <%@ include file="../login/login-required.jsp" %>
 <%@ page import="gov.fnal.elab.util.ElabUtil" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -36,23 +35,21 @@
 
 <table border="0" id="main">
 	<tr>
-		<th class="home"><a href="../home">Home</a></th>
-		<th class="library"><a href="../library">Library</a></th>
-		<c:if test="${user.upload}">
-			<th class="upload"><a href="../data/upload.jsp">Upload</a></th>
-		</c:if>
-		<th class="data"><a href="../data">Data</a></th>
-		<th class="posters"><a href="../posters">Posters</a></th>
-		<th class="assessments"><a href="../assessment">Assessment</a></th>
+		<th><a href="../home">Home</a></th>
+		<th><a href="../library">Library</a></th>
+		<th><a href="../data/upload.jsp">Upload</a></th>
+		<th><a href="../data">Data</a></th>
+		<th><a href="../posters">Posters</a></th>
+		<th><a href="../assessment">Assessment</a></th>
 	</tr>
 	<tr>
-		<td class="home">
+		<td>
 			<ul>
 				<li><a href="../home/first.jsp">The Big Picture</a></li>
 				<li><a href="../home/first-web.jsp">The Website</a></li>
 			</ul>
 		</td>
-		<td class="library">
+		<td>
 			<ul>
 				<li>
 					<a href="../library/milestones-map.jsp">Study Guide</a> and 
@@ -102,15 +99,13 @@
 				</li>
 			</ul>
 		</td>
-		<c:if test="${user.upload}">
-			<td class="upload">
-				<ul>
-					<li><a href="../data/upload.jsp">Upload Data</a></li>
-					<li><a href="../geometry/">Upload Geometry</a></li>
-				</ul>
-			</td>
-		</c:if>
-		<td class="data">
+		<td>
+			<ul>
+				<li><a href="../data/upload.jsp">Upload Data</a></li>
+				<li><a href="../jsp/geo.jsp">Upload Geometry</a></li>
+			</ul>
+		</td>
+		<td>
 			<ul>
 				<li>
 					<strong>Analysis</strong>
@@ -139,7 +134,7 @@
 				</li>
 			</ul>
 		</td>
-		<td class="posters">
+		<td>
 			<ul>
 				<li><a href="../posters/new.jsp">New Poster</a></li>
 				<li><a href="../posters/edit.jsp">Edit Posters</a></li>
@@ -148,8 +143,7 @@
 				<li><a href="../plots/my-plots.jsp">View My Plots</a>
 			</ul>
 		</td>
-		<td class="assessments">
-			&nbsp; 
+		<td>
 		</td>
 	</tr>
 </table>
