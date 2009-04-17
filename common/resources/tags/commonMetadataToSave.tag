@@ -15,6 +15,10 @@ A set of logical file names for which to produce the metadata" %>
 <%
 	Elab _elab = (Elab) request.getAttribute("elab");
 	//common metadata:
+	Date now = new Date();
+	long millisecondsSince1970 = now.getTime();
+	Timestamp timestamp = new Timestamp(millisecondsSince1970);
+	String creationDate = timestamp.toString();
 	Collection rd;
 	if (rawData instanceof Collection) {
 		rd = (Collection) rawData;
@@ -34,7 +38,7 @@ A set of logical file names for which to produce the metadata" %>
 	    rawDate = "N/A";
 	}
 %>
-<creationDataMetadata/>
+<input type="hidden" name="metadata" value="creationdate date <%= creationDate %>"/>
 <input type="hidden" name="metadata" value="source string <%= sources %>"/>
 <input type="hidden" name="metadata" value="detectorid string <%= detectorIDs %>"/>
 <input type="hidden" name="metadata" value="rawdate date <%= rawDate %>"/>
