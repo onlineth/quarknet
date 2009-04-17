@@ -91,8 +91,4 @@ public interface ElabUserManagementProvider extends ElabProvider {
     ElabGroup getGroup(String name) throws ElabException;
     
     ElabGroup getGroupById(String id) throws ElabException; 
-    
-    void setTeacherInStudy(ElabGroup group) throws ElabException;
-    
-    void setTeacherInStudy(ElabGroup group, int testId) throws ElabException;
 }
