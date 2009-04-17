@@ -86,17 +86,21 @@
 						<li>Content and Investigation:
 							<ul>
 								<li>
-									Describe some basic concepts of wave behavior such as speed, arrival time, frequency and amplitude in the context of seismic activity.
+									Define and describe frequency in the context of wave 
+									behavior.
 								</li>
 								<li>
-									Describe several factors that cause changes in LIGO's seismic data 
+									Describe causes effecting the environmental changes being measured by LIGO's environmental sensing data in your study.
 								</li>
 								<li>
-									Explain how LIGO's measurement of seismic waves contributes to the project's effort to detect gravitational waves.
+									Explain how LIGO's measurements of seismic waves 
+									contributes to the project's effort to detect 
+									gravitational waves.
 								</li>
 								<li>
 									Design an investigation that asks a testable hypothesis, can be answered from seismic data and provides an explanation of what you learn about seismic data.								
 								</li>
+
 							</ul>
 							</li>
 							
@@ -128,10 +132,10 @@
 					
 					<ul>
 						<li>
-							Rubrics: <a href="../assessment/rubric-ci.html">Content & Investigation</a>, 
-							<a href="../assessment/rubric-r.html">Process</a>, 
-							<a href="../assessment/rubric-t.html">Computing</a>,
-							<a href="../assessment/rubric-wla.html">Literacy</a> and 
+							Rubrics: <a href="../assessment/rubric-ci.html">Overall Content & Investigation</a>, 
+							<a href="../assessment/rubric-r.html">Research Skills</a>, 
+							<a href="../assessment/rubric-t.html">Technology Skills</a>,
+							<a href="../assessment/rubric-wla.html">Writing and Language Arts</a> and 
 							<a href="../assessment/rubric-p.html">Poster</a>
 						</li>
 						<li>

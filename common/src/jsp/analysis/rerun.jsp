@@ -54,7 +54,7 @@
 
 <c:choose>
 	<c:when test="${analysis != null}">
-		<jsp:include page="../analysis-${study}/analysis.jsp?${request.queryString}&runMode=${analysis.attributes.runMode}"/>
+		<jsp:include page="../analysis-${study}/analysis.jsp?${request.queryString}"/>
 	</c:when>
 	<c:otherwise>
 		<% response.sendRedirect("../analysis-" + study); %>

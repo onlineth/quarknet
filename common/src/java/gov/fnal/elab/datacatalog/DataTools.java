@@ -18,8 +18,6 @@ import gov.fnal.elab.datacatalog.query.ResultSet;
 import gov.fnal.elab.util.ElabException;
 import gov.fnal.elab.util.ElabUtil;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -47,18 +45,17 @@ public class DataTools {
 
     static {
         KEYS = new HashMap();
-        KEYS.put("school", 0);
-        KEYS.put("startdate", 1);
-        KEYS.put("blessed", 2);
-        KEYS.put("stacked", 3);
-        KEYS.put("chan1", 4);
-        KEYS.put("chan2", 5);
-        KEYS.put("chan3", 6);
-        KEYS.put("chan4", 7);
-        KEYS.put("city", 8);
-        KEYS.put("state", 9);
-        KEYS.put("enddate", 10);
-        KEYS.put("detectorid", 11);
+        KEYS.put("school", new Integer(0));
+        KEYS.put("startdate", new Integer(1));
+        KEYS.put("blessed", new Integer(2));
+        KEYS.put("stacked", new Integer(3));
+        KEYS.put("chan1", new Integer(4));
+        KEYS.put("chan2", new Integer(5));
+        KEYS.put("chan3", new Integer(6));
+        KEYS.put("chan4", new Integer(7));
+        KEYS.put("city", new Integer(8));
+        KEYS.put("state", new Integer(9));
+        KEYS.put("enddate", new Integer(10));
     }
 
     public static final int SCHOOL = 0;
@@ -72,7 +69,6 @@ public class DataTools {
     public static final int CITY = 8;
     public static final int STATE = 9;
     public static final int ENDDATE = 10;
-    public static final int DETECTORID = 11; 
 
     public static final DateFormat MONTH_FORMAT;
 
@@ -109,54 +105,28 @@ public class DataTools {
             }
 
             String schoolName = (String) data[SCHOOL];
-            if (StringUtils.isBlank(schoolName)) {
-                System.out.println("WARNING: School name is missing for file " + e.getLFN());
-                schoolName = "Unknown School";
+            if (schoolName == null) {
+                System.out.println("WARNING: School name is null for " + e.getLFN());
+                schoolName = "unknown";
             }
-            String cityName = (String) data[CITY];
-            if (StringUtils.isBlank(cityName)) {
-                System.out.println("WARNING: City name is missing for file " + e.getLFN());
-                cityName = "Unknown City";
-            }
-            String stateName = (String) data[STATE];
-            if (StringUtils.isBlank(stateName)) {
-                System.out.println("WARNING: State name is missing for file " + e.getLFN());
-                stateName = "Unknown State";
-            }
-            
-            School school = srs.getSchool(schoolName, cityName, stateName);
+            School school = srs.getSchool(schoolName);
             if (school == null) {
-                school = new School(schoolName, cityName, stateName);
+                school = new School(schoolName, (String) data[CITY],
+                        (String) data[STATE]);
                 srs.addSchool(school);
             }
-            
-            /* Correct city and state names if there some metadata pieces have bad data.
-            if (school.getCity().equals("Unknown City") && !cityName.equals("Unknown City"))
-            	school.setCity(cityName);
-            if (school.getState().equals("Unknown State") && !stateName.equals("Uknown State"))
-            	school.setState(stateName);
-            */
-            
+
             Timestamp ts = (Timestamp) data[STARTDATE];
             String startdate = MONTH_FORMAT.format(ts);
-            Month month = school.getMonth(startdate);
-            if (month == null) {
-            	month = new Month(startdate, ts);
-                school.addDay(month);
+            Month date = school.getMonth(startdate);
+            if (date == null) {
+                date = new Month(startdate, ts);
+                school.addDay(date);
             }
 
             File file = new File(e.getLFN());
             file.setStartDate((Timestamp) data[STARTDATE]);
             file.setEndDate((Timestamp) data[ENDDATE]);
-            
-            try {
-                file.setDetector(Integer.parseInt((String) data[DETECTORID]));
-            }
-            catch (Exception ex) {
-            	System.out.println("WARNING: File " + e.getLFN() + " has a malformed detector ID. Skipping.");
-            	continue;
-            }
-            	
             if (file.getStartDate() == null) {
             	System.out.println("WARNING: File " + e.getLFN() + " is missing the start date. Skipping.");
             	continue;
@@ -190,7 +160,7 @@ public class DataTools {
             }
             school.incEvents(events);
             school.incDataFiles();
-            month.addFile(file);
+            date.addFile(file);
         }
         srs.setStartDate(startDate);
         srs.setEndDate(endDate);

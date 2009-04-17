@@ -17,16 +17,11 @@ namespace("vdl"
 		log("info",sys:file:read("{vds.home}/libexec/version.txt"))
 		echo(sys:file:read("{vds.home}/libexec/version.txt"))
 
-		log("info","RUNID id=tag:benc@ci.uchicago.edu,2007:swift:run:{VDL:RUNID}")
+		log("info","RunID: {VDL:RUNID}")
 		echo("RunID: {VDL:RUNID}")
 	)
 
 	export(
-
-		element(parameterlog, [direction, variable, id],
-			log("info","PARAM thread={#thread} direction={direction} variable={variable} provenanceid={id}")
-		)
-
 		element(split, [var], each(str:split(vdl:getFieldValue(var), " ")))
 
 		element(quote, [var, optional(path)],
@@ -54,14 +49,13 @@ namespace("vdl"
 
 		element(stagein, [var]
 			if(
-				vdl:isFileBound(var) try(
+				vdl:isDatasetBound(var) try(
 					sequential(
 						fp := vdl:fringePaths(var)
 						try (
 							for(path, fp
-								vdl:waitFieldValue(path=path, var)
+								discard(vdl:getFieldValue(path=path, var))
 							)
-// NOTE this string-based catch is messy, and needs to match with the string used in DataDependentException and VDLFunction
 							catch(".*errors in data dependencies.*"
 								log(LOG:DEBUG, exception)
 								deperror = true
@@ -81,29 +75,15 @@ namespace("vdl"
 				)
 				else(
 					//we still wait until the primitive value is there
-					vdl:waitFieldValue(var)
+					discard(vdl:getFieldValue(var))
 				)
 			)
 		)
 
 		element(stageout, [var]
 			try(
-				if(vdl:isFileBound(var) 
+				if(vdl:isDatasetBound(var) 
 					channel:to(stageout,
-						for(path, vdl:fringePaths(var)
-							list(path, var)
-						)
-					)
-				)
-				catch(".*not mapped.*"
-					log(LOG:DEBUG, exception)
-					mdeperror = true
-					deperror = true
-				)
-			)
-			try(
-				if(vdl:isRestartable(var) 
-					channel:to(restartout,
 						for(path, vdl:fringePaths(var)
 							list(path, var)
 						)
@@ -139,15 +119,17 @@ namespace("vdl"
 
 		element(tr, [name]
 			tr = name
-			print("PROGRESS_INIT")
 		)
+
+		element(pre, [])
+		element(post, [])
 
 		element(mains, [channel(cleanup), channel(errors), channel(warnings)]
 			anyerrors := vdl:processBulkErrors("The following errors have occurred:", errors)
 
 			//this should be reached after everything is done
 			if(
-				sys:not(anyerrors) then(
+				not(anyerrors) then(
 					//hmm, you can append to channels!
 					append(warnings, from(warnings, cleanups(cleanup)))
 				)
