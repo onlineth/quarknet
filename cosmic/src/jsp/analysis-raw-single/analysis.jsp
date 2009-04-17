@@ -29,11 +29,11 @@
 	<c:otherwise>
 		<e:paramAlias from="filename" to="inFile"/>
 		<e:analysis name="analysis" type="I2U2.Cosmic::RawAnalyzeStudy">
-			<e:trinput type="hidden" name="gatewidth" default="100"/>
+			<e:trinput type="hidden" name="gatewidth" default="240"/>
 			<e:trinput type="hidden" name="inFile"/>
 			<e:trdefault name="outFile" value="${outFile}"/>
 			<e:ifAnalysisIsOk>
-				<jsp:include page="../analysis/start.jsp?continuation=../analysis-raw-single/output.jsp&onError=../analysis-raw-single/analysis.jsp"/>
+				<jsp:include page="../analysis/start.jsp?continuation=../analysis-raw-single/output.jsp"/>
 			</e:ifAnalysisIsOk>
 			<e:ifAnalysisIsNotOk>
 			

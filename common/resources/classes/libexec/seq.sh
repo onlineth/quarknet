@@ -8,7 +8,7 @@ shift
 
 mkdir -p $PWD/$LOGPATH
 
-WRAPPERLOG=$PWD/$LOGPATH/$SEQID.clusterlog
+WRAPPERLOG=$PWD/$LOGPATH/$SEQID.log
 
 echo `date +%s` START > $WRAPPERLOG
 

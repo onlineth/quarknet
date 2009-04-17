@@ -204,15 +204,6 @@ analysis executor implementation would make sense of the value of this attribute
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
-		<attribute>
-			<description><![CDATA[
-An optional class to transform parameters immediately before passing them to the
-analysis execution mechanism.
-			]]></description>
-			<name>parameterTransformer</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
 	</tag>
 	
 	<tag>
@@ -442,63 +433,6 @@ values specified with the <code>valueList</code> attribute.
 		<dynamic-attributes>true</dynamic-attributes>
 	</tag>
 	
-		<tag>
-		<description><![CDATA[
-A simplified way of specifying radio button sets also with some of the semantics for 
-{@link trinput} (the handling of default values). It produces, in the HTML document,
-a <code>select</code> HTML element together with the necessary <code>option</code>
-elements.
-		]]></description>
-		<name>trradio</name>
-		<tag-class>gov.fnal.elab.tags.TRRadio</tag-class>
-		<body-content>JSP</body-content>
-		<attribute>
-			<description>
-A comma separated list of values.
-			</description>
-			<name>valueList</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<description>
-A comma separated list of labels.
-			</description>
-			<name>labelList</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<description>
-The name of this control.
-			</description>
-			<name>name</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<description><![CDATA[
-The default value of this control. The value of this attribute should be one of the
-values specified with the <code>valueList</code> attribute.
-			]]></description>
-			<name>default</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<description><![CDATA[
-The selected value for this control. The value of this attribute should be one of the
-values specified with the <code>valueList</code> attribute.
-			]]></description>
-			<name>value</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		
-		<dynamic-attributes>true</dynamic-attributes>
-	</tag>
-	
-	
 	<tag>
 		<description>
 A text area control that can be linked with an analysis. It follows, in principle, the
@@ -545,11 +479,6 @@ The default value of this control.
 	<tag-file>
 		<name>commonMetadataToSave</name>
 		<path>/WEB-INF/tags/commonMetadataToSave.tag</path>
-	</tag-file>
-	
-	<tag-file>
-		<name>creationDateMetadata</name>
-		<path>/WEB-INF/tags/creationDateMetadata.tag</path>
 	</tag-file>
 	
 	<tag-file>
@@ -623,7 +552,6 @@ by assuming it lives in a directory named "analysis-&lt;type&gt;".
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
-
 	
 	<tag>
 		<description>
@@ -702,82 +630,4 @@ The name of the parameter (must match the name of an analysis parameter)
 		<name>whitespaceAdjust</name>
 		<path>/WEB-INF/tags/whitespaceAdjust.tag</path>
 	</tag-file>
-	
-	<tag>
-		<description>
-Calculate run-time prediction for an analysis and return the result.
-Must be inside a analysis tag.
-		</description>
-		<name>analysisRunTimeEstimator</name>
-		<tag-class>gov.fnal.elab.tags.AnalysisRunTimeEstimator</tag-class>
-		<body-content>empty</body-content>
-		<attribute>
-			<description>
-The engine used to run the analysis (VDS or swift)
-			</description>
-			<name>engine</name>
-			<required>true</required>
-			<rtexprvalue>false</rtexprvalue>
-		</attribute>
-		<attribute>
-			<description>
-The mode used to run the analysis (local, grid, cluster, auto)
-			</description>
-			<name>mode</name>
-			<required>true</required>
-			<rtexprvalue>false</rtexprvalue>
-		</attribute>
-	</tag>
-	
-	<tag>
-		<description>
-Allow using a bean instead of an analysis for e:tr* controls.
-		</description>
-		<name>useBean</name>
-		<tag-class>gov.fnal.elab.tags.UseBean</tag-class>
-		<body-content>JSP</body-content>
-		<attribute>
-			<description>
-A bean to use. The bean must have been created previously using jsp:useBean (or similar).
-			</description>
-			<name>bean</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-	</tag>
-	
-	<tag>
-		<description>
-Inserts into the current document at the position of this tag the contents
-of a http(s) URL, optionally stripping certain portions of the inserted
-content.
-		</description>
-		<name>transclude</name>
-		<tag-class>gov.fnal.elab.tags.Transclude</tag-class>
-		<body-content>empty</body-content>
-		<attribute>
-			<description>
-The URL to fetch the content from.
-			</description>
-			<name>url</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<description>
-If present, ignore the content up to this string (inclusive)
-			</description>
-			<name>start</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<description>
-If present, ignore the content after this string (inclusive)
-			</description>
-			<name>end</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-	</tag>
 </taglib>

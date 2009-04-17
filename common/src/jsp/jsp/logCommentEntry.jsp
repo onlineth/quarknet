@@ -117,7 +117,7 @@ int itemCount=0;
              String comment_existing="";
           while (innerRs.next()){
              comment_date=innerRs.getString("comment_date");
-             comment_existing=ElabUtil.whitespaceAdjust(innerRs.getString("comment"));
+             comment_existing=innerRs.getString("comment");
              commentCount++;
           if (commentCount>1) {
             log_text_show=" ";
@@ -208,7 +208,7 @@ int itemCount=0;
      rs = s.executeQuery(query);
      String cur_log_text="";
      if (rs.next()){
-          cur_log_text=rs.getString("log_date")+ " - "+ ElabUtil.whitespaceAdjust(rs.getString("cur_log_text"));
+          cur_log_text=rs.getString("log_date")+ " - "+ rs.getString("cur_log_text");
           }
    
    
