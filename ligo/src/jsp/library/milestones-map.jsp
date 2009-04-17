@@ -66,26 +66,34 @@
 		  </div>
 	  </center>
 
-			
-			<p>
-				The diagram above is a road map that takes you through an e-Lab. Another
-				name for the map is a <em>workflow diagram</em>. Drag your mouse over 
-				the diagram.  You'll see that the circles are links. The links on the 
-				ends point to the pre-test and post-test that you will take to measure 
-				your e-Lab learning.  Other links represent <em>milestones</em> -- 
-				tasks that you must master in order to move on. Click on a milestone 
-				and you'll see a pop-up box.  The box will contain a statement of the 
-				milestone, some <em>references</em> that you can use to learn how to 
-				master the milestone, and a "log it!" link that takes you to your 
-				electronic log book.  When you've mastered a milestone, write the 
-				evidence in your log book.  Your teacher will read your entry.
-			</p>
-			<p>
-				Now you're ready to begin.  Go through the e-Lab tasks one at a time; 
-				The Basics (optional), Get Started, Figure It Out and Tell Others.
-			</p>
-		</td>
-	</tr>
+	  <p>
+		  The diagram above is a road map that takes you through an e-Lab.
+		  Another name for the map is a <em>workflow diagram</em>.
+		  Drag your mouse over the diagram.
+		  You'll see that the circles are links.
+		  The links on the ends point to the pre-test and post-test that
+		  you will take to measure your e-Lab learning.
+		  Other links represent <em>milestones</em> -- tasks that you must
+		  master in order to move on.
+		  Click on a milestone and you'll see a pop-up box.
+		  The box will contain a statement of the milestone,
+		  some <em>references</em> that you can use to learn how to    
+		  master the milestone, and a "log it!" link that takes you to your 
+		  electronic log book.
+		  When you've mastered a milestone, write the evidence in your log
+		  book.
+		  Your teacher will read your entry. 
+
+
+	  </p>
+	  <p>
+		  Now you are ready to begin.
+		  Go through the e-Lab tasks one at a time;
+		  The <a href="research-basics.jsp">Basics</a> (optional),
+		  Get Started, Figure It Out and Tell Others.
+	  </p>
+  </td>
+  </tr>
 </table>
 
 

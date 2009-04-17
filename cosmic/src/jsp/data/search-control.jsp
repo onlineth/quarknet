@@ -15,27 +15,6 @@ SimpleDateFormat DATEFORMAT = new SimpleDateFormat("MM/dd/yyyy");
 DATEFORMAT.setLenient(false);
 %>
 
-<link type="text/css" href="../include/jquery/css/default/jquery-ui-1.7.custom.css" rel="Stylesheet" />	
-<script type="text/javascript" src="../include/jquery/js/jquery-1.3.2.min.js"></script>
-<script type="text/javascript" src="../include/jquery/js/jquery-ui-1.7.custom.min.js"></script>
-<script type="text/javascript">
-$(function() {
-	$("#date1").datepicker({
-		changeMonth: true,
-		changeYear: true, 
-		showButtonPanel: true
-	});
-	$("#date2").datepicker({
-		changeMonth: true,
-		changeYear: true, 
-		showButtonPanel: true
-	});
-});
-$(window).scroll(function(){
-	$('#right').animate({top:$(window).scrollTop()+"px" },{queue: false, duration: 0});
-});
-</script>
-
 <div class="search-quick-links">
 	<e:quicksearch key="school" value="${user.group.school}"/>
 	<e:quicksearch key="city" value="${user.group.city}"/>
@@ -54,7 +33,7 @@ $(window).scroll(function(){
 		}" valueList="city, group, school, state, teacher, detectorid"
 		        labelList="City, Group, School, State, Teacher, Detector ID"
 		        default="${param.key}"/>
-	<input name="value" id="name" size="40" maxlength="40" value="${param.value}" />
+	<input name="value" size="40" maxlength="40" value="${param.value}" />
 	<input type="submit" name="submit" value="Search Data" />
 	
 	<e:vswitch>
@@ -78,9 +57,9 @@ $(window).scroll(function(){
 						</select>
 					</td>
 					<td>
-						<e:trinput name="date1" id="date1" size="10" maxlength="15" />
+						<e:trinput name="date1" size="10" maxlength="15" />
 						to
-						<e:trinput name="date2" id="date2" size="10" maxlength="15" />
+						<e:trinput name="date2" size="10" maxlength="15" />
 					</td>
 				</tr>
 				<!-- Sort field and search-within-data don't work. 
@@ -216,15 +195,12 @@ $(window).scroll(function(){
 		    and.add(new Equals("project", elab.getName()));
 		    
 			searchResults = elab.getDataCatalogProvider().runQuery(and);
-			
-			
 			searchResultsStructured = DataTools.organizeSearchResults(searchResults);
 			searchResultsStructured.setKey(key);
 			searchResultsStructured.setValue(value);
 			long end = System.currentTimeMillis();
 			String time = ElabUtil.formatTime(end - start);
 			searchResultsStructured.setTime(time);
-			
 		}
 		else {
 		    session.setAttribute("previousSearch", null);

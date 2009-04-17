@@ -13,7 +13,6 @@ import gov.fnal.elab.analysis.ElabAnalysis;
 import gov.fnal.elab.analysis.impl.vds.VDSAnalysis;
 import gov.fnal.elab.analysis.impl.vds.VDSAnalysisExecutor;
 import gov.fnal.elab.datacatalog.DataCatalogProvider;
-import gov.fnal.elab.datacatalog.DataTools;
 import gov.fnal.elab.datacatalog.Tuple;
 import gov.fnal.elab.datacatalog.query.CatalogEntry;
 import gov.fnal.elab.datacatalog.query.MultiQueryElement;
@@ -28,7 +27,6 @@ import java.io.StringReader;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -36,7 +34,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Map;
 import java.util.WeakHashMap;
 
 import org.griphyn.vdl.annotation.Predicate;
@@ -366,7 +363,7 @@ public class VDSDataCatalogProvider implements DataCatalogProvider {
         else {
             QueryLeaf t = (QueryLeaf) query;
             qt = new QueryTree(new Predicate(getPredicateType(query.getType()),
-                    t.getKey(), getType(t.getValue()), quote(format(t))));
+            		t.getKey(), getType(t.getValue()), quote(format(t))));
         }
         return qt;
     }
@@ -374,13 +371,13 @@ public class VDSDataCatalogProvider implements DataCatalogProvider {
     private static final DateFormat DF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ");
     
     private String format(QueryLeaf t) {
-        Object v = t.getValue();
-        if (v instanceof Date) {
-            return DF.format(v);
-        }
-        else {
-            return String.valueOf(v);
-        }
+	    Object v = t.getValue();
+	    if (v instanceof Date) {
+	        return DF.format(v);
+	    }
+	    else {
+	        return String.valueOf(v);
+	    }
     }
 
     public static String quote(String param) {
@@ -427,7 +424,7 @@ public class VDSDataCatalogProvider implements DataCatalogProvider {
             case QueryElement.BETWEEN:
                 return Predicate.BETWEEN;
             case QueryElement.LIKE:
-                return Predicate.LIKE;
+            	return Predicate.LIKE;
             default:
                 throw new IllegalArgumentException(
                         "Unknown QueryElement type: " + qetype);
@@ -538,24 +535,6 @@ public class VDSDataCatalogProvider implements DataCatalogProvider {
                 analysis);
         et.storeDV();
         et.close();
-        List metadata = new ArrayList();
-        Iterator i = analysis.getAttributes().entrySet().iterator();
-        while (i.hasNext()) {
-        	Map.Entry e = (Map.Entry) i.next();
-        	if (e.getValue() instanceof String) {
-        		metadata.add(e.getKey() + " string " + e.getValue());
-        	}
-        	else if (e.getValue() instanceof Integer) {
-                metadata.add(e.getKey() + " int " + e.getValue());
-            }
-        	else if (e.getValue() instanceof Double) {
-                metadata.add(e.getKey() + " float " + e.getValue());
-            }
-        	else if (e.getValue() instanceof Date) {
-                metadata.add(e.getKey() + " date " + ((Date) e.getValue()).getTime());
-            }
-        }
-        insert(DataTools.buildCatalogEntry(name, metadata));
     }
 
     public ElabAnalysis getAnalysis(String lfn) throws ElabException {
@@ -595,15 +574,6 @@ public class VDSDataCatalogProvider implements DataCatalogProvider {
             VDSAnalysis analysis = new VDSAnalysis();
             analysis.setType(dv.getUsesspace() + "::" + dv.getUses(), et
                     .getDV());
-            
-            CatalogEntry e = getEntry(lfn);
-            if (e != null) {
-                i = e.getTupleMap().entrySet().iterator();
-                while (i.hasNext()) {
-                    Map.Entry me = (Map.Entry) i.next();
-                    analysis.setAttribute(String.valueOf(me.getKey()), me.getValue());
-                }
-            }
             return analysis;
         }
         catch (Exception e) {

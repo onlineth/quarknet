@@ -75,6 +75,7 @@
 		of analyzing these environmental disturbances. 
 	  </p>
 
+
 	  <h2>What is I2U2?</h2>
 	  <p>
 		I2U2, or <i>Interactions in Understanding the Universe</i>, is a joint 
