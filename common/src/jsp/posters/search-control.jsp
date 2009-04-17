@@ -6,9 +6,9 @@
 
 <div class="search-quick-links">
 	Show posters by:&nbsp; 
-	<e:quicksearch key="group" value="${user.name}"/>,
-	<e:quicksearch key="teacher" value="<%= user.getTeacher() %>"/>,
-	<e:quicksearch key="school" value="${user.school}"/>,
+	<e:quicksearch key="group" value="${user.name}"/>
+	<e:quicksearch key="teacher" value="<%= user.getTeacher() %>"/>
+	<e:quicksearch key="school" value="${user.school}"/>
 	<e:quicksearch key="all" value="" label="All"/>
 </div>
 
@@ -16,7 +16,7 @@
 <form name="search" method="get">
 	<p>
 		<e:select name="key" valueList="title, group, teacher, school, city, state, year"
-					labelList="Title, Group, Teacher, School, City, State, Year"
+					labelList="Title, Group, Teacher, School, State, City, Year"
 					default="${param.key}"/>
 		<input name="value" size="40" maxlength="40" value="${param.value}"/>
 		<input type="submit" name="submit" value="Search Data"/>
@@ -35,8 +35,6 @@
 		<e:trinput type="text" size="10" maxlength="15" name="date2" default="12/30/2050"/>
 	</p>
 	<%
-		String order = request.getParameter("order");
-		boolean descending = "true".equals(request.getParameter("desc"));
 		//variables used in metadata searches:
 		String key = request.getParameter("key");
 		if (key == null) key="name";
@@ -55,8 +53,7 @@
 		    and.add(new Equals("project", elab.getName()));
 		    and.add(new Equals("type", "poster"));
 			if (!"all".equals(key)) {
-				value = value.replace('*', '%'); // Allow asterisk
-			    and.add(new Like(key, value));
+			    and.add(new Equals(key, value));
 			}
 			    
 		//hmm. posters use "date" instead of "creationdate"
@@ -64,9 +61,6 @@
 
 			searchResults = elab.getDataCatalogProvider().runQuery(and);
 		}
-		if (order != null && searchResults != null) {
-			searchResults.sort(order, descending);
-		}		
 		request.setAttribute("searchResults", searchResults);
 	%>
 		

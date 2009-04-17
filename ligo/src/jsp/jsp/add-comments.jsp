@@ -12,11 +12,6 @@
 <html>
 <head>
 	<title>Poster Comments</title>
-		<title>${elab.properties.formalName} Poster Session</title>
-		<link rel="stylesheet" type="text/css" href="../css/style2.css"/>
-		<link rel="stylesheet" type="text/css" href="../css/posters.css"/>
-		<link rel="stylesheet" type="text/css" href="../css/two-column.css"/>
-		<script type="text/javascript" src="../include/elab.js"></script>
 <SCRIPT language=JavaScript>
 function checkBlank()
  {
@@ -30,30 +25,19 @@ function checkBlank()
 String fileType=request.getParameter("t");
 %>
 
-	<body id="posters" class="posters">
-		<!-- entire page container -->
-		<div id="container">
-			<div id="top">
-				<div id="header">
-					<%@ include file="../include/header.jsp" %>
-					<div id="nav">
-						<%@ include file="../include/nav.jsp" %>
-						<div id="subnav">
-							<%@ include file="../include/nav-posters.jsp" %>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-			<div id="content">
-
-<table border="0" id="main">
-	<tr>
-		<td id="left">
-			<%@ include file="../include/left-alt.jsp" %>
-		</td>
-		<td id="center">
-			<h2>Add Comments</h2>
+<!-- include css style file -->
+<%@ include file="include/style.css" %>
+<!-- header/navigation -->
+<%
+//be sure to set this before including the navbar
+String headerType = "Data";
+String barStyle = "addComment_bar_color_default";
+if(fileType != null && fileType.equals("poster")){
+    barStyle="addComment_bar_color_poster";
+    headerType = "Posters";
+}
+%>
+<%@ include file="include/navbar_common.jsp" %>
 
 <%
 String dateString=new String();
@@ -109,8 +93,8 @@ dateString="";
                   }
             %>
 		  <P><TABLE WIDTH=800 CELLPADDING=4>
-		  <TR><TD>
-		  <B>Comments for file <%=fileName%></B>
+		  <TR><TD class="<%=barStyle%>">
+		  <FONT FACE=ARIAL COLOR=000000><B>Comments for file <%=fileName%></B></FONT>
 		   </TD></TR>
 		   <center>
            <tr><td>
@@ -183,17 +167,5 @@ dateString="";
               }    ///file name supplied test
            %>
 </center>
-		</td>
-	</tr>
-</table>
-
-			</div>
-			<!-- end content -->	
-		
-			<div id="footer">
-				<%@ include file="../include/nav-footer.jsp" %>
-			</div>
-		</div>
-		<!-- end container -->
-	</body>
+</body>
 </html>

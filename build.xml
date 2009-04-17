@@ -51,10 +51,6 @@ distclean:
 	Removes all .jar, .class, and jsp/html files from the webapp
 	directory
 	
-deploy-all-clean:
-	Makes a clean deployment of all e-Labs (distclean followed by 
-	deploy-all)
-	
 		</echo>
 	</target>
 	
@@ -66,7 +62,6 @@ deploy-all-clean:
 			<include name="**/*.jar"/>
 		</fileset>
 		<pathelement location="common/build"/>
-		<pathelement location="common/resources/classes"/>
 	</path>
 	
 	<path id="cp-cms">
@@ -100,6 +95,7 @@ deploy-all-clean:
 		</fileset>
 	</path>
 	
+	
 	<!-- - - - - - - - - - - - - - - - - - 
 		target: common                      
 		- - - - - - - - - - - - - - - - - -->
@@ -111,7 +107,6 @@ deploy-all-clean:
 		</delete>
 		<javac srcdir="common/src/java" destdir="common/build" debug="true">
 			<classpath refid="cp-common"/>
-			<compilerarg value="-deprecation"/>
 		</javac>
 		<!-- the properties file -->
 		<copy todir="common/build">
@@ -145,6 +140,9 @@ deploy-all-clean:
 			<arg value=".tldbuild/WEB-INF/elab.tld"/>
 			<classpath>
 				<pathelement location="tools/tlddoc.jar"/>
+				<pathelement location="common/lib/xml-apis.jar"/>
+				<pathelement location="common/lib/xercesImpl.jar"/>
+				<pathelement location="common/lib/xalan.jar"/>
 			</classpath>
 		</java>
 	</target>
@@ -170,7 +168,7 @@ deploy-all-clean:
 		</delete>
 	</target>
 		
-	<target name="do-deploy-common" depends="build-common, clean-jars">
+	<target name="do-deploy-common" depends="build-common">
 		<mkdir dir="${container.home}/${webapps}/elab"/>
 		<mkdir dir="${container.home}/${webapps}/elab/WEB-INF"/>
 		<mkdir dir="${container.home}/${webapps}/elab/WEB-INF/classes"/>
@@ -203,7 +201,6 @@ deploy-all-clean:
 			<include name="**/*.java"/>
 			<classpath refid="cp-common"/>
 			<classpath refid="cp-cms"/>
-			<compilerarg value="-deprecation"/>
 		</javac>
 		<!-- The copying to common has to do with timestamps          -->
 		<!-- From looking at Ant, this seems like the way to achieve: -->
@@ -280,7 +277,6 @@ deploy-all-clean:
 			<classpath refid="cp-common"/>
 			<classpath refid="cp-cms"/>
 			<classpath refid="cp-cms-vdl2"/>
-			<compilerarg value="-deprecation"/>
 		</javac>
 		
 		<copy todir="common/build">
@@ -334,7 +330,6 @@ deploy-all-clean:
 			<include name="**/*.java"/>
 			<classpath refid="cp-common"/>
 			<classpath refid="cp-cosmic"/>
-			<compilerarg value="-deprecation"/>
 		</javac>
 		
 		<copy todir="common/build">
@@ -451,7 +446,6 @@ deploy-all-clean:
 			<include name="**/*.java"/>
 			<classpath refid="cp-common"/>
 			<classpath refid="cp-ligo"/>
-			<compilerarg value="-deprecation"/>
 		</javac>
 		<!-- The copying to common has to do with timestamps          -->
 		<!-- From looking at Ant, this seems like the way to achieve: -->
@@ -551,6 +545,4 @@ deploy-all-clean:
 	<target name="distclean" depends="clean-jars, clean-classes, clean-web">
 	</target>
 	
-	<target name="deploy-all-clean" depends="distclean, deploy-all">
-	</target>
 </project>

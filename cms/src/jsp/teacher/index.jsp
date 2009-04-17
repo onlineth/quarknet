@@ -129,22 +129,31 @@
 
 					We provide refresher references for students who need to brush up on 
 					these skills. Here is what the students see: 
-					<a href="../research_basics.jsp">Review of Basic Skills</a>
+					<a href="research_basics.jsp">Review of Basic Skills</a>
 				</p>
 				
 				<h2>Learner Outcomes:</h2>
 				<p>
-					Students will know and be able to:  
+					Students will know and be able to: 
 					<ul>
-						<li>Content and Investigation:
+						<li>Content:
 							<ul>
-								<li>Describe how determination of particle signatures from the test beam contributes to the calibration of, and particle identification in, the CMS detector.</li>
-								<li>Describe the role of each sub-detector in data analysis.</li>
-								<li>Use data to measure and describe detector characteristics.</li>
-								<li>Design an investigation with a testable hypothesis that can be answered from CMS Test Beam data. Describe what you will learn about the CMS detector from carrying out the investigation.</li>
+								<li>Identify particles observed in the data.</li>
+								<li>Describe the role sub-detector in data analysis.</li>
+								<li>Use data to measure the shape of showers produced by 
+								particles.</li>
+								<li>Use data to measure the detector's resolution.</li>
 							</ul>
 						</li>
-							<%@ include file="learner-outcomes.jsp" %>
+						<li>Process:
+							<ul>
+								<li>Gather/use scientific data to identify particles.</li>
+								<li>Demonstrate skills using the internet, web and virtual 
+								data techniques.</li>
+								<li>Work collaboratively with students in other research 
+								groups.</li>
+							</ul>
+						</li>
 					</ul>
 				</p>
 
@@ -183,15 +192,12 @@
 
 				<ul>
 					<li>
-						<B>Rubrics:</B> <A HREF="../assessment/rubric-ci.html">Overall Content & Investigation</A>,
-						<A HREF="../assessment/rubric-r.html">Research Skills</A>, <A HREF="../assessment/rubric-t.html">Technology Skills</A>,
-						<A HREF="../assessment/rubric-wla.html">Writing and Language Arts</A> and <A HREF="../assessment/rubric-p.html">Poster</A>
+						<a href="../assessment/rubric.html">Rubric</a> aligned to learner outcomes.
 					</li>
 					<li>
 						<a href="../test/test.jsp?type=presurvey&studentid=0">Pre</a>
 						- and <a href="../test/test.jsp?type=postsurvey&studentid=0">post</a>
-						- tests of content knowledge.</li>
-						<li>Student results for 
+						- tests of content knowledge and student results for 
 						<a href="../test/results.jsp?type=presurvey">pre</a>
 						- and <a href="../test/results.jsp?type=postsurvey">post</a>- tests.
 					</li>
@@ -199,6 +205,9 @@
 						e-Logbooks: Track and comment on student work. Review 
 						group logbook or all student entries for a particular 
 						milestone, e.g., class cosmic ray descriptions.
+					</li>
+					<li>
+						Poster rubric
 					</li>
 				</ul>
 			</div>
