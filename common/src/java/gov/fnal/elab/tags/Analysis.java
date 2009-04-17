@@ -11,7 +11,6 @@ package gov.fnal.elab.tags;
 
 import gov.fnal.elab.Elab;
 import gov.fnal.elab.ElabFactory;
-import gov.fnal.elab.analysis.AnalysisParameterTransformer;
 import gov.fnal.elab.analysis.ElabAnalysis;
 
 import java.util.Arrays;
@@ -23,13 +22,12 @@ import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
 
 public class Analysis extends TagSupport {
     public static final String ATTR_ANALYSIS = "elab:analysis";
 
-    private String name, impl, type, param, parameterTransformer;
+    private String name, impl, type, param;
 
     public int doEndTag() throws JspException {
         return EVAL_PAGE;
@@ -44,8 +42,7 @@ public class Analysis extends TagSupport {
             }
             ElabAnalysis old = (ElabAnalysis) pageContext.getRequest()
                     .getAttribute(ATTR_ANALYSIS);
-            ElabAnalysis analysis = ElabFactory.newElabAnalysis(elab, impl,
-                    param);
+            ElabAnalysis analysis = ElabFactory.newElabAnalysis(elab, impl, param);
             analysis.setType(type);
             if (old != null) {
                 if (!compareType(type, old.getType())) {
@@ -55,21 +52,16 @@ public class Analysis extends TagSupport {
                                     + "wrong analysis page?");
                 }
                 pageContext.getSession().removeAttribute(ATTR_ANALYSIS);
-
+                
                 /*
                  * The old analysis cannot be used if the current analysis type
-                 * has added parameters to the signature. So a copy must be
-                 * made.
+                 * has added parameters to the signature. So a copy must be made. 
                  */
                 Iterator i = old.getParameters().entrySet().iterator();
                 while (i.hasNext()) {
                     Map.Entry e = (Map.Entry) i.next();
-                    String name = (String) e.getKey();
-                    if (analysis.hasParameter(name)) {
-                        analysis.setParameter(name, e.getValue());
-                    }
+                    analysis.setParameter((String) e.getKey(), e.getValue());
                 }
-                analysis.setAttributes(old.getAttributes());
             }
 
             setAnalysisParams(analysis);
@@ -88,19 +80,13 @@ public class Analysis extends TagSupport {
         }
         return EVAL_BODY_INCLUDE;
     }
-
+    
     protected boolean compareType(String t1, String t2) {
-        // should we or should we not allow such incompatibilities
-        return true;
+    	//should we or should we not allow such incompatibilities
+    	return true;
     }
 
     protected void setAnalysisParams(ElabAnalysis analysis) {
-        setAnalysisParams(pageContext, analysis,
-                getParameterTransformerInstance());
-    }
-
-    protected static void setAnalysisParams(PageContext pageContext,
-            ElabAnalysis analysis, AnalysisParameterTransformer t) {
         Map aliases = (Map) pageContext.getRequest().getAttribute(
                 ParamAlias.ATTR_ALIASES);
         if (aliases == null) {
@@ -128,10 +114,6 @@ public class Analysis extends TagSupport {
                 analysis.setParameter(analysisParamName, request
                         .getParameter(name));
             }
-            else if (type.equals(Boolean.class) || type.equals(boolean.class)) {
-                analysis.setParameter(analysisParamName, Boolean
-                        .valueOf(request.getParameter(name)));
-            }
             else if (type.equals(List.class)) {
                 analysis.setParameter(analysisParamName, Arrays.asList(request
                         .getParameterValues(name)));
@@ -157,7 +139,6 @@ public class Analysis extends TagSupport {
                                 + "'. Unsupported type: " + type);
             }
         }
-        analysis.setParameterTransformer(t);
     }
 
     public String getImpl() {
@@ -190,30 +171,5 @@ public class Analysis extends TagSupport {
 
     public void setParam(String param) {
         this.param = param;
-    }
-
-    public String getParameterTransformer() {
-        return parameterTransformer;
-    }
-
-    public void setParameterTransformer(String parameterTransformer) {
-        this.parameterTransformer = parameterTransformer;
-    }
-
-    protected AnalysisParameterTransformer getParameterTransformerInstance() {
-        if (parameterTransformer == null) {
-            return null;
-        }
-        else {
-            try {
-                return (AnalysisParameterTransformer) Class.forName(
-                        parameterTransformer).newInstance();
-            }
-            catch (Exception e) {
-                throw new IllegalArgumentException(
-                        "Invalid parameter transformer: "
-                                + parameterTransformer + ": " + e.getMessage());
-            }
-        }
     }
 }

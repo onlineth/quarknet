@@ -23,8 +23,7 @@
 	//wrong timezone in the database. The database, at least 
 	//when you deploy the portal in Chicago (and burbs), is
 	//GMT - 5
-	TimeZone localTZ = TimeZone.getDefault();
-	Date time = new Date(Long.parseLong(ptime) - localTZ.getOffset(Long.parseLong(ptime)));
+	Date time = new Date(Long.parseLong(ptime) + 1000*5*3600);
 	And and = new And();
 	and.add(new Equals("project", elab.getName()));
 	and.add(new Equals("type", "split"));
@@ -41,16 +40,8 @@
 	else {
 		request.setAttribute("filename", ((CatalogEntry) sr.iterator().next()).getLFN());
 	}
-	Calendar c = Calendar.getInstance();
-	c.setTime(time);
-	request.setAttribute("h", String.valueOf(c.get(Calendar.HOUR_OF_DAY)));
-	request.setAttribute("m", String.valueOf(c.get(Calendar.MINUTE)));
-	request.setAttribute("s", String.valueOf(c.get(Calendar.SECOND)));
 %>
 
 <jsp:include page="../data/view.jsp">
 	<jsp:param name="filename" value="${filename}"/>
-	<jsp:param name="h" value="${h}"/>
-	<jsp:param name="m" value="${m}"/>
-	<jsp:param name="s" value="${s}"/>
 </jsp:include>

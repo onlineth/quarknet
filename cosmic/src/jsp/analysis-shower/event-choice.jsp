@@ -20,6 +20,17 @@
 		
 		String eventNum = request.getParameter("eventNum");
 		
+		if (eventNum == null) {
+			eventNum = (String) shower.getParameter("eventNum");
+			if ("1".equals(eventNum)) {
+				//1 means "most interesting" event
+				//of course, this is ambiguous. Maybe we really want the first event.
+				//Unfortunately there is ambiguity in the saved plots, so 
+				//we'll keep broken but known behavior
+				eventNum = null;
+			}
+		}
+		
 		File ecFile = new File(results.getOutputDir(), (String) shower.getParameter("eventCandidates"));
 		String ecPath = ecFile.getAbsolutePath();
 		
@@ -63,9 +74,6 @@
 	    <e:trdefault name="plot_outfile_image_thumbnail" value="${shower.parameters.plot_outfile_image_thumbnail}"/>
 	    <e:trdefault name="plot_outfile_image" value="${shower.parameters.plot_outfile_image}"/>
 	    <e:trdefault name="plot_outfile_param" value="${shower.parameters.plot_outfile_param}"/>
-	    <e:trdefault name="plot_xlabel" value="${shower.parameters.plot_xlabel}"/>
-		<e:trdefault name="plot_ylabel" value="${shower.parameters.plot_ylabel}"/>
-		<e:trdefault name="plot_zlabel" value="${shower.parameters.plot_zlabel}"/>
 	    <e:trdefault name="plot_plot_type" value="${shower.parameters.plot_plot_type}"/>
 	    <e:trdefault name="zeroZeroZeroID" value="${shower.parameters.zeroZeroZeroID}"/>
 	<e:ifAnalysisIsOk>
