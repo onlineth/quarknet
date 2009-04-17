@@ -1,6 +1,5 @@
 <%@ page import="java.util.*" %>
 <%@ include file="common.jsp" %>
-<%@ taglib prefix="e" uri="http://www.i2u2.org/jsp/elabtl" %>
 <link rel="stylesheet"  href="include/styletut.css" type="text/css">
 <html>
     <head>
@@ -242,8 +241,7 @@ String teacher_id="";
           
           }
            %>
-         <tr><td valign="top" width="175" align="right"><A HREF="logCommentEntry.jsp?log_id=<%=log_id%>&keyword=<%=keyword%>&research_group_name=<%=rg_name%>&path=KW"><IMG SRC="graphics/logbook_pencil.gif" border="0" align="top"</A> <%=dateText%><%=comment_info%></td><td width="400" valign="top">
-         <e:whitespaceAdjust text="<%=log_text_truncated%>"/><%=elipsis%><%=linkText%></td></tr>
+         <tr><td valign="top" width="175" align="right"><A HREF="logCommentEntry.jsp?log_id=<%=log_id%>&keyword=<%=keyword%>&research_group_name=<%=rg_name%>&path=KW"><IMG SRC="graphics/logbook_pencil.gif" border="0" align="top"</A> <%=dateText%><%=comment_info%></td><td width="400" valign="top"><%=log_text_truncated%><%=elipsis%><%=linkText%></td></tr>
           <%
           
              if (showFullLog)

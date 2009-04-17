@@ -32,38 +32,20 @@ public class TRSelect extends TRControl {
 
     public int doStartTag() throws JspException {
         try {
-            Object value = getValue();
-            boolean multi = getAttribute("multiple") != null;
-           
+            String selected = String.valueOf(getValue());
+            if (selected == null || selected.equals("")) {
+                if (valueList != null && valueList.size() > 0) {
+                    selected = String.valueOf(valueList.iterator().next());
+                }
+            }
             JspWriter out = pageContext.getOut();
             out.write("<select");
             writeDynamicLabelUpdater(out);
             writeAttribute(out, "name", getName());
             writeAttributes(out);
             out.write(">\n");
-            if (multi) {
-                if (value instanceof Collection) {
-                    ElabUtil.optionSet(out, getValueList(), getLabelList(), (Collection) value);
-                }
-                else {
-                    ElabUtil.optionSet(out, getValueList(), getLabelList(), String.valueOf(value));
-                }
-            }
-            else {
-                String selected = String.valueOf(nextValue());
-                if (selected == null || selected.equals("")) {
-                    if (valueList != null && valueList.size() > 0) {
-                        selected = String.valueOf(valueList.iterator().next());
-                    }
-                }
-                ElabUtil.optionSet(out, getValueList(), getLabelList(), selected);
-            }
-            if (value instanceof Collection) {
-                commitToAnalysis(list((Collection) value));
-            }
-            else {
-                commitToAnalysis(value);
-            }
+            ElabUtil.optionSet(out, getValueList(), getLabelList(), selected);
+            commitToAnalysis(selected);
         }
         catch (Exception e) {
             throw new JspException("Exception in select", e);

@@ -4,13 +4,12 @@
 #
 # Takes a split data file and finds the actual CPLD freq that the DAQ board is set to.
 
-if ($#ARGV < 1){
-    print "usage: CPLDCalc.pl [input-file] [board ID]\n";
+if ($#ARGV < 0){
+    print "usage: CPLDCalc.pl [input-file]";
 }
 
 $infile = $ARGV[0] || die "Cannot open $infile";
 #$outfile = $ARGV[1] || die "Cannot open $outfile";
-$ID = $ARGV[1];
 
 $fg1 = 41666667;					
 $fg2 = 25000000;						
@@ -32,9 +31,6 @@ while (<IN>) {
     	#print "Invalid line: $_. Skipping.\n";
     	next;
     }
-    # if servicing 1PPS interrupt, the GPS time may be funny
-    # if bit 2 is set, the GPS time may also be funny (by definition of bit 2)
-    $invalid = (hex($split_line[14]) & 0x05);
     # calculates the number of seconds from the time and CPLD offset
     $hour = substr($split_line[10], 0, 2);
     $min = substr($split_line[10], 2, 2);
@@ -48,11 +44,7 @@ while (<IN>) {
     if ($day_seconds == 86400){
         $day_seconds = 0;
     }
-    if (($hex eq $split_line[9]) || ($seconds == $day_seconds) || ($invalid != 0) || ($time == $split_line[10])){ 
-    	# both columns must advance to calculate the change
-    	# also, the MCU (presumably) must not be servicing the 1PPS interrupt
-    	# the last one is more of a heuristic, but it seems that things are messed
-    	# up when that happens.
+    if (($hex eq $split_line[9]) || ($seconds == $day_seconds)){ # both columns must advance to calculate the change
         next;
     }
     if (defined($hex)){
@@ -91,13 +83,13 @@ calculate_cpld_frequency();
 $low = $freq - $sigma;
 $high = $freq + $sigma;
 foreach $i (@frequency){ # only calculates the "real" average frequency using data within one standard deviation of average
-    if ($i >= $low && $i <= $high){
+    if ($i > $low && $i < $high){
         $real_freq_tot += $i;
         $real_count++;
     }
 }
-$real_freq = $real_freq_tot/$real_count if $real_count !=0;
-$perc = $real_count/$cpld_count*100 if $cpld_count != 0;
+$real_freq = $real_freq_tot/$real_count;
+$perc = $real_count/$cpld_count*100;
     
 print "  standard deviation: $sigma\n";
 print "average frequency is: $real_freq\n";
@@ -111,22 +103,16 @@ sub stddev {
 	 foreach $x (@_) {
 	 	$s += ($avg - $x)**2;
 	 }
-	 return sqrt($s/$n) if $n != 0;
+	 return sqrt($s/$n);
 }
 
 sub calculate_cpld_frequency {
 	if ($cpld_count == 0) {
-		@frequency = ();
-		$freq = $fg1 if $ID < 6000; 	#These data are from an older board--assuming the ID is correct!
-		$freq = $fg2 if $ID > 5999; 	# . . . a newer board
-		push @frequency, $freq;
-		$sigma = 0.0; 
-		print "Not enough data to calculate CPLD frequency. Your DAQ serial number is $ID so we are using $freq\n";
-		return;
+		die "Not enough data to calculate CPLD frequency";
 	}
 	# calculate averages for both guesses
-	$cpld_freq1 = $cpld_freq_tot1/$cpld_count if $cpld_count !=0;
-	$cpld_freq2 = $cpld_freq_tot2/$cpld_count if $cpld_count !=0;
+	$cpld_freq1 = $cpld_freq_tot1/$cpld_count;
+	$cpld_freq2 = $cpld_freq_tot2/$cpld_count;
 	# calculate standard deviations for both CPLD frequency guesses
 			
 	$cpld_sigma1 = stddev($cpld_freq1, $cpld_count, @cpld_frequency1);

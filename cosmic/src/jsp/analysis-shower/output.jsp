@@ -145,7 +145,7 @@
 			<p>
 				Click on image for a larger view
 			</p>
-			<e:popup href="../analysis-shower/show-plot.jsp?showerId=${showerResults.id}&id=${results.id}" target="showerPopup" width="650" height="750">
+			<e:popup href="../analysis-shower/show-plot.jsp?id=${results.id}" target="showerPopup" width="650" height="750">
 				<img src="${results.outputDirURL}/plot_thm.png"/>
 			</e:popup>
 			<p>
@@ -159,15 +159,11 @@
 	</tr>
 </table>
 <p>
-	Analysis run time: ${showerResults.formattedRunTime}; estimated: ${showerResults.formattedEstimatedRunTime}
+	Show <e:popup href="../analysis/show-dir.jsp?id=${results.id}" target="analysis-dir" 
+		width="800" height="600" toolbar="true">analysis directory</e:popup>
 </p>
 <p>
-	Show <e:popup href="../analysis/show-dir.jsp?id=${showerResults.id}" target="analysis-dir" 
-		width="800" height="600" toolbar="true">shower analysis directory</e:popup> or <e:popup href="../analysis/show-dir.jsp?id=${results.id}" target="analysis-dir" 
-		width="800" height="600" toolbar="true">event plot analysis directory</e:popup> 
-</p>
-<p>
-	<e:rerun type="shower" id="${showerResults.id}" label="Change"/> your parameters
+	<e:rerun type="shower" analysis="${showerResults.analysis}" label="Change"/> your parameters
 </p>
 <p><b>OR</b></p>
 <%@ include file="save-form.jspf" %>
