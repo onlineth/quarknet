@@ -41,7 +41,6 @@
 	ElabGroup teacher = elab.getUserManagementProvider().getGroupById(id);
 	Map results = elab.getTestProvider().getStudentResultsForTeacher(type, teacher);
 	request.setAttribute("results", results);
-	request.setAttribute("teacher", teacher);
 %>
 
 <h1>Results for ${param.type} for students of ${teacher.name}</h1>
