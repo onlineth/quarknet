@@ -15,23 +15,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
-
-import java.net.*; 
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
@@ -66,7 +61,7 @@ public class ElabUtil {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < param.length(); i++) {
             char c = param.charAt(i);
-            if ((c == '\'') || (c == '\\')) {
+            if ((c == '\'') || (c == '\\'))  {
                 sb.append(c);
             }
             sb.append(c);
@@ -88,48 +83,15 @@ public class ElabUtil {
             List l = (List) splits.get(list);
             if (l == null) {
                 l = new ArrayList();
-                String sl = String.valueOf(list);
-                if (sl.indexOf("..") != -1) {
-                    l = generateFromRange(sl);
-                }
-                else {
-                    StringTokenizer st = new StringTokenizer(String
-                            .valueOf(list), ",");
-                    while (st.hasMoreTokens()) {
-                        l.add(st.nextToken().trim());
-                    }
+                StringTokenizer st = new StringTokenizer(String.valueOf(list),
+                        ",");
+                while (st.hasMoreTokens()) {
+                    l.add(st.nextToken().trim());
                 }
                 splits.put(list, l);
             }
             return l;
         }
-    }
-
-    private static List generateFromRange(String range) {
-        int index = range.indexOf("..");
-        String start = range.substring(0, index);
-        String end = range.substring(index + 2);
-        NumberFormat nf;
-        if (start.length() == end.length()) {
-            nf = new DecimalFormat(repeat("0", start.length()));
-        }
-        else {
-            nf = new DecimalFormat("0");
-        }
-        int iend = Integer.parseInt(end);
-        ArrayList l = new ArrayList();
-        for (int i = Integer.parseInt(start); i <= iend; i++) {
-            l.add(nf.format(i));
-        }
-        return l;
-    }
-
-    private static String repeat(String str, int count) {
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < count; i++) {
-            sb.append(str);
-        }
-        return sb.toString();
     }
 
     public static void optionSet(JspWriter out, String name, String values,
@@ -143,11 +105,6 @@ public class ElabUtil {
 
     public static void optionSet(JspWriter out, Object values, Object labels,
             String selected) throws IOException {
-        optionSet(out, values, labels, Collections.singletonList(selected));
-    }
-
-    public static void optionSet(JspWriter out, Object values, Object labels,
-            Collection selected) throws IOException {
         Collection valuesList = split(values);
         Collection labelsList = split(labels);
         if (valuesList.size() != labelsList.size()) {
@@ -161,7 +118,7 @@ public class ElabUtil {
             out.write("<option value=\"");
             out.write(String.valueOf(value));
             out.write("\"");
-            if (selected != null && selected.contains(value)) {
+            if (selected != null && selected.equals(value)) {
                 out.write(" selected");
             }
             out.write(">");
@@ -325,16 +282,10 @@ public class ElabUtil {
         return sb.toString();
     }
 
-    @SuppressWarnings("deprecation")
-	private static void addParam(StringBuffer sb, String key, String value) {
-    	sb.append(key);
+    private static void addParam(StringBuffer sb, String key, String value) {
+        sb.append(key);
         sb.append('=');
-    	try {
-	        sb.append(java.net.URLEncoder.encode(value, "UTF-8"));
-        }
-        catch (UnsupportedEncodingException e) {
-	        sb.append(java.net.URLEncoder.encode(value));
-        }
+        sb.append(value);
     }
 
     public static String join(Object[] c, String separator) {
@@ -483,9 +434,9 @@ public class ElabUtil {
             // Thanks to the Batik website's tutorial for this code
             // (http://xml.apache.org/batik/rasterizerTutorial.html).
             PNGTranscoder t = new PNGTranscoder();
-            t.addTranscodingHint(PNGTranscoder.KEY_MAX_HEIGHT, new Float(1200));
-            t.addTranscodingHint(PNGTranscoder.KEY_MAX_WIDTH, new Float(1400));
-            TranscoderInput input = new TranscoderInput((new File(svg)).toURI().toURL()
+            t.addTranscodingHint(PNGTranscoder.KEY_MAX_HEIGHT, new Float(800));
+            t.addTranscodingHint(PNGTranscoder.KEY_MAX_WIDTH, new Float(1200));
+            TranscoderInput input = new TranscoderInput((new File(svg)).toURL()
                     .toString());
             OutputStream ostream = new FileOutputStream(png);
             TranscoderOutput output = new TranscoderOutput(ostream);
@@ -499,7 +450,7 @@ public class ElabUtil {
                             + e.getMessage(), e);
         }
     }
-
+    
     private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
 
     public static NanoDate julianToGregorian(int jday, double fractional) {
@@ -523,38 +474,40 @@ public class ElabUtil {
 
         NanoDate nd = new NanoDate();
         Calendar gc = Calendar.getInstance(UTC);
+        if (fractional != 0) {
+            int hour = (int) (fractional * 24);
+            int min = (int) ((fractional * 24 - hour) * 60);
+            int sec = (int) (((fractional * 24 - hour) * 60 - min) * 60);
+            int msec = (int) ((((fractional * 24 - hour) * 60 - min) * 60 - sec) * 1000);
+            int micsec = (int) (((((fractional * 24 - hour) * 60 - min) * 60 - sec) * 1000 - msec) * 1000);
+            int nsec = (int) ((((((fractional * 24 - hour) * 60 - min) * 60 - sec) * 1000 - msec) * 1000 - micsec) * 1000);
 
-        int hour = (int) (fractional * 24);
-        int min = (int) ((fractional * 24 - hour) * 60);
-        int sec = (int) (((fractional * 24 - hour) * 60 - min) * 60);
-        int msec = (int) ((((fractional * 24 - hour) * 60 - min) * 60 - sec) * 1000);
-        int micsec = (int) (((((fractional * 24 - hour) * 60 - min) * 60 - sec) * 1000 - msec) * 1000);
-        int nsec = (int) ((((((fractional * 24 - hour) * 60 - min) * 60 - sec) * 1000 - msec) * 1000 - micsec) * 1000);
+            gc.set(year, month - 1, day, (hour + 12) % 24, min, sec);
+            gc.set(Calendar.MILLISECOND, msec);
 
-        gc.set(year, month - 1, day, (hour + 12) % 24, min, sec);
-        gc.set(Calendar.MILLISECOND, msec);
-
-        nd.setMicroSeconds(micsec);
-        nd.setNanoSeconds(nsec);
+            nd.setMicroSeconds(micsec);
+            nd.setNanoSeconds(nsec);
+        }
+        else {
+            gc.set(year, month - 1, day, 0, 0, 0);
+        }
         nd.setTime(gc.getTimeInMillis());
         return nd;
     }
+    
+    private static final int[] MONTH_NUM = new int[] {306, 337, 0, 31, 61, 92, 122, 153, 184, 214, 245, 275};
 
-    /**
-     * arguments: day[1..31], month[1..12], year[..2004..], hour[0..23],
-     * min[0..59]
-     */
-    public static double gregorianToJulian(int year, int month, int day,
-            int hour, int minute, int second) {
-        if (month < 3) {
-            month = month + 12;
-            year = year - 1;
-        }
-
-        double r = (2 - (year / 100) + (year / 400) + day
-                + (int) (365.25 * (year + 4716))
-                + (int) (30.6001 * (month + 1)) - 1524.5);
-        return r + (hour + minute / 60.0 + second / 3600.0) / 24.0;
+    public static double gregorianToJulian(int year, int month, int day, int hour,
+            int minute, int second) {
+        double step1 = (year + 4712) / 4.0;
+        int step1Int = (int) step1;
+        double remainder = (step1 - step1Int) * 4;
+        int monthNum = MONTH_NUM[month + 1];
+        
+        double PJD = (hour * 3600 + minute * 60 + second) / 86400.0;
+        double jd = step1Int * 1461 + remainder * 365 + monthNum + day + 59
+                - 13 - .5 + PJD;
+        return jd;
     }
 
     public static String stripHTML(String text) {
@@ -578,7 +531,7 @@ public class ElabUtil {
         }
         return sb.toString();
     }
-
+    
     public static String whitespaceAdjust(String text) {
         text = text.replaceAll("\n", "<br />");
         // this should be changed to only allow <a> and <img> tags

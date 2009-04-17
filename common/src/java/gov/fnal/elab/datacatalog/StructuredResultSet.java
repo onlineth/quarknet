@@ -15,7 +15,6 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import com.mallardsoft.tuple.*;
 import org.apache.axis.types.Day;
 
 /**
@@ -24,21 +23,22 @@ import org.apache.axis.types.Day;
  * {@link School} -&gt; {@link Month} -&gt; {@link Day} -&gt; {@link File}
  */
 public class StructuredResultSet {
-	private SortedMap<Triple<String, String, String>, School> schools; 
+    private SortedMap schoolsSorted;
+    private Map schools;
     private int dataFileCount;
     private String key, value, time;
     private java.util.Date startDate, endDate;
 
     public StructuredResultSet() {
-    	schools = new TreeMap();
+        schools = new HashMap();
     }
 
-    public School getSchool(String name, String city, String state) {
-    	return schools.get(new Triple<String, String, String>(name.toLowerCase(), city.toLowerCase(), state.toLowerCase()));
+    public School getSchool(String name) {
+        return (School) schools.get(name);
     }
 
-    public synchronized void addSchool(School school) {
-        schools.put(new Triple<String, String, String>(school.getName().toLowerCase(), school.getCity().toLowerCase(), school.getState().toLowerCase()), school);
+    public void addSchool(School school) {
+        schools.put(school.getName(), school);
     }
 
     public Collection getSchools() {
@@ -50,7 +50,10 @@ public class StructuredResultSet {
     }
 
     public synchronized Collection getSchoolsSorted() {
-    	return this.getSchools();
+        if (schoolsSorted == null) {
+            schoolsSorted = new TreeMap(schools);
+        }
+        return schoolsSorted.values();
     }
 
     public int getDataFileCount() {
@@ -106,7 +109,7 @@ public class StructuredResultSet {
     }
 
 
-    public static class School implements Comparable {
+    public static class School {
         private String name, city, state;
         private int blessed, stacked, dataFiles;
         private long events;
@@ -175,17 +178,9 @@ public class StructuredResultSet {
         public String getCity() {
             return city;
         }
-        
-        public void setCity(String city) {
-        	this.city = city;
-        }
 
         public String getState() {
             return state;
-        }
-        
-        public void setState(String state) {
-        	this.state = state;
         }
 
         public int getBlessedCount() {
@@ -199,109 +194,38 @@ public class StructuredResultSet {
         public long getEventCount() {
             return events;
         }
-		
-		public int compareTo(Object o) {
-			int retval = 0; 
-			if (o instanceof School) {
-				retval = name.compareToIgnoreCase(((School) o).getName());
-				if (retval == 0) {
-					retval = city.compareToIgnoreCase(((School) o).getCity()); 
-					if (retval == 0) {
-						retval = state.compareToIgnoreCase(((School) o).getState());
-					}
-				}
-			}
-			return retval; 
-		}
-		
-		public boolean equals(Object o) { 
-			if (o instanceof School) {
-				return (this.compareTo(o) == 0);
-			}
-			return false; 
-		}
     }
 
     public static class Month {
-        private SortedMap<Integer, Detector> detectors;
+        private SortedSet files;
         private String month;
         private Date date;
 
         public Month(String month, Date date) {
             this.month = month;
             this.date = date;
-            detectors = new TreeMap();
+            files = new TreeSet();
         }
 
         public String getMonth() {
             return month;
         }
-        
-        private void addDetector(Integer detectorID) {
-        	if (!detectors.containsKey(detectorID)) {
-        		Detector d = new Detector(detectorID.intValue());
-        		detectors.put(detectorID, d);
-        	}
-        }
 
         public void addFile(File f) {
-        	Integer d = new Integer(f.getDetector());
-        	if (!detectors.containsKey(d)) {
-        		this.addDetector(d);
-        	}
-            detectors.get(d).addFile(f);
-        }
-        
-        public SortedMap getDetectors() {
-        	return detectors;
+            files.add(f);
         }
 
         public int getFileCount() {
-            int count = 0;
-        	for (Detector d : detectors.values()) {
-        		count += d.getFileCount();
-        	}
-        	return count; 
+            return files.size();
+        }
+
+        public Collection getFiles() {
+            return files;
         }
         
         public Date getDate() {
             return date;
         }
-    }
-    
-    public static class Detector implements Comparable {
-    	private Integer detectorID; 
-    	private SortedSet<File> files; 
-    	
-    	public Detector(int detector) {
-    		this.detectorID = new Integer(detector);
-    		files = new TreeSet(); 
-    	}
-
-		public int compareTo(Object o) {
-			return this.detectorID.compareTo(((Detector) o).getDetectorID()); 
-		}
-
-		public void setDetectorID(Integer detectorID) {
-			this.detectorID = detectorID;
-		}
-
-		public Integer getDetectorID() {
-			return detectorID;
-		}
-		
-		public void addFile(File f) {
-			files.add(f);
-		}
-		
-		public Collection getFiles() {
-			return files; 
-		}
-		
-		public int getFileCount() {
-			return files.size();
-		}
-		
     }
 
     public static class File implements Comparable {
@@ -309,7 +233,7 @@ public class StructuredResultSet {
         private Boolean stacked;
         private final String lfn;
         private java.util.Date startDate, endDate;
-        private int detector;
+        private int detector; 
 
         public File(String lfn) {
             this.lfn = lfn;

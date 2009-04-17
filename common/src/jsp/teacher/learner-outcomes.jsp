@@ -24,7 +24,7 @@
 	</ul>
 </li>
 
-<li>Computing:
+<li>Technology/Grid:
 	<ul>
 		<li>
 			Explain why they used specific computing resources in their analysis.
