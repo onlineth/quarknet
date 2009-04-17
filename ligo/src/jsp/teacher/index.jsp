@@ -12,7 +12,7 @@
 	</head>
 
 	<body id="teacher" class="teacher">
-		<!-- entire page container  -->
+		<!-- entire page container -->
 		<div id="container">
 			<div id="top">
 				<div id="header">
@@ -50,7 +50,7 @@
 				<p>
 					LIGO's huge laser interferometers in 
 					<a href="http://www.ligo-wa.caltech.edu">Washington State</a> and in 
-					<a href="http://www.ligo-la.caltech.edu">Louisiana</a>
+					<a href="http://www.ligo-la.caltech.edu">Louisiana</a> (sidebar photos) 
 					listen for the faint ripples of space-time called gravitational waves.
 					LIGO seeks to detect gravitational waves from the collisions of black 
 					holes or neutron stars and from star explosions known as supernovae. 
@@ -76,32 +76,69 @@
 							<li>Make a research plan</li>
 						</ul>
 					We provide a refresher for students who need to brush up on these skills.
-					Here is what the students see:  <a href="../library/research-basics.jsp">Review of Basic Skills</a>
+					Here is what the students see:  <a href="basics.jsp">Review of Basic Skills</a>
 				</p>
 				
 				<h2>Learner Outcomes:</h2>
 				<p>
 					Here are the E-Lab outcomes that students must demonstrate:</p> 
 					<ul>
-						<li>Content and Investigation:
+						<li>Content:
 							<ul>
 								<li>
-									Describe some basic concepts of wave behavior such as speed, arrival time, frequency and amplitude in the context of seismic activity.
+									Define and describe<i>frequency</i>in the context of 
+									wave behavior
 								</li>
 								<li>
-									Describe several factors that cause changes in LIGO's seismic data 
-								</li>
-								<li>
-									Explain how LIGO's measurement of seismic waves contributes to the project's effort to detect gravitational waves.
-								</li>
-								<li>
-									Design an investigation that asks a testable hypothesis, can be answered from seismic data and provides an explanation of what you learn about seismic data.								
+									Explain how LIGO's measurement of seismic waves contributes 
+									to the project's effort to detect gravitational waves.
 								</li>
 							</ul>
-							</li>
-							
-							<%@ include file="learner-outcomes.jsp" %>
-			   	</ul>
+						</li>					
+						<li>Process: 
+							<ul>
+								<li>
+									Explain the data collection process including what corrections 
+									need to be made in order to obtain reliable data.
+								</li>
+								<li>
+									Evaluate the data to decide which are reliable/usable and which 
+									are not and explain how you arrived at the decision to include 
+									some data and exclude others.
+								</li>
+								<li>
+									Collect, organize and analyze data to obtain meaningful findings.
+								</li> 
+								<li>
+									Use the data to provide evidence to support your claims.
+								</li> 
+								<li>
+									Describe the contribution team members make in a several-person 
+									project.
+								</li>
+							</ul>
+						</li> 
+						<li>Technology/Grid: 
+							<ul>
+								<li>
+									Demonstrate technical skill in accessing data from the Grid and 
+									Grid computing techniques.
+								</li> 
+								<li>
+									Describe Grid-related careers and education paths to those careers.
+								</li>
+							</ul>
+						</li> 
+						<li>Literacy:
+							<ul>
+								<li>
+									Demonstrate an ability to articulate meaning in writing (such as in 
+									science notebooks, reports) and negotiate meaning with others (such 
+									as peer review, discussion).
+								</li>
+							</ul>
+						</li>
+					</ul>
 				</p>
 
 				<h2>Research Question:</h2>
@@ -128,19 +165,18 @@
 					
 					<ul>
 						<li>
-							Rubrics: <a href="../assessment/rubric-ci.html">Content & Investigation</a>, 
-							<a href="../assessment/rubric-r.html">Process</a>, 
-							<a href="../assessment/rubric-t.html">Computing</a>,
-							<a href="../assessment/rubric-wla.html">Literacy</a> and 
-							<a href="../assessment/rubric-p.html">Poster</a>
+							Rubrics: <a href="rubric-ci.html">Overall Content & Investigation</a>, 
+							<a href="rubric-r.html">Research Skills</a>, 
+							<a href="rubric-t.html">Technology Skills</a>,
+							<a href="rubric-wla.html">Writing and Language Arts</a> and 
+							<a href="rubric-p.html">Poster</a>
 						</li>
 						<li>
 							<a href="../test/test.jsp?type=presurvey&studentid=0">Pre</a>
 							- and <a href="../test/test.jsp?type=postsurvey&studentid=0">post</a>
-							- tests of content knowledge.</li>
-						<li>Student results for 
+							- tests of content knowledge and student results for 
 							<a href="../test/results.jsp?type=presurvey">pre</a>
-							- and <a href="../test/results.jsp?type=postsurvey">post</a>-tests.
+							- and <a href="../test/results.jsp?type=postsurvey">post</a>- tests.
 						</li>
 						<li>
 							e-Logbooks: Track and comment on student work. Review 
