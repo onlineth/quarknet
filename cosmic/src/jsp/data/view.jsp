@@ -55,14 +55,6 @@
 	String highlight = request.getParameter("highlight");
 
 	String pfn = RawDataFileResolver.getDefault().resolve(elab, filename);
-	BufferedReader br; 
-	
-	try {
-		br = new BufferedReader(new FileReader(pfn));
-	}
-	catch (FileNotFoundException ex) {
-		throw new ElabJspException("Could not find file: " + filename);
-	}
 %> 
 		<h2>${param.filename}</h2><br/>
 		<a href="../data/view-metadata.jsp?filename=${param.filename}">Show metadata</a> |
@@ -85,6 +77,7 @@
 		</form>
 		<table border="0" cellpadding="0" cellspacing="0">
 			<%
+				BufferedReader br = new BufferedReader(new FileReader(pfn));
 				String str = null;
 				int count=0;
 	

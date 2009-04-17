@@ -6,9 +6,9 @@
 
 <div class="search-quick-links">
 	Show posters by:&nbsp; 
-	<e:quicksearch key="group" value="${user.name}"/>,
-	<e:quicksearch key="teacher" value="<%= user.getTeacher() %>"/>,
-	<e:quicksearch key="school" value="${user.school}"/>,
+	<e:quicksearch key="group" value="${user.name}"/>
+	<e:quicksearch key="teacher" value="<%= user.getTeacher() %>"/>
+	<e:quicksearch key="school" value="${user.school}"/>
 	<e:quicksearch key="all" value="" label="All"/>
 </div>
 
@@ -55,8 +55,7 @@
 		    and.add(new Equals("project", elab.getName()));
 		    and.add(new Equals("type", "poster"));
 			if (!"all".equals(key)) {
-				value = value.replace('*', '%'); // Allow asterisk
-			    and.add(new Like(key, value));
+			    and.add(new Equals(key, value));
 			}
 			    
 		//hmm. posters use "date" instead of "creationdate"
