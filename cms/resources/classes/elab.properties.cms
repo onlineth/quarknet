@@ -1,13 +1,8 @@
 #
-# These are properties specific to CMS in addition to
+# These are properties specific to cosmic in addition to
 # the common elab properties
 #
 
-provider.analysis = gov.fnal.elab.analysis.impl.vds.VDSAnalysis
 
-swift.workflow.dir = /home/mike/work/i2u2/cisvn/i2u2/trunk/cms/src/swift
+cms.vds.home = /var/tmp/quarknet-m/tomcat/webapps/elab/cms/output
 
-usedb = true
-dataset = tb04
-xmlfile = tb_data.xml
-xmldir = xml

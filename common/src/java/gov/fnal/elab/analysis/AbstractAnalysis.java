@@ -6,16 +6,11 @@ package gov.fnal.elab.analysis;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 public abstract class AbstractAnalysis implements ElabAnalysis {
     private String type;
-    private AnalysisParameterTransformer parameterTransformer;
-    private Map attributes;
-    
     
     public String getType() {
         return type;
@@ -23,11 +18,6 @@ public abstract class AbstractAnalysis implements ElabAnalysis {
 
     public void setType(String type) {
         this.type = type;
-    }
-    
-    public String getName() {
-        String[] ts = type.split("::");
-        return ts[ts.length - 1];
     }
 
     public String getEncodedParameters() {
@@ -73,37 +63,5 @@ public abstract class AbstractAnalysis implements ElabAnalysis {
         }
         return true;
     }
-
-    public AnalysisParameterTransformer getParameterTransformer() {
-        return parameterTransformer;
-    }
-
-    public void setParameterTransformer(
-            AnalysisParameterTransformer parameterTransformer) {
-        this.parameterTransformer = parameterTransformer;
-    }
-
-    public void setAttributes(Map attributes) {
-        this.attributes = attributes;
-    }
-
-    public void setAttribute(String name, Object value) {
-        if (attributes == null) {
-            attributes = new HashMap();
-        }
-        attributes.put(name, value);
-    }
-
-    public Object getAttribute(String name) {
-        if (attributes == null) {
-            return null;
-        }
-        else {
-            return attributes.get(name);
-        }
-    }
-
-    public Map getAttributes() {
-        return attributes;
-    }
+    
 }

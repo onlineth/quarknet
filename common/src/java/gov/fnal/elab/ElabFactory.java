@@ -10,15 +10,11 @@
 package gov.fnal.elab;
 
 import gov.fnal.elab.analysis.AnalysisExecutor;
-import gov.fnal.elab.analysis.BeanWrapper;
 import gov.fnal.elab.analysis.ElabAnalysis;
-import gov.fnal.elab.analysis.GenericAnalysis;
 import gov.fnal.elab.analysis.InitializationException;
-import gov.fnal.elab.analysis.impl.vds.VDSAnalysis;
 import gov.fnal.elab.datacatalog.CachingDataCatalogProvider;
 import gov.fnal.elab.datacatalog.DataCatalogProvider;
 import gov.fnal.elab.test.ElabTestProvider;
-import gov.fnal.elab.survey.ElabSurveyProvider; 
 import gov.fnal.elab.usermanagement.ElabUserManagementProvider;
 
 import java.util.HashMap;
@@ -54,7 +50,6 @@ public class ElabFactory {
 
     private static Object newInstance(Elab elab, String provider, String clsname) {
         try {
-        	clsname = clsname.trim();
             Class cls = ElabFactory.class.getClassLoader().loadClass(clsname);
             Object p = cls.newInstance();
             if (p instanceof ElabProvider) {
@@ -111,7 +106,6 @@ public class ElabFactory {
     /**
      * Returns an instance of an elab test provider for the specified elab. A
      * test provider implements functionality related to tests (surveys).
-     * This is for older survey implementations and is deprecated. 
      */
     public static synchronized ElabTestProvider getTestProvider(Elab elab) {
         Object p = get(elab, TEST);
@@ -120,21 +114,6 @@ public class ElabFactory {
             set(elab, TEST, p);
         }
         return (ElabTestProvider) p;
-    }
-    
-    private static final String SURVEY = "survey";
-    
-    /**
-     * Return an instance of an elab survey provider for the specified elab. A
-     * survey provider implements functionality related to surveys. 
-     */
-    public static synchronized ElabSurveyProvider getSurveyProvider(Elab elab) {
-    	Object p = get(elab, SURVEY);
-    	if (p == null) { 
-    		p = newInstance(elab, SURVEY);
-    		set(elab, SURVEY, p);
-    	}
-    	return (ElabSurveyProvider) p; 
     }
 
     private static final String ANALYSISEXECUTOR = "analysisexecutor";
@@ -180,13 +159,10 @@ public class ElabFactory {
                     "vds-dynamic");
         }
         if ("vds-dynamic".equals(impl)) {
-            impl = VDSAnalysis.class.getName();
+            impl = "gov.fnal.elab.analysis.VDSAnalysis";
         }
         else if ("vds-bean".equals(impl)) {
-            impl = BeanWrapper.class.getName();
-        }
-        else if ("generic".equals(impl)) {
-        	impl = GenericAnalysis.class.getName();
+            impl = "gov.fnal.elab.analysis.BeanWrapper";
         }
 
         setVDSHome(elab);

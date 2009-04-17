@@ -29,13 +29,6 @@ public class ElabGroup {
     private String year, city, state, school, teacher;
     private String namelc;
     private Map groups, students, attributes;
-    
-    // Used only if a group is in a study
-    private boolean study = false;
-    
-    // New survey framework stuff. Default handler for LIGO, CMS. Optional for COSMIC. 
-    private boolean newSurvey = false;
-    private Integer newSurveyId;
 
     private ElabUserManagementProvider provider;
 
@@ -431,9 +424,6 @@ public class ElabGroup {
         sb.append("survey=");
         sb.append(survey);
         sb.append(", ");
-        sb.append("newsurvey=");
-        sb.append(newSurveyId);
-        sb.append(", ");
         sb.append("userDirURL=");
         sb.append(userDirURL);
         sb.append(", ");
@@ -445,32 +435,4 @@ public class ElabGroup {
         sb.append("]");
         return sb.toString();
     }
-
-	public void setNewSurveyId(Integer newSurveyId) {
-		this.newSurveyId = newSurveyId;
-	}
-
-	public Integer getNewSurveyId() {
-		return newSurveyId;
-	}
-	
-	public void setNewSurveyId(int id) {
-		this.newSurveyId = new Integer(id);
-	}
-
-	public void setNewSurvey(boolean newSurvey) {
-		this.newSurvey = newSurvey;
-	}
-
-	public boolean isNewSurvey() {
-		return newSurvey;
-	}
-
-	public void setStudy(boolean study) {
-		this.study = study;
-	}
-
-	public boolean isStudy() {
-		return study;
-	}
 }

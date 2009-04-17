@@ -70,6 +70,7 @@
 				<div class="logogroup">
 					<img src="../graphics/logo1sm.gif"/>
 					<img src="../graphics/seal.gif"/>
+					<img src="../graphics/logoos.jpg"/>
 				</div>
 			</div>
 		
