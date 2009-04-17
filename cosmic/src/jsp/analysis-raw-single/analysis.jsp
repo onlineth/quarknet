@@ -33,7 +33,7 @@
 			<e:trinput type="hidden" name="inFile"/>
 			<e:trdefault name="outFile" value="${outFile}"/>
 			<e:ifAnalysisIsOk>
-				<jsp:include page="../analysis/start.jsp?continuation=../analysis-raw-single/output.jsp&onError=../analysis-raw-single/analysis.jsp"/>
+				<jsp:include page="../analysis/start.jsp?continuation=../analysis-raw-single/output.jsp"/>
 			</e:ifAnalysisIsOk>
 			<e:ifAnalysisIsNotOk>
 			
