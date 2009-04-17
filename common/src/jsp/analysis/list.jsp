@@ -46,15 +46,13 @@
 			</th>
 			<th>ID</th>
 			<th>Analysis</th>
-			<th>Run Mode</th>
-			<th>Start Time (UTC)</th>
-			<th>End Time (UTC)</th>
-			<th>Time (Actual/Est.)</th>
+			<th>Start Time</th>
+			<th>End Time</th>
 			<th>Status</th>
 		</tr>
 		<c:choose>
 			<c:when test="${empty runs}">
-				<tr id="nostudies"><td colspan="8"><h3>There are no studies in the list</h3></td></tr>
+				<tr id="nostudies"><td colspan="6"><h3>There are no studies in the list</h3></td></tr>
 			</c:when>
 			<c:otherwise>
 				<fmt:setTimeZone value="UTC"/>
@@ -71,10 +69,7 @@
 						</td>
 						<td>${run.id}</td>
 						<td>
-							<a href="status.jsp?id=${run.id}">${run.analysis.name}</a>
-						</td>
-						<td>
-							${run.attributes.runMode}
+							<a href="status.jsp?id=${run.id}">${run.analysis.type}</a>
 						</td>
 						<td>
 							<c:choose>
@@ -82,7 +77,7 @@
 									N/A
 								</c:when>
 								<c:otherwise>
-									<fmt:formatDate pattern="MM/dd/yy'&nbsp;'HH:mm:ss" value="${run.startTime}"/>
+									<fmt:formatDate pattern="MM/dd/yy HH:mm:ss zzz" value="${run.startTime}"/>
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -92,14 +87,11 @@
 									N/A
 								</c:when>
 								<c:otherwise>
-									<fmt:formatDate pattern="MM/dd/yy'&nbsp;'HH:mm:ss" value="${run.endTime}"/>
+									<fmt:formatDate pattern="MM/dd/yy HH:mm:ss zzz" value="${run.endTime}"/>
 								</c:otherwise>
 							</c:choose>
 						</td>
-						<td align="center">
-							${run.formattedRunTime}&nbsp;/&nbsp;${run.formattedEstimatedRunTime}
-						</td>
-						<td width="148px">
+						<td>
 							<table border="0">
 								<tr>
 									<td>
@@ -130,7 +122,7 @@
 	<script language="JavaScript" type="text/javascript">
 		registerUpdate("status-async.jsp?id=all", update);
 							
-		function update(data, error) {
+		function update(data) {
 			if (data["ids"] != null) {
 				var ids = data["ids"].split(",");
 				
@@ -140,11 +132,8 @@
 					var status = data["status" + id];
 					var progress = data["progress"+ id];
 					var name = data["name" + id];
-					var mode = data["mode" + id];
 					var startTime = data["startTime" + id];
 					var endTime = data["endTime" + id];
-					var elapsed = data["elapsedTime" + id];
-					var estimated = data["estimatedTime" + id];
 					if (!startTime) {
 						startTime = "N/A";
 					}
@@ -166,12 +155,9 @@
 							row.insertCell(0).innerHTML = "<input type=\"checkbox\" name=\"id\" value=\"" + id + "\"/>";
 							row.insertCell(1).innerHTML = id;
 							row.insertCell(2).innerHTML = "<a href=\"status.jsp?id=" + id + "\">" + name + "</a>";
-							row.insertCell(3).innerHTML = mode;
-							row.insertCell(4).innerHTML = startTime;
-							row.insertCell(5).innerHTML = endTime;
-							row.cells.item(5).id = "endTime" + id;
-							row.insertCell(6).innerHTML = "<span id=\"elapsed" + id + "\">" + elapsed + "</span>&nbsp;/&nbsp;" + estimated;
-							row.cells[6].align="center";
+							row.insertCell(3).innerHTML = startTime;
+							row.insertCell(4).innerHTML = endTime;
+							row.cells.item(4).id = "endTime" + id;
 							
 							var hstatus =  "<table border=\"0\"><tr><td>" +
 								 "<img id=\"imgstatus" + id + "\" src=\"../graphics/" + status + ".png\"/></td>" +
@@ -187,8 +173,7 @@
 							}
 							hstatus += "</tr></table>";
 								
-							row.insertCell(7).innerHTML = hstatus;
-							row.cells[7].align="right";
+							row.insertCell(5).innerHTML = hstatus;
 						}
 						else {
 							imgstatus.src = "../graphics/" + status + ".png";
@@ -200,10 +185,6 @@
 							if (tdprogress != null) {
 								tdprogress.width = (progress*99+1) + "%";
 							}
-							var spelapsed = document.getElementById("elapsed" + id);
-							if (spelapsed != null) {
-								spelapsed.innerHTML = elapsed;
-							}
 							if (status == "Completed") {
 								var et = document.getElementById("endTime" + id);
 								if (et != null) {
@@ -211,8 +192,7 @@
 								}
 								var progressbar = document.getElementById("progressbar" + id);
 								if (progressbar != null) {
-									progressbar.parentNode.style.visibility = "hidden";
-									progressbar.parentNode.style.display = "none";
+									progressbar.style.visibility = "hidden";
 								}
 							}
 						}
