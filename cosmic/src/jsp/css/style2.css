@@ -130,7 +130,7 @@
 	width: 790px;
 	margin-left: auto;
 	margin-right: auto;
-	font-size: 9pt;
+	font-size: 100%;
 }
 
 #content h1 {
@@ -158,7 +158,6 @@ table#main {
 .tab-title {
 	display: block;
 	width: 104px;
-	font-size: 11pt;
 }
 
 

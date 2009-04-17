@@ -30,12 +30,6 @@ public interface ElabAnalysis {
      * can make sense of this type.
      */
     void setType(String type);
-    
-    /**
-     * Returns a user-friendly name for the analysis. Typically
-     * this would be done by stripping the namespace off the type.
-     */
-    String getName();
 
     /**
      * Sets the value of a parameter for this analysis
@@ -123,16 +117,4 @@ public interface ElabAnalysis {
     String getEncodedParameters();
     
     void initialize(String param) throws InitializationException;
-    
-    AnalysisParameterTransformer getParameterTransformer();
-
-    void setParameterTransformer(AnalysisParameterTransformer parameterTransformerInstance);
-    
-    void setAttribute(String name, Object value);
-    
-    Object getAttribute(String name);
-    
-    void setAttributes(Map attributes);
-    
-    Map getAttributes();
 }
