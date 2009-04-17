@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>LIGO Project Page</title>
+		<title>Cosmic Project Page</title>
 		<link rel="stylesheet" type="text/css" href="../css/style2.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/project.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/three-column.css"/>
@@ -66,6 +66,7 @@ underneath LIGO's ultra-sensitive interferometers.</p>
 					<td class="logogroup">
 						<img src="../graphics/logo1sm.gif" />
 						<img src="../graphics/seal.gif" />
+						<img src="../graphics/logoos.jpg" />
 					</td>
 				</tr>
 			</table>

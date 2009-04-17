@@ -7,13 +7,9 @@ import gov.fnal.elab.Elab;
 import gov.fnal.elab.RawDataFileResolver;
 import gov.fnal.elab.analysis.AbstractAnalysisRun;
 import gov.fnal.elab.analysis.AnalysisExecutor;
-import gov.fnal.elab.analysis.AnalysisParameterTransformer;
 import gov.fnal.elab.analysis.AnalysisRun;
 import gov.fnal.elab.analysis.ElabAnalysis;
-import gov.fnal.elab.analysis.NullAnalysisParameterTransformer;
 import gov.fnal.elab.analysis.ProgressTracker;
-import gov.fnal.elab.estimation.Estimator;
-import gov.fnal.elab.tags.AnalysisRunTimeEstimator;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -43,10 +39,11 @@ import org.griphyn.vdl.util.VDL2Config;
  * Runs analyses with Swift. Doble Yay!
  */
 public class SwiftAnalysisExecutor implements AnalysisExecutor {
-    private static final Map trees;
+    private static final Map trees, progress;
 
     static {
         trees = new HashMap();
+        progress = new HashMap();
     }
 
     protected synchronized static ElementTree getTree(Elab elab, String file)
@@ -67,8 +64,10 @@ public class SwiftAnalysisExecutor implements AnalysisExecutor {
         return run;
     }
 
+    private static ProgressTracker pTracker = new ProgressTracker();
+
     public class Run extends AbstractAnalysisRun implements Serializable {
-        private String runDir, runDirUrl, runID, runMode;
+        private String runDir, runDirUrl;
         private volatile transient double progress;
         private transient VDL2ExecutionContext ec;
         private transient OutputChannel out;
@@ -91,7 +90,7 @@ public class SwiftAnalysisExecutor implements AnalysisExecutor {
                             .setProperty("java.security.egd",
                                     "file:/dev/urandom");
                 }
-                runID = Loader.getUUID();
+                String runID = Loader.getUUID();
                 if (egd != null) {
                     // oddly enough, there is no way to remove a system property
                     System.setProperty("java.security.egd", egd);
@@ -103,6 +102,7 @@ public class SwiftAnalysisExecutor implements AnalysisExecutor {
                 ec = new VDL2ExecutionContext(tree, projectName);
                 ec.setArguments(argv);
                 out = new OutputChannel(runID);
+                out.setPattern("completed");
                 ec.setStderr(out);
                 ec.setStdout(out);
                 ec.setRunID(runID);
@@ -115,37 +115,29 @@ public class SwiftAnalysisExecutor implements AnalysisExecutor {
 
                 VDL2Config conf = VDL2Config.getConfig(getElab()
                         .getAbsolutePath("/WEB-INF/classes/swift.properties"));
-                runMode = (String) getAttribute("runMode");
+                String runMode = (String) getAttribute("runMode");
+                if (runMode != null) {
+                    String poolFile = "sites.xml";
+                    if ("local".equals(runMode)) {
+                        poolFile = "sites-local.xml";
+                    }
+                    else if ("mixed".equals(runMode)) {
+                        poolFile = "sites-mixed.xml";
+                    }
+                    else if ("grid".equals(runMode)) {
+                        poolFile = "sites-grid.xml";
+                    }
+                    else if ("i2u2".equals(runMode)) {
+                        poolFile = "sites-i2u2-cluster.xml";
+                    }
+                    conf.setProperty("sites.file", getElab().getAbsolutePath(
+                            "/WEB-INF/classes")
+                            + File.separator
+                            + "etc"
+                            + File.separator
+                            + poolFile);
+                }
                 
-                if (runMode == null) {
-                    runMode = "local";
-                }
-
-                String poolFile = "sites.xml";
-                if ("local".equals(runMode)) {
-                    poolFile = "sites-local.xml";
-                }
-                else if ("mixed".equals(runMode)) {
-                    poolFile = "sites-mixed.xml";
-                }
-                else if ("grid".equals(runMode)) {
-                    poolFile = "sites-grid.xml";
-                }
-                else if ("i2u2".equals(runMode)) {
-                    poolFile = "sites-i2u2-cluster.xml";
-                }
-                else if ("coaster".equals(runMode)) {
-                    poolFile = "sites-grid-coaster.xml";
-                }
-                conf.setProperty("sites.file", getElab().getAbsolutePath(
-                        "/WEB-INF/classes")
-                        + File.separator + "etc" + File.separator + poolFile);
-
-                Estimator p = AnalysisRunTimeEstimator.getEstimator(getElab(), "swift",
-                        runMode, getAnalysis().getType());
-                setAttribute("estimatedTime", new Integer(p.estimate(getElab(),
-                        getAnalysis())));
-
                 stack.setGlobal(ConfigProperty.INSTANCE_CONFIG, conf);
                 stack.setGlobal("swift.home", home);
                 stack.setGlobal("vds.home", home);
@@ -171,14 +163,8 @@ public class SwiftAnalysisExecutor implements AnalysisExecutor {
         }
 
         private List getArgv() {
-            AnalysisParameterTransformer tr = getAnalysis()
-                    .getParameterTransformer();
-            if (tr == null) {
-                tr = new NullAnalysisParameterTransformer();
-            }
             List argv = new ArrayList();
-            Iterator i = tr.transform(getAnalysis().getParameters()).entrySet()
-                    .iterator();
+            Iterator i = getAnalysis().getParameters().entrySet().iterator();
             while (i.hasNext()) {
                 Map.Entry e = (Map.Entry) i.next();
                 addArg(argv, (String) e.getKey(), e.getValue());
@@ -267,9 +253,7 @@ public class SwiftAnalysisExecutor implements AnalysisExecutor {
                 return;
             }
             else if (ec.done() && !updated) {
-                setEndTime(new Date());
                 if (ec.isFailed()) {
-                    log("SWIFT_FAILURE");
                     if (ec.getFailure() == null) {
                         setException(new Exception(getStdErrStuff()));
                     }
@@ -279,7 +263,12 @@ public class SwiftAnalysisExecutor implements AnalysisExecutor {
                     setStatus(STATUS_FAILED);
                 }
                 else {
-                    log("SWIFT_SUCCESS");
+                    System.out.println("Execution time: "
+                            + (ec.getEndTime() - ec.getStartTime()) + "ms");
+                    if (out.getPatternCounter() != 0) {
+                        pTracker.setTotal(getAnalysis().getType(), out
+                                .getPatternCounter());
+                    }
                     File[] f = new File(runDir).listFiles(new FileFilter() {
                         public boolean accept(File pathname) {
                             return pathname.getName().endsWith(".dot");
@@ -296,21 +285,14 @@ public class SwiftAnalysisExecutor implements AnalysisExecutor {
                 }
                 updated = true;
                 this.ec = null;
+                setEndTime(new Date());
             }
             else {
-                if (out.getTotal() != 0) {
-                    setProgress((double) out.getCurrent() / out.getTotal());
+                int total = pTracker.getTotal(getAnalysis().getType());
+                if (total != -1) {
+                    setProgress(((double) out.getPatternCounter()) / total);
                 }
             }
-        }
-
-        private void log(String stuff) {
-            System.out.println(stuff + ", runid=" + runID + ", time="
-                    + (getEndTime().getTime() - getStartTime().getTime())
-                    + ", startTime=" + getStartTime().getTime()
-                    + ", estimated=" + getAttribute("estimatedTime")
-                    + ", type=" + getAnalysis().getType() + ", runMode="
-                    + runMode);
         }
 
         protected String getStdErrStuff() {
@@ -320,12 +302,12 @@ public class SwiftAnalysisExecutor implements AnalysisExecutor {
             boolean on = false;
             while (st.hasMoreTokens()) {
                 String line = st.nextToken().trim();
-                if (line.startsWith("stdout.txt:")) {
+                if (line.startsWith("STDOUT:")) {
                     on = false;
                 }
-                else if (line.startsWith("stderr.txt: ")) {
+                else if (line.startsWith("STDERR: ")) {
                     on = true;
-                    line = line.substring("stderr.txt: ".length());
+                    line = line.substring("STDERR: ".length());
                 }
                 if (on) {
                     sb.append(line);

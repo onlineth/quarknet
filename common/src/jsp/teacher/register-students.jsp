@@ -8,8 +8,7 @@
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">		
-
-<%@page import="org.apache.commons.lang.StringUtils"%><html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>Register Students</title>
@@ -33,32 +32,6 @@
 			<div id="content">
 
 <%
-	int newSurveyId = -1; 
-	boolean teacherInStudy = "yes".equalsIgnoreCase(request.getParameter("eval"));
-
-	if (teacherInStudy) {
-		if (user.getNewSurveyId() == null) { 
-			if (elab.getId().equals("1")) {
-				newSurveyId = Integer.parseInt(elab.getProperty("cosmic.newsurvey"));
-				user.setNewSurveyId(newSurveyId);
-			}
-			// set handlers for everything else. 
-		}
-		else {
-			newSurveyId = user.getNewSurveyId().intValue();
-		}
-		
-		// Quick check to make sure this works properly 
-		%> <i>You have agreed to enter our study</i><% 
-		
-		// Set teacher's database flag so we know he or she is in the survey.
-		if (user.isStudy() == false) {
-			elab.getUserManagementProvider().setTeacherInStudy(user, newSurveyId); 
-			user.setStudy(true);
-			// set this in the database. 
-		}
-	}
-
 	String optionList = "<option value=\"discard\">Choose group</option>";
 	for (Iterator ite = user.getGroups().iterator(); ite.hasNext();) {
 		ElabGroup group = (ElabGroup) ite.next();
@@ -83,10 +56,6 @@
 				String survey = request.getParameter("is_survey" + formNum);
 				
 				boolean isNewGroup = true;
-				
-				boolean groupInSurvey = (StringUtils.containsIgnoreCase(survey, "yes") || 
-						StringUtils.containsIgnoreCase(survey, "true"));
-				
 				if (resName == null || resName.equals("Group Name")) {
 					resName = resNameChoose;
 					isNewGroup = false;
@@ -112,26 +81,7 @@
 				if ("yes".equalsIgnoreCase(upload) || "true".equalsIgnoreCase(upload)) {
 				    group.setRole(ElabUser.ROLE_UPLOAD);
 				}
-				
-				if (elab.getId().equals("1")) { // cosmic
-					if (teacherInStudy == true) { // New survey handler 
-						group.setSurvey(false); // old, deprecated handler
-						group.setStudy(groupInSurvey);
-						group.setNewSurvey(groupInSurvey);
-						group.setNewSurveyId(newSurveyId);
-					}
-					else {
-						group.setSurvey(groupInSurvey);	
-					}
-				}
-				else if (elab.getId().equals("2")) {
-					// TODO: LIGO 
-					// Anyone taking this test will be in the 'New Survey' system
-				}
-				else if (elab.getId().equals("3")) {
-					// TODO: CMS
-					// Anyone taking this test will be in the 'New Survey' system
-				}
+				group.setSurvey("yes".equalsIgnoreCase(survey) || "true".equalsIgnoreCase(survey));
 				students.add(newUser);
 				newGroups.add(Boolean.valueOf(isNewGroup));
 			}
@@ -209,7 +159,7 @@
 				</li>
 			</ul>
 			<form name="register" method="post" 
-				action="<%= elab.secure("teacher/register-students.jsp" + (teacherInStudy? "?eval=yes" : "")) %>"> 
+				action="<%= elab.secure("teacher/register-students.jsp") %>"> 
 
 			    <table cellpadding="0" cellspacing="0" border="0" align="center" width="800">
 					<%

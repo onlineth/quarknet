@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page buffer="none" %>
 <%@ page import="gov.fnal.elab.datacatalog.*" %>
 <%@ page import="gov.fnal.elab.datacatalog.query.*" %>
@@ -36,7 +37,41 @@
 
 <h1>Click on a poster to edit it.</h1>
 
-<%@ include file="edit.jspf" %>
+
+<%
+	And q = new And();
+	q.add(new Equals("type", "poster"));
+	q.add(new Equals("project", elab.getName()));
+	q.add(new Equals("group", user.getGroup().getName()));
+
+	ResultSet rs = elab.getDataCatalogProvider().runQuery(q);
+	request.setAttribute("posters", rs);
+%>
+
+<c:choose>
+	<c:when test="${empty posters}">
+		<h2>No posters found</h2>
+	</c:when>
+	<c:otherwise>
+		<table id="poster-list">
+			<tr>
+				<th>Poster Title to Edit</th>
+				<th>Poster File Name</th>
+			</tr>
+			<c:forEach items="${posters}" var="poster">
+				<tr>
+					<td>
+						<a href="../posters/new.jsp?posterName=${fn:substringBefore(poster.tupleMap.name, ".data")}">${poster.tupleMap.title}</a>
+					</td>
+					<td>
+						${fn:substringBefore(poster.tupleMap.name, ".data")}
+					</td>
+				</tr>
+			</c:forEach>
+		</table>		
+	</c:otherwise>
+</c:choose>
+
 
 			</div>
 			<!-- end content -->	

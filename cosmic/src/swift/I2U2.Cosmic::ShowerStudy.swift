@@ -6,27 +6,15 @@ type AxisParams {
 	string label;
 }
 
-(File thresholdData) ThresholdTimes(File rawData, string detector, string cpldfreq) {
+(File thresholdData[]) ThresholdTimes(File rawData[], string detector, string cpldfreqs) {
 	app {
-		ThresholdTimes @filename(rawData) @filename(thresholdData) detector cpldfreq;
+		ThresholdTimes @filename(rawData) @filename(thresholdData) detector cpldfreqs;
 	}
 }
 
-(File thresholdData[]) ThresholdTimesMultiple(File rawData[], string detectors[], string cpldfreqs[]) {
-	foreach data, i in rawData {
-		thresholdData[i] = ThresholdTimes(rawData[i], detectors[i], cpldfreqs[i]);
-	}
-}
-
-(File wireDelayData) WireDelay(File thresholdData, string geoDir, File geoFile) {
+(File wireDelayData[]) WireDelay(File thresholdData[], string geoDir, File geoFiles[]) {
 	app {
 		WireDelay @filename(thresholdData) @filename(wireDelayData) @filename(geoDir);
-	}
-}
-
-(File wireDelayData[]) WireDelayMultiple(File thresholdData[], string geoDir, File geoFiles[]) {
-	foreach td, i in thresholdData {
-		wireDelayData[i] = WireDelay(thresholdData[i], geoDir, geoFiles[i]);
 	}
 }
 
@@ -103,11 +91,11 @@ File rawData[] <fixed_array_mapper;files=@arg("rawData")>;
 //File thresholdAll[] <fixed_array_mapper;files=@arg("thresholdAll")>;
 //This is done to avoid corruption of threshold files when created
 //concurrently by multiple runs
-File thresholdAll[] <structured_regexp_mapper;source=rawData,match=".*/(.*)",transform="\\1.thresh">;
+File thresholdAll[] <structured_regexp_mapper;source=rawData,match=".*/(.*)",transform="\1.thresh">;
 File wireDelayData[] <fixed_array_mapper;files=@arg("wireDelayData")>;
 
-string  detectors[] = @strsplit(@arg("detector"), "\\s");
-string  cpldfreqs[] = @strsplit(@arg("cpldfreqs"), "\\s");
+string detector = @arg("detector");
+string cpldfreqs = @arg("cpldfreqs");
 
 File combineOut <single_file_mapper;file=@arg("combineOut")>;
 File sortOut <single_file_mapper;file=@arg("sortOut")>;
@@ -137,8 +125,8 @@ string sort_sortKey2 = @arg("sort_sortKey2");
 
 
 //the actual workflow
-thresholdAll = ThresholdTimesMultiple(rawData, detectors, cpldfreqs);
-wireDelayData = WireDelayMultiple(thresholdAll, geoDir, geoFiles);
+thresholdAll = ThresholdTimes(rawData, detector, cpldfreqs);
+wireDelayData = WireDelay(thresholdAll, geoDir, geoFiles);
 combineOut = Combine(wireDelayData);
 sortOut = Sort(combineOut, sort_sortKey1, sort_sortKey2);
 eventCandidates = EventSearch(sortOut, gate, detectorCoincidence, channelCoincidence,
