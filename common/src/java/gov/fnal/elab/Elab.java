@@ -5,7 +5,6 @@ package gov.fnal.elab;
 
 import gov.fnal.elab.analysis.AnalysisExecutor;
 import gov.fnal.elab.datacatalog.DataCatalogProvider;
-import gov.fnal.elab.survey.ElabSurveyProvider;
 import gov.fnal.elab.test.ElabTestProvider;
 import gov.fnal.elab.usermanagement.AuthenticationException;
 import gov.fnal.elab.usermanagement.ElabUserManagementProvider;
@@ -35,7 +34,7 @@ import javax.servlet.jsp.PageContext;
 public class Elab {
     private static Map elabs;
     private static Elab global;
-
+    
     private static int sid = 0;
 
     /**
@@ -58,7 +57,7 @@ public class Elab {
             throws ElabInstantiationException {
         return getElab(context, name, "elab.properties." + name);
     }
-
+    
     /**
      * Retrieves the Elab object associated with the given name or instantiates
      * a new one if it does not already exist. The elab will be initialized with
@@ -221,10 +220,9 @@ public class Elab {
             }
         }
         catch (Exception e) {
-            System.out.println("Failed to update elab id for " + name
-                    + ". Using elab name as ID.");
-            e.printStackTrace();
-            this.id = String.valueOf(sid++);
+        	System.out.println("Failed to update elab id for " + name + ". Using elab name as ID.");
+        	e.printStackTrace();
+        	this.id = String.valueOf(sid++);
         }
         finally {
             DatabaseConnectionManager.close(conn, s);
@@ -383,19 +381,14 @@ public class Elab {
     public String getProperty(String name) {
         return properties.getProperty(name);
     }
-    
-    public ElabSurveyProvider getSurveyProvider() { 
-    	return ElabFactory.getSurveyProvider(this);
-    }
 
     /**
-     * Returns a secure URL for the given page. This depends on the values in
-     * <code>elab.properties</code>. The page is specified relative to the
-     * elab. Consequently it should not include the elab name or the web
-     * application name.
+     * Returns a secure URL for the given page. This depends on the values
+     * in <code>elab.properties</code>. The page is specified relative to the
+     * elab. Consequently it should not include the elab name or the web application
+     * name.
      * 
-     * @param page
-     *            The page to provide a secure URL for
+     * @param page The page to provide a secure URL for
      * @return A secure URL to access the specified page
      */
     public String secure(String page) {
@@ -403,44 +396,15 @@ public class Elab {
                 + properties.getWebapp() + '/' + getName() + '/' + page;
     }
     
-    public String nonSecure(String page) {
-    	return getURL() + '/' + properties.getWebapp() + '/' + getName() + '/' + page;
-    }
-    
-    private String getURL() {
-    	String url = properties.getProperty("elab.url");
-    	if (url == null || url.equals("")) {
-    		url = "http://" + properties.getRequired("elab.host");
-    		String port = properties.getProperty("elab.port");
-    		if (port != null) {
-    			url = url + ":" + port;
-    		}
-    	}
-    	return url;
-    }
-
     public Map getAttributes() {
         return attributes;
     }
-
+    
     public void setAttribute(String name, Object value) {
         attributes.put(name, value);
     }
-
+    
     public Object getAttribute(String name) {
         return attributes.get(name);
-    }
-
-    private Map realPaths;
-
-    /**
-     * Returns a lazy map that can be used to figure out the absolute paths of
-     * files relative to an elab.
-     */
-    public synchronized Map getRealPaths() {
-        if (realPaths == null) {
-            realPaths = new RealPathMap(this, context);
-        }
-        return realPaths;
     }
 }

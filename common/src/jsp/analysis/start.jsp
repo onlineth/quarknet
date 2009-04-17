@@ -10,7 +10,6 @@
 <%@ page import="gov.fnal.elab.analysis.*" %>
 <%@ page import="gov.fnal.elab.analysis.impl.vds.*" %>
 <%@ page import="gov.fnal.elab.analysis.impl.swift.*" %>
-<%@ page import="gov.fnal.elab.analysis.impl.shell.*" %>
 
 <%
 	ElabAnalysis analysis = (ElabAnalysis) request.getAttribute("elab:analysis");
@@ -20,15 +19,11 @@
 	else {
 		String runWith = request.getParameter("provider");
 		AnalysisExecutor ex;
-		
 		if ("vds".equals(runWith)) {
 			ex = new VDSAnalysisExecutor();
 		}
 		else if ("swift".equals(runWith)) {
 			ex = new SwiftAnalysisExecutor();
-		}
-		else if ("shell".equals(runWith)) {
-			ex = new ShellAnalysisExecutor();
 		}
 		else {
 			ex = elab.getAnalysisExecutor();
@@ -66,7 +61,6 @@
 	    String workflowRunMode = request.getParameter("runMode");
 		if (workflowRunMode != null) {
 			run.setAttribute("runMode", workflowRunMode);
-			analysis.setAttribute("runMode", workflowRunMode);
 		}
 	    
 	    AnalysisManager.registerAnalysisRun(elab, user, run);

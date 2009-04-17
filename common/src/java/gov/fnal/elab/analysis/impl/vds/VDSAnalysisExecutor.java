@@ -11,8 +11,6 @@ import gov.fnal.elab.analysis.BeanWrapper;
 import gov.fnal.elab.analysis.ElabAnalysis;
 import gov.fnal.elab.analysis.ProgressTracker;
 import gov.fnal.elab.beans.MappableBean;
-import gov.fnal.elab.estimation.Estimator;
-import gov.fnal.elab.tags.AnalysisRunTimeEstimator;
 import gov.fnal.elab.util.ElabException;
 import gov.fnal.elab.vds.ElabTransformation;
 
@@ -110,10 +108,6 @@ public class VDSAnalysisExecutor implements AnalysisExecutor {
                     sb.append("\n\nbailing out!");
                     throw new IllegalArgumentException(sb.toString());
                 }
-                
-                Estimator p = AnalysisRunTimeEstimator.getEstimator(getElab(), "vds", "local", getAnalysis().getType());
-                getAnalysis().setAttribute("estimatedTime", new Integer(p.estimate(getElab(), getAnalysis())));
-                
                 thread = new Thread(this);
                 thread.start();
                 setStatus(STATUS_RUNNING);
@@ -135,29 +129,17 @@ public class VDSAnalysisExecutor implements AnalysisExecutor {
                 et.close();
                 r.complete();
                 setStatus(STATUS_COMPLETED);
-                setEndTime(new Date());
-                log("VDS_SUCCESS");
             }
             catch (Throwable t) {
                 r.complete();
                 setException(t);
                 setStatus(STATUS_FAILED);
-                setEndTime(new Date());
-                log("VDS_FAILURE");
                 t.printStackTrace();
             }
             finally {
                 et = null;
+                setEndTime(new Date());
             }
-        }
-        
-        private void log(String status) {
-            System.out.println(status
-                            + ", time=" + (getEndTime().getTime() - getStartTime().getTime())
-                            + ", startTime=" + getStartTime().getTime()
-                            + ", estimated="
-                            + getAnalysis().getAttribute("estimatedTime")
-                            + ", type=" + getAnalysis().getType() + ", runMode=local");
         }
     }
 
@@ -210,7 +192,6 @@ public class VDSAnalysisExecutor implements AnalysisExecutor {
                     pos = raf.getFilePointer();
                     c = raf.read();
                 }
-                raf.close();
                 System.out.println("Run monitor finished");
                 if (total <= 0) {
                     pTracker.setTotal(run.getAnalysis().getType(), counted);
