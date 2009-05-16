@@ -10,7 +10,6 @@
 		<link rel="stylesheet" type="text/css" href="../css/style2.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/data.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/two-column.css"/>
-		<script type="text/javascript" src="../include/elab.js"></script>
 	</head>
 	
 	<body id="search_default" class="data">
@@ -44,21 +43,21 @@
 							- Look at data from a detector. Can you trust the data?
 						</p>
 						<p>
+							<a href="../analysis-lifetime">Lifetime Study</a>
+							- Do you live in Newton's or Einstein's world?
+						</p>
+						<p>
 							<a href="../analysis-flux">Flux Study</a>
-							- The shower of particles has many interesting properties including its 
+							- The rain of particles has many interesting properties including its 
 							<a href="javascript:glossary('flux')">flux</a>.
 							Are there more in Colorado than there are in South Carolina?
 						</p>
 						<p>
 							<a href="../analysis-shower">Shower Study</a>
-							- You can detect an air shower using the four counters at your school. 
+							- You can detect an air shower using the four panels at your school. 
 							Your colleagues at other schools will want to know when you detect one, 
 							so they can check for coincident showers at their school. Contribute 
 							to cutting-edge research on the origin of high-energy primary cosmic rays.
-						</p>
-						<p>
-							<a href="../analysis-lifetime">Lifetime Study</a>
-							- How long before muons decay? Combine a lifetime study with flux studies to determine whether you live in Newton's or Einstein's world.
 						</p>
 					</div>
 				</div>		
@@ -78,6 +77,10 @@
 							<a href="../plots">Plots</a>
 							- Look at what you and other groups have found!
 						</p>
+						<p>
+							<a href="../posters">Posters</a>
+							- View and create posters of your plots.
+						</p>
 						<h2>DELETE</h2>
 						<p>
 							<a href="../data/delete.jsp">Data Files</a>
@@ -87,6 +90,10 @@
 							<a href="../plots/delete.jsp">Plots</a>
 							- Delete plots your group owns.
 						</p>
+						<p>
+							<a href="../posters/delete.jsp">Posters</a>
+							- Delete posters your group has made.
+						</p>					
 					</div>
 				</div>
 			</div>

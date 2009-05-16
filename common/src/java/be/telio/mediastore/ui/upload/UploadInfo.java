@@ -90,8 +90,4 @@ public class UploadInfo
     {
         this.fileIndex = fileIndex;
     }
-    
-    public int getProgressPercent() {
-       	return (int) (100.0 * Math.floor((double) bytesRead / (double) totalSize));
-    }
 }

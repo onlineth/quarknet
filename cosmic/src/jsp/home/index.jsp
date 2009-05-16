@@ -8,8 +8,8 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>${elab.properties.formalName} e-Lab Home</title>
 		<link rel="stylesheet" type="text/css" href="../css/style2.css"/>
-		<link rel="stylesheet" type="text/css" href="../css/two-column-home.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/home.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/three-column.css"/>
 	</head>
 	
 	<body id="home" class="home">
@@ -18,7 +18,11 @@
 			<div id="top">
 				<div id="header">
 					<%@ include file="../include/header.jsp" %>
-					<%@ include file="../include/nav-rollover.jspf" %>
+					<div id="nav">
+						<c:if test="${user != null}">
+							<%@ include file="../include/nav.jsp" %>
+						</c:if>
+					</div>
 				</div>
 			</div>
 			
@@ -26,45 +30,43 @@
 				
 <h1>Join a national collaboration of high school students to study cosmic rays.</h1>
 
- 	 <c:if test="${user != null}">
-  
-	   <div id="links"><table align="center"><tr>
-	   <td width="150" align="center"><A href="cool-science.jsp"><img src="../graphics/cool-science-button.gif" border="0"><br>Cool Science</a></td>
-	   <td width="150" align="center"><a href="../site-index/site-map-anno.jsp"><img src="../graphics/site-map-button.gif" border="0"><br>Explore!</a></td>
-	   <td width="150"align="center"><a href="about-us.jsp"><img src="../graphics/about-us-button.gif" border="0"><br>About Us</a></td></tr></table></div>
-	  </c:if>  
-<h3>Your team may use the Project Milestones below, or your teacher may have other plans. Make sure you know how to record your progress, keep your teacher appraised of your work and publish your results. 
-</h3>
-
 <!-- there is no way to do this without tables unfortunately -->
 <table border="0" id="main">
-<!-- 
-	<tr>
-	    <td colspan="2">
- 	 <c:if test="${user != null}">
-  
-	   <div id="links"><A href="../library/big-picture.jsp">Cool Science</a> - <a href="../site-index/site-map-anno.jsp">Explore</a> - <a href="about-us.jsp">About Us</a></div>
-	  </c:if>  
-	    </td>
-	
-	
-	</tr>
- -->
 	<tr>
 		<td>
-	 <c:if test="${user != null}">
 			<div id="left">
-		<script type="text/javascript" src="../include/elab.js"></script>
-        <%@ include file="../login/login-required.jsp" %>
-	    <%@ include file="../library/milestones-map-student.jsp" %>
- 		</div>
-	  </c:if>  
- 	 <c:if test="${user == null}">
-		<div id="left-animation">
- 	    <%@ include file="../home/splash-home.html" %>
- 		</div>
+				<img src="../graphics/crop.jpg"/>
+			</div>
+		</td>
+		<td>
+			<div id="center">
+				<h2>Why cosmic rays?</h2>
+				<h3>Spending all your time in a shower?</h3>
 
-	  </c:if>  
+				<p>When you're sleeping or sitting in class, cosmic rays shower the earth and everything on it.</p>
+
+				<ul>
+					<li>What are cosmic rays?</li>
+					<li>Where do they come from?</li>
+					<li>Where do they hit?</li>
+				</ul>
+
+				<p>Some cosmic rays have so much energy that scientists are not sure where they come from. 
+				A number of reseach projects are looking at this question.</p>
+
+
+				<h2>Who are we?</h2>
+				<p>We're a collaboration of high school students and teachers collecting and analyzing 
+				cosmic ray data to answer some of these questions. We're working with
+				computer scientists to provide cutting edge tools that use <strong>grid techniques</strong>
+				to help you share data, graphs, and posters and collaborate with other students nationwide.</p>
+
+
+				<h2>Who can join?</h2>
+				<p><strong>You</strong>! Think about steps you'd take to investigate cosmic rays. 
+				How would you get started? What do you need to know? Can you collect and use data?</p>
+
+			</div>
 		</td>
 		<td>
 			<div id="right">

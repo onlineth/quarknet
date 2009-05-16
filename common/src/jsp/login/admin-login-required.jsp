@@ -4,17 +4,18 @@
 	ElabGroup user = ElabGroup.getUser(session);
 	request.setAttribute("request", request);
 	if (user == null || !user.isAdmin()) {
-%>
+		%>
+			<c:set var="postParams" scope="session" value="${request.parameterMap}"/>
 			<c:choose>
 				<c:when test="${request.queryString != null}">
 					<jsp:include page="../login/login.jsp">
-						<jsp:param name="prevPage" value="http://${elab.properties['elab.host']}/${pageContext.servletContext.servletContextName}${request.servletPath}?${request.queryString}"/>
+						<jsp:param name="prevPage" value="http://${elab.properties['elab.host']}:${elab.properties['elab.port']}/${pageContext.servletContext.servletContextName}${request.servletPath}?${request.queryString}"/>
 						<jsp:param name="message" value="You must log in as an administrator in order to access this page"/>
 					</jsp:include>
 				</c:when>
 				<c:otherwise>
 					<jsp:include page="../login/login.jsp">
-						<jsp:param name="prevPage" value="http://${elab.properties['elab.host']}/${pageContext.servletContext.servletContextName}${request.servletPath}"/>
+						<jsp:param name="prevPage" value="http://${elab.properties['elab.host']}:${elab.properties['elab.port']}/${pageContext.servletContext.servletContextName}${request.servletPath}"/>
 						<jsp:param name="message" value="You must log in as an administrator in order to access this page"/>
 					</jsp:include>
 				</c:otherwise>

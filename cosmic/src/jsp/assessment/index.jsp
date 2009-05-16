@@ -13,10 +13,12 @@
 	<body id="assessment" class="assessment">
 		<!-- entire page container -->
 		<div id="container">	
-			<div id="top" style="height:96px;">
+			<div id="top">
 				<div id="header">
 					<%@ include file="../include/header.jsp" %>
-					<%@ include file="../include/nav-rollover.jspf" %>
+					<div id="nav">
+						<%@ include file="../include/nav.jsp" %>
+					</div>
 				</div>
 			</div>
 			<div id="content">

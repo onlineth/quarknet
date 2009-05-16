@@ -39,16 +39,14 @@
 			<h2>Access LIGO data using Bluestone</h2>
 			
 			<p>
-				Bluestone is the analysis software for the LIGO e-Lab.
-		        It allows you to select and plot data from LIGO data
-		        channels, and it will eventually allow you to perform
-				more complex analyses using LIGO data.
+				Bluestone software allows you to select and plot data from 
+				LIGO data channels. 
 				<ul>
-				<li>FIrst, take the <a href="/ligo/tla/tutorial.php">Bluestone Tutorial</a> to 
-						to learn how to use this tool.
+				<li>Check out the <a href="../data/tutorial.jsp">Bluestone Tutorial</a> to 
+				improve your skills at using this tool.</li>
 				<li>Then fire up 
 				<a href="/ligo/tla/">Bluestone</a>
-				as you start investigating your research question.
+				as you start investigating your research question.</li>
 				</ul>
 			</p>
 			
@@ -86,26 +84,9 @@
 			</p>
 			
 			<h2>
-				Grid Computing
+				<a href="http://gridcafe.web.cern.ch/gridcafe/">Grids</a> - 
+				These investigations are brought to you by grid computing.
 			</h2>
-				<p>
-				Analysis of large amounts of data, like that produced by
-				LIGO, is made possible by <b>Grid computing</b>.
-		        Learn more about Grid computing here:
-
-				<UL>
-				<LI><a href="http://gridcafe.web.cern.ch/gridcafe/">
-						GridCafe</a> from CERN.
-		         <LI><a href="https://www.lsc-group.phys.uwm.edu/lscdatagrid/">
-						LSC DataGrid</a> - grid computing for the LIGO
-						Scientific Collbaration (LSC)
-		         <LI><a href="http://www.opensciencegrid.org/">
-						Open Science Grid</a> (OSG) 
-				 <LI><a href="http://www.wikipedia.org/wiki/Grid_computing"> 
-						Grid computing </a> article from Wikipedia
-				</UL>
-				</p>
-
 		</td>
 	</tr>
 </table>

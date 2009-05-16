@@ -61,7 +61,7 @@
 			
 			<div id="viewer">
 				<div class="title">
-					<a href="javascript:glossary('geometry')">Geometry</a> for ${param.filename == null ? param.id : param.filename}
+					Geometry for ${param.filename == null ? param.id : param.filename}
 					<c:if test="${param.filename == null}">
 						<fmt:formatDate pattern="MMM/dd/yy @ HH:mm" value="${g.date}"/> 
 						<a href="javascript:glossary('UTC')">UTC</a>

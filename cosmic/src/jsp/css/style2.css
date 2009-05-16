@@ -16,7 +16,7 @@
 	width: 100%;
 	background-color: black;
 	color: white;
-	height: 96px;
+	height: 68px;
 	text-align: center;
 }
 
@@ -157,7 +157,7 @@ table#main {
 
 .tab-title {
 	display: block;
-	width: 144px;
+	width: 104px;
 	font-size: 11pt;
 }
 

@@ -37,22 +37,35 @@
 			<div id="content">
 				
 <h1>Choose data for lifetime study.</h1>
-<div id="rationale">One way to classify objects is by measurable characteristics. All electrons have the same mass, charge and spin. What characteristics can you measure about the cosmic ray particles that reach Earth's surface? These unstable particles decay with a characteristic <a href="javascript:glossary('signal',350)">signal</a> in a characteristic time. Can you measure it? If so, that characteristic is one way to determine what the particles are.</div>
-<div id="rationale">Gain confidence by running a practice analysis.</div>
 
 <table border="0" id="main">
 	<tr>
 		<td>
 			<div id="ltbr">
 				<div id="top-left">
-					<jsp:include page="../data/multiselect-search-control.jsp">
+					<jsp:include page="../data/search-control.jsp">
 						<jsp:param name="type" value="split"/>
 					</jsp:include>
 				</div>
-				<div id="right">
-					<%@ include file="help.jsp" %>
-					<%@ include file="../data/legend.jsp" %>
-				</div>
+				<form action="analysis.jsp" method="get" id="results-form">
+					<div id="bottom-left">
+						<jsp:useBean scope="request" 
+							class="gov.fnal.elab.datacatalog.MultiSelectStructuredResultSetDisplayer" 
+							id="searchResultsDisplayer"/>
+						<div class="search-results">
+							<jsp:include page="../data/search-results.jsp"/>
+						</div>
+					</div>
+					<!-- this kind of nesting is an interesting problem -->
+					<div id="right">
+						<div id="analyze" class="study-right">
+							<h2>Analyze</h2>
+							<input type="submit" value="Run lifetime study"/>
+						</div>
+						<%@ include file="help.jsp" %>
+						<%@ include file="../data/legend.jsp" %>
+					</div>
+				</form>
 			</div>
 		</td>
 	</tr>

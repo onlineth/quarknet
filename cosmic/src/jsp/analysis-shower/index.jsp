@@ -37,21 +37,34 @@
 			<div id="content">
 				
 <h1>Choose data for shower study.</h1>
-<div id="rationale">The universe is a big place. Cosmic ray primaries drift around and get energy boosts from multiple sources. Some primaries attain enormous energies. When they strike the upper atmosphere, they create Extended Area Showers. These events create thousands of particles that simultaneously reach a small section of Earth's surface. Can you find out how often nearby detectors "light up" with cosmic rays? If they do, is it a random coincidence or a measurement of violent conditions in another galaxy?</div>
-<div id="rationale">Gain confidence by running a practice search.</div>
+
 <table border="0" id="main">
 	<tr>
 		<td>
 			<div id="ltbr">
 				<div id="top-left">
-					<jsp:include page="../data/multiselect-search-control.jsp">
+					<jsp:include page="../data/search-control.jsp">
 						<jsp:param name="type" value="split"/>
 					</jsp:include>
 				</div>
-				<div id="right">
-					<%@ include file="help.jsp" %>
-					<%@ include file="../data/legend.jsp" %>
-				</div>
+				<form action="analysis.jsp" method="get" id="results-form">
+					<div id="bottom-left">
+						<jsp:useBean scope="request" 
+							class="gov.fnal.elab.datacatalog.MultiSelectStructuredResultSetDisplayer" 
+							id="searchResultsDisplayer"/>
+						<div class="search-results">
+							<jsp:include page="../data/search-results.jsp"/>
+						</div>
+					</div>
+					<div id="right">
+						<div id="analyze" class="study-right">
+							<h2>Analyze</h2>
+							<input type="submit" value="Run shower study"/>
+						</div>
+						<%@ include file="help.jsp" %>
+						<%@ include file="../data/legend.jsp" %>
+					</div>
+				</form>
 			</div>
 		</td>
 	</tr>

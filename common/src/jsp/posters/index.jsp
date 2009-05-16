@@ -30,9 +30,7 @@
 			<div id="content">
 
 
-
 <h1>Post your results. Compare results. Draw conclusions!</h1>
-
 
 <table border="0" id="main">
 	<tr>
@@ -59,11 +57,6 @@
 							Doubt results, challenge ideas, replicate investigations, propose and analyze 
 							alternative explanations. These are all part of doing science. 
 						</p>
-							<p>
-    	                   View these sample <a href="../posters/poster-sample.html" target="poster">posters</a> 
-		                   and <a href="../posters/paper-sample.html" target="paper">papers</a>.
-	                       </p>
-
 					</div>
 				</div>
 			</div>
