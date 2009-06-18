@@ -57,37 +57,12 @@
 		    else {
 				//add the new registration information to research_group
 				ElabGroup group = user.getGroup(groupName);
-				int newSurveyId; 
-				boolean inSurvey = "yes".equals(survey);
 				if (group == null) {
 				    throw new ElabJspException("You are not the teacher for the specified group.");
 				}
 				group.setRole(role);
 				group.setYear(ay);
-				
-				if (group.getSurvey()) { // legacy handler, let the teacher remove them or do nothing. 
-					group.setSurvey(inSurvey); 
-				}
-				else if (inSurvey) { // anyone who is not in a survey but will be gets tossed to the new survey handler
-					group.setSurvey(false);
-					group.setNewSurvey(true);
-					if (user.getNewSurveyId() == null) { 
-						if (elab.getId().equals("1")) {
-							newSurveyId = Integer.parseInt(elab.getProperty("cosmic.newsurvey"));
-							user.setNewSurveyId(newSurveyId);
-						}
-						// set handlers for everything else. 
-					}
-					else {
-						newSurveyId = user.getNewSurveyId().intValue();
-					}
-					group.setNewSurveyId(newSurveyId);
-				}
-				else { // Not in any survey (legacy or otherwise)
-					group.setSurvey(false);
-					group.setNewSurvey(false);
-				}
-				
+				group.setSurvey("yes".equals(survey));
 				elab.getUserManagementProvider().updateGroup(group, passwd1);
 				if (studentsToDelete != null && studentsToDelete.length != 0) {
 					for (int j = 0; j < studentsToDelete.length; j++) {
@@ -155,7 +130,7 @@
 				</td>
 				<td>
 					<c:choose>
-						<c:when test="${group.survey || group.newSurvey }">
+						<c:when test="${group.survey}">
 							<input type="radio" name="survey" value="no">No</input>
 							<input type="radio" name="survey" value="yes" checked>Yes</input>
 						</c:when>
