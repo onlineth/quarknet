@@ -37,17 +37,22 @@
 			<%@ include file="../include/left-alt.jsp" %>
 		</td>
 		<td id="center">
-			<h2>Library: Use the e-Lab library of reference material as you work</h2>
+			<h2>Use the E-Lab library of resources as you work</h2>
 			<ul>
 				<li>
-					<a href="/library/index.php/LIGO_Glossary">The Glossary</a> - Look up terms you don't know.
+					<a href="research-basics.jsp">The Basics</a> - Review research skills that 
+					you will need for this project.
+				</li>
+				<li>
+					<a href="milestones-map.jsp">Study Guide</a> - Measure your progress
+					as you work.
 				</li>
 				<li>
 					<a href="resources.jsp">Resources</a> - Explore online resources 
-					that will help you conduct your e-Lab investigation. A 
+					that will help you conduct your E-Lab investigation. A 
 					<a href="../data/tutorial.jsp">tutorial</a> will help you learn to use 
 					<a href="/ligo/tla/">Bluestone</a>, 
-					LIGO's e-Lab data analysis software
+					LIGO's E-Lab data analysis software
 				</li>
 				<li>
 					<a href="big-picture.jsp">Big Picture</a> - Read an overview of 
@@ -57,10 +62,7 @@
 					<a href="FAQ.jsp">FAQs</a> - Read the FAQs for answers to your questions.
 				</li>
 				<li>
-					<a href="site-tips.jsp">Site Tips</a> - Check out tips on how to use the website.
-				</li>
-				<li>
-				<a HREF="milestones.jsp">Project Milestones (text)</a> - An alternate version.
+					<a href="../site-index">Site Help</a> - Learn how to use the website.
 				</li>
 			</ul>
 		</td>

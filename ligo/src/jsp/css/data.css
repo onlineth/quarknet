@@ -61,9 +61,6 @@ h1 {
 .tutorial		 	#subnav a[href="../data/tutorial1.jsp"] {
 	font-style: italic;
 }
-#search-plots		 	#subnav a[href="../plots/"] {
-	font-style: italic;
-}
 
 #nav #subnav ul li:first-child a {
 	border-left: none;

@@ -1,11 +1,7 @@
 <%@ include file="../include/elab.jsp" %>
 <%@ include file="../login/login-required.jsp" %>
 
-<%
-response.sendRedirect("/elab/ligo/home/");
-%>
 
-<%--
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -37,11 +33,11 @@ response.sendRedirect("/elab/ligo/home/");
 		</td>
 		<td id="center">
 			<div class="float-right bordered">
-				<a class="button" href="first-web.jsp">Start Your e-Lab Here!</a>
+				<a class="button" href="first-web.jsp">Start Your E-Lab Here!</a>
 				<%@ include file="../posters/poster-sample-small.jsp" %>
 			</div>
 
-			<h2>Join the LIGO I2U2 e-Lab Collaboration!</h2>
+			<h2>Join the LIGO I2U2 E-Lab Collaboration!</h2>
 			<p>Here's your chance to do a research study.</p>
 			<ul>
 				<li>Ask a question and make a research plan</li>
@@ -74,4 +70,3 @@ response.sendRedirect("/elab/ligo/home/");
 		<!-- end container -->
 	</body>
 </html>
---%> 
