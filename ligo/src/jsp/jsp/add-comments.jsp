@@ -36,7 +36,12 @@ String fileType=request.getParameter("t");
 			<div id="top">
 				<div id="header">
 					<%@ include file="../include/header.jsp" %>
-					<%@ include file="../include/nav-rollover.jsp" %>
+					<div id="nav">
+						<%@ include file="../include/nav.jsp" %>
+						<div id="subnav">
+							<%@ include file="../include/nav-posters.jsp" %>
+						</div>
+					</div>
 				</div>
 			</div>
 			
@@ -48,7 +53,7 @@ String fileType=request.getParameter("t");
 			<%@ include file="../include/left-alt.jsp" %>
 		</td>
 		<td id="center">
-			<h1>Add Comments</h1>
+			<h2>Add Comments</h2>
 
 <%
 String dateString=new String();

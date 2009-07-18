@@ -1,21 +1,26 @@
-#sub-library {
-	display: none; 
+h1 {
+	background-color: #55a9b4;
+	color: #000000;
 }
 
-#sub-data {
-	display: block; 
+.data #center h1 {
+	font-weight: normal;
+	font-size: 140%;
+	width: 100%;
+	padding-bottom: 6px;
+	border-bottom: solid 2px orange;
+	margin-left: 0px;
 }
 
-#sub-posters {
-	display: none; 
-}
-
-#sub-siteindex {
-	display: none; 
-}
-
-a#nav-data {
-	font-style: italic;
+.data #center h2 {
+	display: inline;
+	padding-bottom: 6px;
+	border-bottom: solid 2px #666666;
+	margin-left: 0px;
+	font-family: verdana, arial, sans-serif;
+	font-weight: bold;
+	font-size: 120%;
+	color: #333399;
 }
 
 .data #center em {
@@ -37,14 +42,23 @@ a#nav-data {
 	padding-bottom: 6px;
 }
 
+#nav {
+	width: 100%;
+	left: 0px;
+	top: 74px;
+	height: 20px;
+}
+
+#nav #subnav li a {
+	color: #000066;
+	border-left: 3px solid;
+}
+
 /*
 	Italicisize corresponding subnav item
 */
 #data			 	#subnav a[href="../data"],
 .tutorial		 	#subnav a[href="../data/tutorial1.jsp"] {
-	font-style: italic;
-}
-#search-plots		 	#subnav a[href="../plots/"] {
 	font-style: italic;
 }
 

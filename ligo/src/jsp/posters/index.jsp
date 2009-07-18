@@ -18,7 +18,12 @@
 			<div id="top">
 				<div id="header">
 					<%@ include file="../include/header.jsp" %>
-					<%@ include file="../include/nav-rollover.jsp" %>
+					<div id="nav">
+						<%@ include file="../include/nav.jsp" %>
+						<div id="subnav">
+							<%@ include file="../include/nav-posters.jsp" %>
+						</div>
+					</div>
 				</div>
 			</div>
 			
@@ -30,7 +35,7 @@
 			<%@ include file="../include/left-alt.jsp" %>
 		</td>
 		<td id="center">
-			<h1>Posters: Post your results. Compare results. Draw conclusions.</h1>
+			<h2>Poster Tools</h2>
 			<p>
 				Congratulations!
 				You've developed a research question and planned 
@@ -39,17 +44,16 @@
 			<p>
 				Now you will create an on-line poster summarizing your
 				work, using the poster tools provided here.
-				Use the submenu
+				Use the menu of links presented here
+				(or above each poster tool page)
 				to create, edit, and view your poster.
 				Your classmates will view your finished poster,
 				and will provide you with feedback on your investigation.
 			</p>
 
-<!-- 
 		    <blockquote>
 			<%@ include file="../include/nav-posters.jsp" %>
 		    </blockquote>
- -->
 
 		</td>
 	</tr>

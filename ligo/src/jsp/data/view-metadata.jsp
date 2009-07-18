@@ -27,7 +27,12 @@
 				<div id="top">
 					<div id="header">
 						<%@ include file="../include/header.jsp" %>
-						<%@ include file="../include/nav-rollover.jsp" %>
+						<div id="nav">
+							<%@ include file="../include/nav.jsp" %>
+							<div id="subnav">
+								<%@ include file="../include/nav-data.jsp" %>
+							</div>
+						</div>
 					</div>
 				</div>
 			</c:if>

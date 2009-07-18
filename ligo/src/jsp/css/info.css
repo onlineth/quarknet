@@ -1,3 +1,17 @@
+h1 {
+	background-color: #55a9b4;
+	color: #000000;
+}
+
+.info #center h1 {
+	font-weight: normal;
+	font-size: 140%;
+	width: 100%;
+	padding-bottom: 6px;
+	border-bottom: solid 2px orange;
+	margin-left: 0px;
+}
+
 .info #center h2 {
 	display: inline;	
 	padding-bottom: 6px;
@@ -27,17 +41,9 @@
 	height: 20px;
 }
 
-
-ul.nav-info li {
-	display: inline; 
-}
-
-ul.nav-info li:after {
-	content: " -" ; 
-}
-
-ul.nav-info li:last-child:after {
-	content: "" ; 
+#nav #subnav li a {
+	color: #990066;
+	border-left: 3px solid;
 }
 
 /*

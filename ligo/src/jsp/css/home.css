@@ -1,3 +1,25 @@
+#content #center {
+	padding-top: 40px;
+	padding-left: 8px;
+}
+
+.home #center h2 {
+	display: inline;	
+	padding-bottom: 6px;
+	border-bottom: solid 2px #666666;
+	margin-left: 0px;
+	font-family: Arial, sans-serif;
+	font-weight: bold;
+	font-size: 120%;
+	color: #333399;
+}
+
+.home #center h3 {
+	font-weight: bold;
+	font-size: 120%;
+	margin-left: 10px;
+}
+
 .home #center p {
 	font-weight: normal;
 	margin-left: 10px;
@@ -41,8 +63,11 @@
 	padding-bottom: 6px;
 }
 
-a#nav-home {
-	text-decoration: underline;
+#nav {
+	width: 100%;
+	left: 0px;
+	top: 74px;
+	height: 20px;
 }
 
 #first-web #center em {

@@ -242,9 +242,9 @@ if [ ! -x "$EXEC" ]; then
 fi
 if [ "$KICKSTART" == "" ]; then
 	if [ "$STDIN" == "" ]; then
-		nice "$EXEC" "$@" 1>"$STDOUT" 2>"$STDERR"
+		"$EXEC" "$@" 1>"$STDOUT" 2>"$STDERR"
 	else
-		nice "$EXEC" "$@" 1>"$STDOUT" 2>"$STDERR" <"$STDIN"
+		"$EXEC" "$@" 1>"$STDOUT" 2>"$STDERR" <"$STDIN"
 	fi
 	checkError $? "Exit code $?"
 else

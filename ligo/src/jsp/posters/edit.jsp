@@ -23,7 +23,12 @@
 			<div id="top">
 				<div id="header">
 					<%@ include file="../include/header.jsp" %>
-					<%@ include file="../include/nav-rollover.jsp" %>
+					<div id="nav">
+						<%@ include file="../include/nav.jsp" %>
+						<div id="subnav">
+							<%@ include file="../include/nav-posters.jsp" %>
+						</div>
+					</div>
 				</div>
 			</div>
 			
@@ -35,8 +40,7 @@
 			<%@ include file="../include/left-alt.jsp" %>
 		</td>
 		<td id="center">
-			<h1>Edit Posters: Click on a poster to edit it.</h1>
-			<br /><br />
+			<h2>Click on a poster to edit it.</h2>
 
 
 <%@ include file="edit.jspf" %>

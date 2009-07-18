@@ -1,9 +1,5 @@
-#sub-library, #sub-data, #sub-posters, #sub-siteindex {
-	display: none; 
-}
-
 #container {
-	width: 900px;
+	width: 100%;
 	font-family: Arial, sans-serif;
 	text-align: center;
 	font-size: 110%;
@@ -118,9 +114,8 @@ body {
 }
 
 #nav {
-	/*position: absolute;
-	top: 50px;
-	left: 20px; */
+	position: absolute;
+	top: 40px; 
 }
 
 #nav ul, #nav-footer ul {
@@ -139,13 +134,13 @@ body {
 }
 
 #subnav {
-	/*position: absolute;
+	position: absolute;
 	top: 50px;
 	left: 148px;
 	right: 8px;
 	text-align: left;
 	height: 24px;
-	background-color: #999999;*/
+	background-color: #999999;
 }
 
 #subnav ul {
@@ -182,8 +177,13 @@ body {
 	padding-bottom: 0px;
 	padding-left: 3px;
 	padding-right: 3px;
-	width: 6em;
+	width: 114px;
 	color: white;
+}
+
+#nav a:hover, #nav-footer a:hover, #top a:hover, #nav #subnav li a:hover {
+	color: #cc00cc;
+	text-decoration: underline;
 }
 
 #nav h1 {
@@ -264,59 +264,50 @@ a#nav6 {
 	color: #333333;
 }
 
-td#center {
-	border: 0px;
-}
-
 #content #center {
-	padding-top: 8px;
+	padding-top: 80px;
 	padding-left: 8px;
 }
 
 #content a {
 	text-decoration: none;
-	color: #ff9933;
-	font-weight: bold;
+	color: #990066;
 }
 
 #content a:hover {
 	text-decoration: underline;
-	color: #cf411d;
+	color: #ff0033
 }
 
 #content h1 {
-	display: inline;	
-	/*padding-bottom: 6px;*/
-	border-bottom: solid 2px #666666;
-	margin-left: 0px;
-	font-family: Arial, sans-serif;
+	width: 790px;
+	font-size: 17px;
 	font-weight: bold;
-	font-size: 130%;
-	color: #333399;
+	margin-top: 32px;
+	margin-bottom: 20px;
+	margin-left: 2px;
+	margin-right: 2px;
+	padding: 4px;
 }
 
 #content #center ul {
 	margin-left: 0px;
-	padding-left: 16px;
+	padding-left: 32px;
+	list-style-type: disc;
+	list-style-image: url("../graphics/gray-disc.gif");
 }
 
-li {
-	padding-bottom: 0.5ex;
-}
-
-/*
 #content #center li {
 	padding-bottom: 12px;
 }
 
-*/
-
 #content #center ul ul {
 	margin-left: 16px;
-	padding-left: 8px;
-	
 }
 
+#content #center ul ul li {
+	list-style-image: url("../graphics/circ.gif");
+}
 
 #center p {
 	padding-top: 4px;
@@ -446,7 +437,6 @@ a > img {
 	padding: 4px;
 }
 
-
 /*============= Left links ==============*/
 
 #left-links {
@@ -557,8 +547,8 @@ a img {
 }
 
 .link-list a {
-	padding-left: 4px;
-	padding-right: 4px;
+	padding-left: 32px;
+	padding-right: 32px;
 }
 
 .float-right {

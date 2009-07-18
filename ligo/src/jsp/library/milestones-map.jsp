@@ -18,7 +18,12 @@
 			<div id="top">
 				<div id="header">
 					<%@ include file="../include/header.jsp" %>
-					<%@ include file="../include/nav-rollover.jsp" %>
+					<div id="nav">
+						<%@ include file="../include/nav.jsp" %>
+						<div id="subnav">
+							<%@ include file="../include/nav-library.jsp" %>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div id="content">
@@ -29,7 +34,9 @@
 	  <%@ include file="../include/left-alt.jsp" %>
   </td>
   <td id="center">
-	  <h1>Getting started! Make sure you accomplish the milestones on the diagram.</h1>
+	  <h2>Getting started!
+		  Make sure you accomplish the milestones on the diagram.
+	  </h2>
 	  <p>
 		  Follow the workflow map below to guide your work.
 		  Click on the hotspots to get references for accomplishing your

@@ -21,7 +21,14 @@
 			<div id="top">
 				<div id="header">
 					<%@ include file="../include/header.jsp" %>
-					<%@ include file="../include/nav-rollover.jsp" %>
+					<div id="nav">
+						<%@ include file="../include/nav.jsp" %>
+						<div id="subnav">
+							<ul>
+								<li><a href="../info/related-data.jsp">Related Data</a></li>
+							</ul>
+						</div>
+					</div>
 				</div>
 			</div>
 			

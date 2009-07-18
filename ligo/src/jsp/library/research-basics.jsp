@@ -20,7 +20,12 @@
 			<div id="top">
 				<div id="header">
 					<%@ include file="../include/header.jsp" %>
-					<%@ include file="../include/nav-rollover.jsp" %>
+					<div id="nav">
+						<%@ include file="../include/nav.jsp" %>
+						<div id="subnav">
+							<%@ include file="../include/nav-library.jsp" %>
+						</div>
+					</div>
 				</div>
 			</div>
 			
@@ -32,13 +37,13 @@
 			<%@ include file="../include/left-alt.jsp" %>
 		</td>
 		<td id="center">
-			<h1>Use these milestones if you need background on:</h1>
+			<h2>Use these milestones if you need background on:</h2>
 			<ul>
 				<li>Simple Measurements. <e:reference name="simple measurement"/></li>
 				<li>Simple Calculations. <e:reference name="simple calculations"/></li>
 				<li>Simple Graphs. <e:reference name="simple graphs"/></li>
 				<li>Research Questions. <e:reference name="research question"/></li>
-				<li>Research Plans. <e:reference name="research plan"/></li>
+				<li>Research Plans.. <e:reference name="research plan"/></li>
 			</ul>
 		</td>
 	</tr>

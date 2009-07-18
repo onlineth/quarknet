@@ -21,7 +21,12 @@
 			<div id="top">
 				<div id="header">
 					<%@ include file="../include/header.jsp" %>
-					<%@ include file="../include/nav-rollover.jsp" %>
+					<div id="nav">
+						<%@ include file="../include/nav.jsp" %>
+						<div id="subnav">
+							<%@ include file="../include/nav-maps.jsp" %>
+						</div>
+					</div>
 				</div>
 			</div>
 			
@@ -33,9 +38,7 @@
 			<%@ include file="../include/left-alt.jsp" %>
 		</td>
 		<td id="center">
-			<h1>LIGO Hanford Observatory (LHO) Site Diagram</h1>
-
-			<%@ include file="../include/nav-maps.jsp" %>
+			<h2>LIGO Hanford Observatory (LHO) Site Diagram</h2>
 			
 			<p align="center">
 				<img src="../graphics/site_schematic_2.jpg" alt="LHO Diagram" 

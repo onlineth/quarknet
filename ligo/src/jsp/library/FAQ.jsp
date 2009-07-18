@@ -18,7 +18,12 @@
 			<div id="top">
 				<div id="header">
 					<%@ include file="../include/header.jsp" %>
-					<%@ include file="../include/nav-rollover.jsp" %>
+					<div id="nav">
+						<%@ include file="../include/nav.jsp" %>
+						<div id="subnav">
+							<%@ include file="../include/nav-library.jsp" %>
+						</div>
+					</div>
 				</div>
 			</div>
 			
@@ -32,46 +37,46 @@
 		<td id="center">
 
 
- <h1>FAQs: e-Lab Questions and Answers</h1> 
+ <h2>E-Lab Questions and Answers</h2> 
 
-  <P></P>
+  <P>
 
 Several resources are available to get answers to questions, or to ask for
 help from other LIGO e-Lab participants:
 
 <UL>
-<LI> Use <a href="/glossary">the Glossary</a> to 
+<LI> Use <a href='http://www13.i2u2.org/glossary'>the Glossary</a> to 
      look up technical terms or to read articles about LIGO components and
-     systems.</LI>
+     systems.
 
 <LI> News and current status may be available from the (prototype!) 
-     <a href='/'>main portal page</a>, or posted to 
-     <a href='/forum_forum.php?id=38'>The
-     Bulletin Board</a>.</LI>
+     <a href='http://www13.i2u2.org/'main portal page, or posted to 
+     <a href='http://www13.i2u2.org/forum_forum.php?id=38'>The
+     Bulletin Board</a>.
 
 <LI> You can report a problem or make a request to the I2U2 Help Desk
-     using the <a href='/HelpDeskRequest.php'>Help
-     Desk Request Form</a>.</LI>
+     using the <a href='http://www13.i2u2.org/HelpDeskRequest.php'>Help
+     Desk Request Form</a>.
 
 </UL>
 
-<P></P>
+<P>
 
 
 <h2>Still under development...</h2>
-<P></P>
+<P>
 <UL>
-<LI> Visit the <a href='/forum_forum.php?id=47'>
+<LI> Visit the <a href='http://www13.i2u2.org/forum_forum.php?id=47'>
      Gladstone Room</a> for discussions with other participants about the
-     LIGO e-Lab.</LI>
+     LIGO e-Lab.
 
-<LI> Post a question directly to the <a href='/forum_forum.php?id=58'>
-     LIGO Help Desk</a></LI>
+<LI> Post a question directly to the <a href='http://www13.i2u2.org/forum_forum.php?id=58'>
+     LIGO Help Desk</a>
 
 <LI> Visit the other  
-     <a href='/forum_index.php'>discussion forums</a> 
+     <a href='http://www13.i2u2.org/forum_index.php'>discussion forums</a> 
      to find out what is happening with other e-Labs, or have a look at the
-     other <a href='/forum_help_desk.php'>Help Desks</a></LI>
+     other <a href='http://www13.i2u2.org/forum_help_desk.php'>Help Desks</a>
 
 </UL>
 

@@ -11,7 +11,6 @@
 		<link rel="stylesheet" type="text/css" href="../css/style2.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/assessment.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/two-column.css"/>
-		<link rel="stylesheet" type="text/css" media="print" href="../css/assessment-print.css" />
 	</head>
 		
 	<body id="assessment" class="assessment">
@@ -20,7 +19,12 @@
 			<div id="top">
 				<div id="header">
 					<%@ include file="../include/header.jsp" %>
-					<%@ include file="../include/nav-rollover.jsp" %>
+					<div id="nav">
+						<%@ include file="../include/nav.jsp" %>
+						<div id="subnav">
+							<%@ include file="../include/nav-assessment.jsp" %>
+						</div>
+					</div>
 				</div>
 			</div>
 
@@ -32,7 +36,7 @@
 			<%@ include file="../include/left-alt.jsp" %>
 		</td>
 		<td id="center">
-			<h1>Assessment: Measure your work against these objectives.</h1>
+			<h2>Assessing Your Work:</h2>
 				
 			<p>
 				The following objectives outline what you will learn and be able 
@@ -44,13 +48,21 @@
 				<li>
 					Content and Investigation Objectives:
 					<ul>
-						<li>Define and describe frequency in the context of wave 
-							behavior.</li>
-						<li>Describe causes effecting the environmental changes being measured by LIGO's environmental sensing data in your study.</li>
-						<li>Explain how LIGO's measurements of seismic waves 
+						<li>
+							Define and describe frequency in the context of wave 
+							behavior.
+						</li>
+						<li>
+							Describe causes effecting the environmental changes being measured by LIGO's environmental sensing data in your study.
+						</li>
+						<li>
+							Explain how LIGO's measurements of seismic waves 
 							contributes to the project's effort to detect 
-							gravitational waves.</li>
-						<li>Design an investigation that asks a testable hypothesis, can be answered from seismic data and provides an explanation of what you learn about seismic data.</li>
+							gravitational waves.
+						</li>
+						<li>
+							Design an investigation that asks a testable hypothesis, can be answered from seismic data and provides an explanation of what you learn about seismic data.								
+						</li>
 					</ul>
 				</li>
 							<%@ include file="../teacher/learner-outcomes.jsp" %>

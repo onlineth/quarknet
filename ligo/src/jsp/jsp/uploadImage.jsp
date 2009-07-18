@@ -76,8 +76,8 @@ if (fu.isMultipartContent(request)) {
             }
             // TODO: check MIME/type not filename extension.
             //      (or extension only if MIME/type fails.)
-            if (!origName.toLowerCase().endsWith(".jpg") && !origName.toLowerCase().endsWith(".jpeg") 
-            	&& !origName.toLowerCase().endsWith(".png") && !origName.toLowerCase().endsWith(".gif")) {
+            if (!origName.endsWith(".jpg") && !origName.endsWith(".jpeg") 
+            	&& !origName.endsWith(".png") && !origName.endsWith(".gif")) {
             	ret = "Invalid image type. Valid extensions are: .jpg, .jpeg, .png, .gif";
             	valid = false;
             }
@@ -211,7 +211,12 @@ if (fu.isMultipartContent(request)) {
 			<div id="top">
 				<div id="header">
 					<%@ include file="../include/header.jsp" %>
-					<%@ include file="../include/nav-rollover.jsp" %>
+					<div id="nav">
+						<%@ include file="../include/nav.jsp" %>
+						<div id="subnav">
+							<%@ include file="../include/nav-posters.jsp" %>
+						</div>
+					</div>
 				</div>
 			</div>
 			
@@ -223,7 +228,7 @@ if (fu.isMultipartContent(request)) {
 			<%@ include file="../include/left-alt.jsp" %>
 		</td>
 		<td id="center">
-			<h1>Upload Image</h1>
+			<h2>Upload Image</h2>
 <center>
 <P>
 <!-- instruction table -->

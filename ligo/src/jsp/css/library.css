@@ -1,34 +1,25 @@
-#sub-library {
-	display: block; 
+h1 {
+	background-color: #55a9b4;
+	color: #000000;
 }
 
-#sub-data {
-	display: none; 
-}
-
-#sub-posters {
-	display: none; 
-}
-
-#sub-siteindex {
-	display: none; 
-}
-
-a#nav-library {
-	font-style: italic;
-}
-
-#sub-library {
-	display: block;
+.library #center h1 {
+	font-weight: normal;
+	font-size: 140%;
+	width: 100%;
+	padding-bottom: 6px;
+	border-bottom: solid 2px orange;
+	margin-left: 0px;
 }
 
 .library #center h2 {
-//	display: inline;	
+	display: inline;	
 	padding-bottom: 6px;
+	border-bottom: solid 2px #666666;
 	margin-left: 0px;
 	font-family: verdana, arial, sans-serif;
 	font-weight: bold;
-	font-size: 100%;
+	font-size: 120%;
 	color: #333399;
 }
 
@@ -68,15 +59,26 @@ a.button {
 	padding-bottom: 6px;
 }
 
+#nav {
+	width: 100%;
+	left: 0px;
+	top: 74px;
+	height: 20px;
+}
+
+#nav #subnav li a {
+	color: #33ffcc;
+	border-left: 3px solid;
+}
+
 /*
-	Italicize corresponding subnav item
+	Italicisize corresponding subnav item
 */
 #milestones-map 	#subnav a[href="../library/milestones-map.jsp"],
 #research-basics 	#subnav a[href="../library/research-basics.jsp"],
 #resources		 	#subnav a[href="../library/resources.jsp"],
 #big-picture	 	#subnav a[href="../library/big-picture.jsp"],
 #faq			 	#subnav a[href="../library/FAQ.jsp"],
-#site-tips			#subnav a[href="../library/site-tips.jsp"],
 #library 			#subnav a[href="../library"] {
 	font-style: italic;
 }

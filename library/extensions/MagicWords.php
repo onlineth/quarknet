@@ -19,7 +19,6 @@
 # to do with each other.
  
 define('MAG_ELAB', 'i2u2_elab_var');
-define('MAG_ELAB_CATEGORY', 'i2u2_elab_category');
  
 #---------------------------------------------------
 # Step 2: define some words to use in wiki markup
@@ -34,7 +33,6 @@ function wfMyWikiWords(&$aWikiWords, &$langID) {
   # (0 means case-insensitive)
 
   $aWikiWords[MAG_ELAB] = array(0, 'elab');
-  $aWikiWords[MAG_ELAB_CATEGORY] = array(0, 'elabcategory');
  
   #must do this or you will silence every LanguageGetMagic
   #hook after this!
@@ -53,17 +51,6 @@ function wfMyAssignAValue(&$parser, &$cache, &$magicWordId, &$ret) {
   if (MAG_ELAB == $magicWordId) {
      // We found a value
      $ret=$elab;
-  }
-  elseif (MAG_ELAB_CATEGORY == $magicWordId) {
-     if ($elab == 'cosmic') {
-        $ret = 'Cosmic Rays';
-     }
-     elseif ($elab == 'cms') {
-        $ret = 'CMS';
-     }
-     elseif ($elab == 'ligo') {
-        $ret = 'LIGO';
-     }
   }
   // We must return true for two separate reasons:
   // 1. To permit further callbacks to run for this hook.
@@ -106,7 +93,6 @@ function wfMyDeclareVarIds(&$aCustomVariableIds) {
   # aCustomVariableIds is where MediaWiki wants to store its
   # list of custom variable ids. We oblige by adding ours:
   $aCustomVariableIds[] = MAG_ELAB;
-  $aCustomVariableIds[] = MAG_ELAB_CATEGORY;
  
   #must do this or you will silence every MagicWordwgVariableIds
   #registered after this!

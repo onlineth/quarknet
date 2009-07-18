@@ -57,7 +57,12 @@
 			<div id="top">
 				<div id="header">
 					<%@ include file="../include/header.jsp" %>
-					<%@ include file="../include/nav-rollover.jsp" %>
+					<div id="nav">
+						<%@ include file="../include/nav.jsp" %>
+						<div id="subnav">
+							<%@ include file="../include/nav-library.jsp" %>
+						</div>
+					</div>
 				</div>
 			</div>
 			
@@ -69,12 +74,12 @@
 			<%@ include file="../include/left-alt.jsp" %>
 		</td>
 		<td id="center">
-<h1>View References for Study Guide</h1>
+<h2>View References for Study Guide</h2>
 
 <p align="center">
 	<a href="../references/showAll.jsp?t=reference">View References for Study Guide</a>
 	-
-	<a href="/glossary/index.php/I2U2_Glossary_and_Library">View Glossary</a>
+	<a href="http://www13.i2u2.org/glossary/index.php/I2U2_Glossary_and_Library">View Glossary</a>
 </p>
 
 <table id="references-table" cellpadding="4" cellspacing="4">
