@@ -13,8 +13,6 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.apache.commons.lang.StringEscapeUtils; 
-
 public class Popup extends TagSupport {
     private String href, width, height, target, now, toolbar;
 
@@ -83,7 +81,7 @@ public class Popup extends TagSupport {
     }
 
     public void setHref(String href) {
-    	this.href = StringEscapeUtils.escapeJavaScript(href);
+        this.href = href;
     }
 
     public String getWidth() {

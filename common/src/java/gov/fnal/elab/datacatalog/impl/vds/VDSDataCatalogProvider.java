@@ -112,7 +112,7 @@ public class VDSDataCatalogProvider implements DataCatalogProvider {
     }
 
     private void print(QueryTree tree, StringBuffer sb) {
-        Predicate p = (Predicate) tree.getData();
+        Predicate p = tree.getData();
         sb.append(Predicate.PREDICATE_STRING[p.getPredicate()]);
         if (p.getKey() != null) {
             sb.append('*');
@@ -428,8 +428,6 @@ public class VDSDataCatalogProvider implements DataCatalogProvider {
                 return Predicate.BETWEEN;
             case QueryElement.LIKE:
                 return Predicate.LIKE;
-            case QueryElement.ILIKE:
-            	return Predicate.ILIKE;
             default:
                 throw new IllegalArgumentException(
                         "Unknown QueryElement type: " + qetype);
