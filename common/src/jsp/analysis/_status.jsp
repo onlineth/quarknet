@@ -14,19 +14,7 @@
 		%><jsp:forward page="../analysis/list.jsp"/><%
 	}
 	else {
-	    String userParam = (String) request.getParameter("user");
-	    ElabGroup auser = user;
-	    if (userParam != null) {
-	        if (!user.isAdmin()) {
-	        	throw new ElabJspException("You must be logged in as an administrator" 
-	            	+ "to see the status of other users' analyses");
-	        }
-	        else {
-	            auser = elab.getUserManagementProvider().getGroup(userParam);
-	        }
-	    }
-	    
-		AnalysisRun run = AnalysisManager.getAnalysisRun(elab, auser, id);
+		AnalysisRun run = AnalysisManager.getAnalysisRun(elab, user, id);
 		
 		if (run == null) {
 			System.err.println("Invalid analysis id " + id);
