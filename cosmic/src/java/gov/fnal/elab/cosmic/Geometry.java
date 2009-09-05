@@ -48,7 +48,7 @@ public class Geometry {
     private String geoFile = null;
     private String localGeoFile = null;
     private boolean existenceEnsured = false;
-    private int detectorID;
+    private String detectorID = null;
 
     /*
      * Constructor where the geometry file is computed for you.
@@ -56,7 +56,7 @@ public class Geometry {
      * @param dataDirectory The location of the cosmic data. @param detectorID
      * The detector ID you want geometry for.
      */
-    public Geometry(String dataDirectory, int detectorID)
+    public Geometry(String dataDirectory, String detectorID)
             throws ElabException {
         orderedGeoEntries = new TreeMap();
         geoFile = dataDirectory + File.separator + detectorID + File.separator
@@ -81,7 +81,7 @@ public class Geometry {
         }
     }
 
-    public int getDetectorID() {
+    public String getDetectorID() {
         return detectorID;
     }
 
@@ -460,7 +460,7 @@ public class Geometry {
      * @return The String representation of this object.
      */
     public String toString() {
-        return Integer.toString(getDetectorID());
+        return getDetectorID();
     }
 
     /**
