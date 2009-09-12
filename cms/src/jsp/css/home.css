@@ -1,5 +1,5 @@
 #content h1 {
-	background-color: #fca544;
+	background-color: #ff6600;
 	color: #000000;
 }
 
@@ -109,17 +109,4 @@ a.button {
 #nav a#nav-upload {
 
 }
-
-#links {
-	font-weight: normal;
-	font-size: 140%;
-	width: 100%;
-	margin: auto;
-	text-align: center;
-}
-#links a {
-	text-decoration: none; color: #ff6600;
-	font-weight: bold;
-}
-
 
