@@ -5,7 +5,6 @@
 <%@ page import="gov.fnal.elab.*" %>
 <%@ page import="gov.fnal.elab.usermanagement.*" %>
 <%@ page import="gov.fnal.elab.usermanagement.impl.*" %>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ page import="java.util.*" %>
 <%@ page errorPage="../include/errorpage.jsp" buffer="none" %>
 
@@ -74,11 +73,11 @@
 					group.setSurvey(false);
 					group.setNewSurvey(true);
 					if (user.getNewSurveyId() == null) { 
-						if (StringUtils.equalsIgnoreCase(elab.getName(), "cosmic")) {
+						if (elab.getId().equals("1")) {
 							newSurveyId = Integer.parseInt(elab.getProperty("cosmic.newsurvey"));
 							user.setNewSurveyId(newSurveyId);
 						}
-						if (StringUtils.equalsIgnoreCase(elab.getName(), "ligo")) {
+						if (elab.getId().equals("3")) {
 							newSurveyId = Integer.parseInt(elab.getProperty("ligo.newsurvey"));
 							user.setNewSurveyId(newSurveyId);
 						}
@@ -95,10 +94,9 @@
 				}
 				
 				elab.getUserManagementProvider().updateGroup(group, passwd1);
-				if (studentsToDelete != null) {
-					for (String s : studentsToDelete) {
-						int studentToDelete = Integer.parseInt(s); 
-						elab.getUserManagementProvider().deleteStudent(group, studentToDelete);
+				if (studentsToDelete != null && studentsToDelete.length != 0) {
+					for (int j = 0; j < studentsToDelete.length; j++) {
+						elab.getUserManagementProvider().deleteStudent(group, studentsToDelete[j]);
 					}
 				}
 				out.write("<div class=\"results\">" + groupName + "'s information was successfully updated. ");

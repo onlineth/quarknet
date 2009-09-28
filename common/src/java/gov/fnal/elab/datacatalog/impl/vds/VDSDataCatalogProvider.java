@@ -17,7 +17,6 @@ import gov.fnal.elab.datacatalog.DataTools;
 import gov.fnal.elab.datacatalog.Tuple;
 import gov.fnal.elab.datacatalog.query.CatalogEntry;
 import gov.fnal.elab.datacatalog.query.MultiQueryElement;
-import gov.fnal.elab.datacatalog.query.NestedQueryElement;
 import gov.fnal.elab.datacatalog.query.QueryElement;
 import gov.fnal.elab.datacatalog.query.QueryLeaf;
 import gov.fnal.elab.datacatalog.query.ResultSet;
@@ -113,7 +112,7 @@ public class VDSDataCatalogProvider implements DataCatalogProvider {
     }
 
     private void print(QueryTree tree, StringBuffer sb) {
-        Predicate p = (Predicate) tree.getData();
+        Predicate p = tree.getData();
         sb.append(Predicate.PREDICATE_STRING[p.getPredicate()]);
         if (p.getKey() != null) {
             sb.append('*');
@@ -149,7 +148,7 @@ public class VDSDataCatalogProvider implements DataCatalogProvider {
         long start = System.currentTimeMillis();
         try {
             AnnotationSchema annotationschema = null;
-            List lfns = ((AnnotationSchema) annotation).searchAnnotationSafe(Annotation.CLASS_FILENAME,
+            List lfns = annotation.searchAnnotation(Annotation.CLASS_FILENAME,
                     null, tree);
             if (lfns == null || lfns.isEmpty()) {
                 return ResultSet.EMPTY_RESULT_SET;
@@ -186,7 +185,7 @@ public class VDSDataCatalogProvider implements DataCatalogProvider {
         long start = System.currentTimeMillis();
         try {
             AnnotationSchema annotationschema = null;
-            List lfns = ((AnnotationSchema) annotation).searchAnnotationSafe(Annotation.CLASS_FILENAME,
+            List lfns = annotation.searchAnnotation(Annotation.CLASS_FILENAME,
                     null, tree);
             if (lfns == null || lfns.isEmpty()) {
                 return ResultSet.EMPTY_RESULT_SET;
@@ -320,7 +319,7 @@ public class VDSDataCatalogProvider implements DataCatalogProvider {
         }
     }
 
-    protected QueryTree buildQueryTree(Iterator i, QueryElement.TYPES type) {
+    protected QueryTree buildQueryTree(Iterator i, int type) {
         QueryElement qe = (QueryElement) i.next();
         if (i.hasNext()) {
             QueryTree qt = new QueryTree(new Predicate(getPredicateType(type)));
@@ -344,7 +343,7 @@ public class VDSDataCatalogProvider implements DataCatalogProvider {
          * weird.
          */
         QueryTree qt;
-    	if (query instanceof MultiQueryElement) {
+        if (!query.isLeaf()) {
             MultiQueryElement meq = (MultiQueryElement) query;
             Collection c = meq.getAll();
             if (c.size() < 1) {
@@ -353,6 +352,7 @@ public class VDSDataCatalogProvider implements DataCatalogProvider {
             }
             Iterator i = c.iterator();
             QueryElement qe = (QueryElement) i.next();
+            int type = qe.getType();
             if (i.hasNext()) {
                 qt = new QueryTree(new Predicate(getPredicateType(query
                         .getType())));
@@ -362,65 +362,28 @@ public class VDSDataCatalogProvider implements DataCatalogProvider {
             else {
                 qt = buildQueryTree(qe);
             }
-    	}
-    	else if (query instanceof NestedQueryElement) {        		
-    		NestedQueryElement nqe = (NestedQueryElement) query;
-    		QueryLeaf root = nqe.getRoot(); // Root of a NQE has values like leaves 
-    		QueryElement child = nqe.getChild(); 
-    		qt = new QueryTree(new Predicate(getPredicateType(nqe.getType()), 
-    				root.getKey(), getType(root.getType()), format(root.getValue1()), format(root.getValue2())));
-    		qt.setRchild(buildQueryTree(child));
-    	}
+        }
         else {
             QueryLeaf t = (QueryLeaf) query;
             qt = new QueryTree(new Predicate(getPredicateType(query.getType()),
-                    t.getKey(), getType(t.getValue()), format(t.getValue1()), format(t.getValue2())));
+                    t.getKey(), getType(t.getValue()), quote(format(t))));
         }
         return qt;
     }
     
     private static final DateFormat DF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ");
     
-    /**
-     * Private helper function to convert proper objects into string representations
-     * since @org.griphyn.vdl.annotation.Predicate only stores strings (not objects) 
-     * 
-     * @deprecated QueryLeaf nodes may have 1-2 values; this is a legacy function that
-     * assumes only one value. 
-     * 
-     * @param t
-     * @return
-     */
-    @Deprecated private String format(QueryLeaf t) {
-        return format(t.getValue());
-    }
-    
-    /**
-     * Private helper function to convert proper objects into string representations since {@link #Predicate} only stores strings (not objects) 
-     * 
-     * @param o
-     * @return
-     */
-    private String format(Object o) {
-    	if (o == null) {
-    		return null; 
-    	}
-    	if (o instanceof Date) {
-    		return DF.format(o);
-    	}
-    	else {
-    		return String.valueOf(o);
-    	}
+    private String format(QueryLeaf t) {
+        Object v = t.getValue();
+        if (v instanceof Date) {
+            return DF.format(v);
+        }
+        else {
+            return String.valueOf(v);
+        }
     }
 
-    /**
-     * Helper functions to escape quotes in SQL input. 
-     * 
-     * @deprecated Escaping quotes does not protect SQL input, use {@link java.sql.PreparedStatement} instead 
-     * @param param String with unescaped quotes
-     * @return String with escaped quotes 
-     */
-    @Deprecated public static String quote(String param) {
+    public static String quote(String param) {
         return ElabUtil.fixQuotes(param);
     }
 
@@ -445,35 +408,29 @@ public class VDSDataCatalogProvider implements DataCatalogProvider {
         }
     }
 
-    protected int getPredicateType(QueryElement.TYPES type) {
-        switch (type) {
-            case AND:
+    protected int getPredicateType(int qetype) {
+        switch (qetype) {
+            case QueryElement.AND:
                 return Predicate.AND;
-            case OR:
+            case QueryElement.OR:
                 return Predicate.OR;
-            case EQ:
+            case QueryElement.EQ:
                 return Predicate.EQ;
-            case LT:
+            case QueryElement.LT:
                 return Predicate.LT;
-            case GT:
+            case QueryElement.GT:
                 return Predicate.GT;
-            case LE:
+            case QueryElement.LE:
                 return Predicate.LE;
-            case GE:
+            case QueryElement.GE:
                 return Predicate.GE;
-            case BETWEEN:
+            case QueryElement.BETWEEN:
                 return Predicate.BETWEEN;
-            case LIKE:
+            case QueryElement.LIKE:
                 return Predicate.LIKE;
-            case ILIKE:
-            	return Predicate.ILIKE;
-            case IN:
-            	return Predicate.IN;
-            case NOT:
-            	return Predicate.NOT;
             default:
                 throw new IllegalArgumentException(
-                        "Unknown QueryElement type: " + type);
+                        "Unknown QueryElement type: " + qetype);
         }
     }
 
