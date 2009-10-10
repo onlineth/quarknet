@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -142,7 +142,7 @@ public class Elab {
 
     private String name;
     private ElabProperties properties;
-    private int id;
+    private String id;
     private ElabFAQ faq;
     private ServletContext context;
     private ServletConfig config;
@@ -202,16 +202,17 @@ public class Elab {
 
     protected void updateId() throws SQLException, ElabException {
         // this should perhaps be moved somewhere else?
-        PreparedStatement ps = null;
+        Statement s = null;
         Connection conn = null;
         try {
             conn = DatabaseConnectionManager.getConnection(properties);
-            ps = conn.prepareStatement("SELECT id FROM project WHERE name = ?;");
-            ps.setString(1, name);
-            ResultSet rs = ps.executeQuery();
+            s = conn.createStatement();
+            ResultSet rs;
+            rs = s.executeQuery("SELECT id from project where "
+                    + "project.name='" + ElabUtil.fixQuotes(name) + "';");
             if (rs.next()) {
-                this.id = rs.getInt(1);
-                int id = this.id;
+                this.id = rs.getString(1);
+                int id = Integer.parseInt(this.id);
                 sid = Math.max(sid, id + 1);
             }
             else {
@@ -223,24 +224,24 @@ public class Elab {
             System.out.println("Failed to update elab id for " + name
                     + ". Using elab name as ID.");
             e.printStackTrace();
-            this.id = sid++;
+            this.id = String.valueOf(sid++);
         }
         finally {
-            DatabaseConnectionManager.close(conn, ps);
+            DatabaseConnectionManager.close(conn, s);
         }
     }
 
     /**
      * Returns this elab's ID.
      */
-    public int getId() {
+    public String getId() {
         return id;
     }
 
     /**
      * Sets the ID of this elab
      */
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

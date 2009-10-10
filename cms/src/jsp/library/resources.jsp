@@ -22,7 +22,10 @@
 				<div id="header">
 					<%@ include file="../include/header.jsp" %>
 					<div id="nav">
-						<%@ include file="../include/nav-rollover.jspf" %>
+						<%@ include file="../include/nav.jsp" %>
+						<div id="subnav">
+							<%@ include file="../include/nav-library.jsp" %>
+						</div>
 					</div>
 				</div>
 			</div>

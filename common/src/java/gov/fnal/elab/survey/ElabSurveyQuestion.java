@@ -91,7 +91,7 @@ public class ElabSurveyQuestion implements Cloneable, Comparable<ElabSurveyQuest
 		return false; 
 	}
 	
-	public ElabSurveyQuestion clone() {
+	public Object clone() {
 		ElabSurveyQuestion question = null;
 		try {
 			// A shallow copy is fine
