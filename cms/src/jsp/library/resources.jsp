@@ -22,7 +22,10 @@
 				<div id="header">
 					<%@ include file="../include/header.jsp" %>
 					<div id="nav">
-						<%@ include file="../include/nav-rollover.jspf" %>
+						<%@ include file="../include/nav.jsp" %>
+						<div id="subnav">
+							<%@ include file="../include/nav-library.jsp" %>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -102,16 +105,16 @@
 								- Learn how to use ROOT (the underpinnings of OGRE)  to analyze any aspect of the data directly.
 							</li>
 							<li>
-           						<a href="../analysis-shower-depth/background.jsp">Shower Depth Study </a> - Background
+           						<a href="../analysis-shower-depth/tutorial.jsp">Shower Depth Study </a> - Description of a Shower Depth Study
 							</li>
 							<li>
-								<a href="../analysis-lateral-size/background.jsp">Lateral Size Study </a>- Background
+								<a href="../analysis-lateral-size/tutorial.jsp">Lateral Size Study </a>- Description of a Lateral Size Study
 							</li>
 							<li>
-								<a href="../analysis-beam-purity/background.jsp">Beam Purity Study </a>- Background
+								<a href="../analysis-beam-purity/tutorial.jsp">Beam Purity Study </a>- Description of a Beam Purity Study
 							</li>
 				            <li>
-								<a href="../analysis-resolution/background.jsp">Detector Resolution Study </a>- Background
+								<a href="../analysis-resolution/tutorial.jsp">Detector Resolution Study </a>- Description of a Detector Resolution Study
 							</li>
 						</ul>
 					</div>

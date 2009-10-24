@@ -1,7 +1,3 @@
-<%@ include file="../include/elab.jsp" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">		
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -9,18 +5,11 @@
 		<title>CMS Test Beam Rubric</title>
 		<link rel="stylesheet" type="text/css" href="../css/style2.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/assessment.css"/>
-		<link rel="stylesheet" type="text/css" media="print" href="../css/assessment-print.css" />
 	</head>
 	
 	<body id="assessment" class="assessment">
 		<!-- entire page container -->
 		<div id="container">	
-			<div id="top"">
-				<div id="header">
-					<%@ include file="../include/header.jsp" %>
-					<%@ include file="../include/nav-rollover.jspf" %>
-				</div>
-			</div>
 			<div id="content">
 
 			<h1>Objectives: Assessing Your Work (CMS Test Beam e-Lab)</h1>

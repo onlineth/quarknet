@@ -18,13 +18,19 @@
 			<div id="top">
 				<div id="header">
 					<%@ include file="../include/header.jsp" %>
-					<%@ include file="../include/nav-rollover.jspf" %>
+					<div id="nav">
+						<%@ include file="../include/nav.jsp" %>
+						<div id="subnav">
+							<%@ include file="../include/nav-data.jsp" %>
+						</div>
+					</div>
 				</div>
 			</div>
 			
 			<div id="content">
 				
 <h1>What can you learn? Choose a study.</h1>
+
 <table border="0" id="main">
 	<tr>
 		<td>
@@ -32,8 +38,6 @@
 				<div class="tab">
 					<span class="tab-title">Analysis</span>
 					<div class="tab-contents">
-					<p>We recommend doing the studies in the order shown below.</p>
-
 						<p>
 							<a href="../analysis-shower-depth">Shower Depth</a> -
 							Determine shower length in the detector.
@@ -73,11 +77,19 @@
 							<a href="../plots/?submit=true&key=all&uploaded=true">Plots</a>
 							- Look at what you and other groups have uploaded! Coming soon - plots saved from OGRE...
 						</p>
+						<p>
+							<a href="../posters">Posters</a>
+							- View and create posters of your plots.
+						</p>
 						<h2>DELETE</h2>
 						<p>
 							<a href="../plots/delete.jsp">Plots</a>
 							- Delete plots your group owns.
 						</p>
+						<p>
+							<a href="../posters/delete.jsp">Posters</a>
+							- Delete posters your group has made.
+						</p>					
 					</div>
 				</div>
 			</div>

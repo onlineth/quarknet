@@ -41,10 +41,6 @@
 Students use a data base and analysis tool on the website. The Online Graphical ROOT Environment (OGRE) is the analysis tool used to analyze the data they have chosen for their study. Tutorials are available to build basic scientific skills, to explain the how the detector works, to increase students' understanding of subatomic particles, to direct them in using the analysis tools and to explain how to use plots to analyze data. At the Test Beam level, students can then perform any of four studies: shower depth, lateral size, beam purity or detector resolution. Students post the results of their studies as online posters, and then review the results of other studies online, comparing data and analyses. Using online tools, they can correspond with other research groups, post comments and questions, prepare summary reports and in general, participate in an aspect of scientific research that is often left out of classroom experiments.
 				</p>
 				
-				<p>
-					Read about the <a href="web-guide.jsp">website features</a> that guide and support student research.
-				</p>
-					 
 				
 				
 				<h2>Introduction to Research:</h2>
@@ -94,10 +90,10 @@ By observing how particles interact with the detector, a researcher can determin
 					<ul>
 						<li>Content and Investigation:
 							<ul>
-								<li>Describe particles colliding in and emerging from collisions detected by CMS as predicted by the Standard Model.</li>
-								<li>List in order and describe the CMS subdetectors in terms of the properties of the particles they detect.</li>
-								<li>Explain the role that conservation of mass/energy, momentum, and charge play in analyzing events detected at CMS.</li>
-								<li>Design, conduct and report on an investigation of a testable hypothesis for which evidence can be provided using CMS data.</li> 								
+								<li>Describe how determination of particle signatures from the test beam contributes to the calibration of, and particle identification in, the CMS detector.</li>
+								<li>Describe the role of each sub-detector in data analysis.</li>
+								<li>Use data to measure and describe detector characteristics.</li>
+								<li>Design an investigation with a testable hypothesis that can be answered from CMS Test Beam data. Describe what you will learn about the CMS detector from carrying out the investigation.</li>
 							</ul>
 						</li>
 							<%@ include file="learner-outcomes.jsp" %>
@@ -138,7 +134,7 @@ By observing how particles interact with the detector, a researcher can determin
 							<b>e-Logbooks:</b> Track progress and provide feedback on student work.<br>
 							Review student evidence of what they know/understand and reflections on their research.<br> 
 							Review all student entries for a particular milestone, e.g., class cosmic ray descriptions, and make notes in your logbook for next year. 
-							Look at this <a href="#" onclick="javascript:window.open('../graphics/logbook-sample.gif', 'content', 'width=504,height=373, resizable=1, scrollbars=1');return false;">sample logbook</a>.
+							Look at this <a href="#" onclick="javascript:window.open('../graphics/logbook-sample.gif', 'content', 'width=680,height=901, resizable=1, scrollbars=1');return false;">sample logbook</a>.
 							
 							</li>
 							<li>
@@ -147,6 +143,7 @@ By observing how particles interact with the detector, a researcher can determin
 					
 				</ul>
 			
+					 
 
 				<h2>Research Question:</h2>
 				<p>

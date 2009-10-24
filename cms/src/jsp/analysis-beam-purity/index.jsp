@@ -18,7 +18,12 @@
 			<div id="top">
 				<div id="header">
 					<%@ include file="../include/header.jsp" %>
-					<%@ include file="../include/nav-rollover.jspf" %>
+					<div id="nav">
+						<%@ include file="../include/nav.jsp" %>
+						<div id="subnav">
+							<%@ include file="../include/nav-data.jsp" %>
+						</div>
+					</div>
 				</div>
 			</div>
 			
@@ -36,7 +41,7 @@
 					<span class="tab-title">Analysis</span>
 					<div class="tab-contents">
 						<p>
-							<a href="background.jsp">Beam Purity Tutorial</a> -
+							<a href="tutorial.jsp">Beam Purity Tutorial</a> -
 							Read background information about the shower study.
 						</p>
 						<p>
