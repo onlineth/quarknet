@@ -51,7 +51,7 @@ public class AnalysisStats {
     private static Map eventKeys;
 
     private static void addEventKey(String key, int value) {
-        eventKeys.put(key, Integer.valueOf(value));
+        eventKeys.put(key, new Integer(value));
     }
 
     static {
@@ -327,10 +327,10 @@ public class AnalysisStats {
     private void increment(Map r, Object key) {
         Integer c = (Integer) r.get(key);
         if (c == null) {
-            c = Integer.valueOf(1);
+            c = new Integer(1);
         }
         else {
-            c = Integer.valueOf(c.intValue() + 1);
+            c = new Integer(c.intValue() + 1);
         }
         r.put(key, c);
     }
@@ -397,13 +397,13 @@ public class AnalysisStats {
 
     private Integer logRange(int x) {
         if (false) {
-            return Integer.valueOf(x);
+            return new Integer(x);
         }
         if (x == 1) {
-            return Integer.valueOf(1);
+            return new Integer(1);
         }
         double l2 = Math.floor(log2(x)) + 1;
-        return Integer.valueOf((int) Math.pow(2, l2));
+        return new Integer((int) Math.pow(2, l2));
     }
 
     private static double log2(double x) {

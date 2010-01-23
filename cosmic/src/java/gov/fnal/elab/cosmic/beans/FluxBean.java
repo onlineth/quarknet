@@ -501,14 +501,13 @@ public class FluxBean extends ElabBean implements Serializable, MappableBean{
                             String min,
                             String max)
                             throws ElabException{
-        java.util.List<String> badkeys = getInvalidKeys();
+        java.util.List badkeys = getInvalidKeys();
         if(badkeys.size() > 0){
-            StringBuffer sb = new StringBuffer("The following keys are invalid within the bean: ");
-            for (String s : badkeys) {
-            	sb.append(s);
-            	sb.append(" ");
+            String s = "The following keys are invalid within the bean: ";
+            for(Iterator i=badkeys.iterator(); i.hasNext(); ){
+                s += (String)i.next() + " ";
             }
-            throw new ElabException(sb.toString());
+            throw new ElabException(s);
         }
 
         //copy tr variable (used in addToDV)

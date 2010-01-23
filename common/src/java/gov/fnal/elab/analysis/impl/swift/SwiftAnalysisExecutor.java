@@ -71,14 +71,10 @@ public class SwiftAnalysisExecutor implements AnalysisExecutor {
         private String runDir, runDirUrl, runID, runMode;
         private volatile transient double progress;
         private transient VDL2ExecutionContext ec;
-        private OutputChannel out;
+        private transient OutputChannel out;
         private boolean updated;
-        
-        public Run() {
-            super();
-        }
 
-        public Run(ElabAnalysis analysis, Elab elab, String outputDir) {
+        protected Run(ElabAnalysis analysis, Elab elab, String outputDir) {
             super(analysis, elab, outputDir);
         }
 
@@ -147,7 +143,7 @@ public class SwiftAnalysisExecutor implements AnalysisExecutor {
 
                 Estimator p = AnalysisRunTimeEstimator.getEstimator(getElab(), "swift",
                         runMode, getAnalysis().getType());
-                setAttribute("estimatedTime", Integer.valueOf(p.estimate(getElab(),
+                setAttribute("estimatedTime", new Integer(p.estimate(getElab(),
                         getAnalysis())));
 
                 stack.setGlobal(ConfigProperty.INSTANCE_CONFIG, conf);

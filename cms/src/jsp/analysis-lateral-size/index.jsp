@@ -18,7 +18,12 @@
 			<div id="top">
 				<div id="header">
 					<%@ include file="../include/header.jsp" %>
-					<%@ include file="../include/nav-rollover.jspf" %>
+					<div id="nav">
+						<%@ include file="../include/nav.jsp" %>
+						<div id="subnav">
+							<%@ include file="../include/nav-data.jsp" %>
+						</div>
+					</div>
 				</div>
 			</div>
 			
@@ -36,7 +41,7 @@
 					<span class="tab-title">Analysis</span>
 					<div class="tab-contents">
 						<p>
-							<a href="background.jsp">Lateral Size Study Background</a> -
+							<a href="tutorial.jsp">Lateral Size Study Tutorial</a> -
 							Read background information about the lateral size study.
 						</p>
 						<p>

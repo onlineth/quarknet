@@ -8,9 +8,9 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>Registration</title>
-		<link rel="stylesheet" type="text/css" href="../../cosmic/css/style2.css"/>
-		<link rel="stylesheet" type="text/css" href="../../cosmic/css/teacher.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/style2.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/teacher.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/one-column.css"/>
 	</head>
 
 	<body id="registration">
@@ -29,8 +29,7 @@
 
 <h1>e-Lab Registration</h1>
 
-<!-- <table border="0" id="registration-links-table"> -->
-<table border="0"  cellspacing="10">
+<table border="0" id="registration-links-table">
 	<tr>
 		<td valign="top" width="40%">
 			<a href="mass-registration.jsp">Register student research groups with a spreadsheet.</a>
