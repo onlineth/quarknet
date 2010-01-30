@@ -46,7 +46,8 @@ public class ShellAnalysisExecutor implements AnalysisExecutor {
         progress = new HashMap();
     }
 
-    public AnalysisRun createRun(ElabAnalysis analysis, Elab elab, String outputDir) {
+    public AnalysisRun createRun(ElabAnalysis analysis, Elab elab,
+            String outputDir) {
         Run run = new Run(analysis, elab, outputDir);
         return run;
     }
@@ -67,7 +68,7 @@ public class ShellAnalysisExecutor implements AnalysisExecutor {
             try {
                 List argv = getArgv();
                 String name = getAnalysis().getType();
-
+                
                 task = new TaskImpl();
                 task.setType(Task.JOB_SUBMISSION);
                 JobSpecification js = new JobSpecificationImpl();
@@ -77,10 +78,10 @@ public class ShellAnalysisExecutor implements AnalysisExecutor {
                 js.setStdErrorLocation(FileLocation.MEMORY);
                 task.setSpecification(js);
                 task.addStatusListener(this);
-
+                
                 TaskHandler th = AbstractionFactory.newExecutionTaskHandler("local");
                 th.submit(task);
-
+                
                 setStatus(STATUS_RUNNING);
             }
             catch (Exception e) {
@@ -91,12 +92,14 @@ public class ShellAnalysisExecutor implements AnalysisExecutor {
         }
 
         private List getArgv() {
-            AnalysisParameterTransformer tr = getAnalysis().getParameterTransformer();
+            AnalysisParameterTransformer tr = getAnalysis()
+                    .getParameterTransformer();
             if (tr == null) {
                 tr = new NullAnalysisParameterTransformer();
             }
             List argv = new ArrayList();
-            Iterator i = tr.transform(getAnalysis().getParameters()).entrySet().iterator();
+            Iterator i = tr.transform(getAnalysis().getParameters()).entrySet()
+                    .iterator();
             while (i.hasNext()) {
                 Map.Entry e = (Map.Entry) i.next();
                 addArg(argv, (String) e.getKey(), e.getValue());
@@ -121,8 +124,10 @@ public class ShellAnalysisExecutor implements AnalysisExecutor {
                 addArg(argv, name, (Collection) value);
             }
             else {
-                throw new IllegalArgumentException("Unexpected type of argument ("
-                        + (value == null ? "null" : value.getClass().toString()) + ") for " + name);
+                throw new IllegalArgumentException(
+                        "Unexpected type of argument ("
+                                + (value == null ? "null" : value.getClass()
+                                        .toString()) + ") for " + name);
             }
         }
 
@@ -142,7 +147,8 @@ public class ShellAnalysisExecutor implements AnalysisExecutor {
             if (maybeAFile == null || maybeAFile.equals("")) {
                 return maybeAFile;
             }
-            File f = new File(RawDataFileResolver.getDefault().resolve(getElab(), maybeAFile));
+            File f = new File(RawDataFileResolver.getDefault().resolve(
+                    getElab(), maybeAFile));
             if (f.exists() && f.isFile()) {
                 return f.getAbsolutePath();
             }
@@ -157,13 +163,13 @@ public class ShellAnalysisExecutor implements AnalysisExecutor {
 
         public String getDebuggingInfo() {
             if (getException() != null) {
-                CharArrayWriter caw = new CharArrayWriter();
-                PrintWriter pr = new PrintWriter(caw);
-                getException().printStackTrace(pr);
-                return caw.toString();
+            	CharArrayWriter caw = new CharArrayWriter();
+            	PrintWriter pr = new PrintWriter(caw);
+            	getException().printStackTrace(pr);
+            	return caw.toString();
             }
             else {
-                return "";
+            	return "";
             }
         }
 
@@ -185,12 +191,14 @@ public class ShellAnalysisExecutor implements AnalysisExecutor {
         }
 
         public void updateStatus() {
-
+            
         }
 
         private void log(String stuff) {
-            System.out.println(stuff + ", runid=-1, time=" + (getEndTime().getTime() - getStartTime().getTime())
-                    + ", startTime=" + getStartTime().getTime() + ", estimated=" + getAttribute("estimatedTime")
+            System.out.println(stuff + ", runid=-1, time="
+                    + (getEndTime().getTime() - getStartTime().getTime())
+                    + ", startTime=" + getStartTime().getTime()
+                    + ", estimated=" + getAttribute("estimatedTime")
                     + ", type=" + getAnalysis().getType() + ", runMode=local");
         }
 
@@ -198,26 +206,26 @@ public class ShellAnalysisExecutor implements AnalysisExecutor {
             return task.getStdError();
         }
 
-        public void statusChanged(StatusEvent e) {
-            switch (e.getStatus().getStatusCode()) {
-                case Status.ACTIVE:
-                    break;
-                case Status.CANCELED:
-                    setStatus(STATUS_CANCELED);
-                    break;
-                case Status.FAILED:
-                    Exception ex = e.getStatus().getException();
-                    if (ex == null) {
-                        ex = new Exception(e.getStatus().getMessage());
-                    }
-                    setException(ex);
-                    setStatus(STATUS_FAILED);
-                    break;
-                case Status.COMPLETED:
-                    setStatus(STATUS_COMPLETED);
-                    break;
-                default:
-            }
-        }
+		public void statusChanged(StatusEvent e) {
+			switch(e.getStatus().getStatusCode()) {
+				case Status.ACTIVE:
+					break;
+				case Status.CANCELED:
+					setStatus(STATUS_CANCELED);
+					break;
+				case Status.FAILED:
+					Exception ex = e.getStatus().getException();
+					if (ex == null) {
+						ex = new Exception(e.getStatus().getMessage());
+					}
+					setException(ex);
+					setStatus(STATUS_FAILED);
+					break;
+				case Status.COMPLETED:
+					setStatus(STATUS_COMPLETED);
+					break;
+				default:
+			}
+		}
     }
 }

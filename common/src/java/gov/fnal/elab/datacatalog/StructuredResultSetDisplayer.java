@@ -9,8 +9,6 @@ import gov.fnal.elab.datacatalog.StructuredResultSet.Month;
 import gov.fnal.elab.datacatalog.StructuredResultSet.School;
 import gov.fnal.elab.util.ElabUtil;
 
-import org.apache.commons.lang.time.DateFormatUtils;
-
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -104,10 +102,11 @@ public class StructuredResultSetDisplayer {
     }
 
     public static final NumberFormat EVENTS_FORMAT;
-    public static final String DAY_FORMAT = "EEE dd";
+    public static final DateFormat DAY_FORMAT;
 
     static {
         EVENTS_FORMAT = DecimalFormat.getIntegerInstance();
+        DAY_FORMAT = new SimpleDateFormat("EEE dd");
     }
 
     public void displaySchoolHeader(JspWriter out, School school)
@@ -275,7 +274,7 @@ public class StructuredResultSetDisplayer {
         out.write("<a class=\"file-link\" href=\"../data/view.jsp?filename=");
         out.write(file.getLFN());
         out.write("\">");
-        out.write(DateFormatUtils.format(file.getDate(), DAY_FORMAT));
+        out.write(DAY_FORMAT.format(file.getDate()));
         out.write("</a>");
         out.write("<a href=\"../jsp/add-comments.jsp?fileName=");
         out.write(file.getLFN());
@@ -308,7 +307,7 @@ public class StructuredResultSetDisplayer {
     	
     	while (i.hasNext()) {
     		File f = (File) i.next();
-    		Integer currentID = Integer.valueOf(f.getDetector());
+    		Integer currentID = new Integer(f.getDetector());
     		if (h.containsKey(currentID)) {
     			((Collection) h.get(currentID)).add(f);
     		}

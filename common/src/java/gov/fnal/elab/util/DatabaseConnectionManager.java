@@ -273,7 +273,7 @@ public class DatabaseConnectionManager {
 
         public boolean isValid(int timeout) throws SQLException {
             return ((Boolean) invoke(delegate, "isValid",
-                    new Object[] { Integer.valueOf(timeout) },
+                    new Object[] { new Integer(timeout) },
                     new Class[] { int.class })).booleanValue();
         }
 
@@ -495,7 +495,7 @@ public class DatabaseConnectionManager {
 
         public void setPoolable(boolean poolable) throws SQLException {
             invoke(delegate, "setPoolable",
-                    new Object[] { Boolean.valueOf(poolable) },
+                    new Object[] { new Boolean(poolable) },
                     new Class[] { boolean.class });
         }
 
@@ -512,14 +512,10 @@ public class DatabaseConnectionManager {
 
     }
 
-    public static void close(Connection conn, Statement... statements) {
+    public static void close(Connection conn, Statement s) {
         try {
-        	if (statements != null) {
-	            for (Statement s : statements) {
-	            	if (s != null) {
-	            		s.close();
-	            	}
-	            }
+            if (s != null) {
+                s.close();
             }
         }
         catch (SQLException e) {
@@ -529,6 +525,7 @@ public class DatabaseConnectionManager {
             if (conn != null) {
                 conn.close();
             }
+
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -536,7 +533,7 @@ public class DatabaseConnectionManager {
     }
 
     public static void close(Connection conn) {
-        close(conn, (Statement[]) null);
+        close(conn, null);
     }
 
     private static Object invoke(Object obj, String name, Object[] args,

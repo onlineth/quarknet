@@ -25,6 +25,4 @@ public interface ElabSurveyProvider {
 	
 	public int getTotalStudents(ElabGroup group) throws ElabException;
 	
-	public Map<Integer, String> getElabSurveyListForProject(int projectId) throws ElabException; 
-	
 }
