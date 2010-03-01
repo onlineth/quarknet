@@ -83,7 +83,7 @@ public class Popup extends TagSupport {
     }
 
     public void setHref(String href) {
-    	this.href = StringEscapeUtils.escapeJavaScript(href);
+        this.href = StringEscapeUtils.escapeJavaScript(href);
     }
 
     public String getWidth() {

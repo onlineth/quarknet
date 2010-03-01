@@ -5,9 +5,8 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>CMS Elab Teacher Information</title>
-		<link rel="stylesheet" type="text/css" href="../../cosmic/css/style2.css"/>
-		<link rel="stylesheet" type="text/css" href="../../cosmic/css/teacher.css"/>
-		<link rel="stylesheet" type="text/css" href="../css/teacher.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/style2.css" />
+		<link rel="stylesheet" type="text/css" href="../css/teacher.css" />
 	</head>
 
 	<body id="teacher" class="teacher">
@@ -37,28 +36,39 @@
 			<div id="center">
 				<h2>Abstract:</h2>
 				<p>
-					Students can join a scientific collaboration in this series of studies of high-energy collisions from the Large Hadron Collider (LHC) at CERN. We are collaborating with the Compact Muon Solenoid (CMS) Experiment to produce a student-led, teacher-guided project. At the present we have both test beam and Monte Carlo (simulated) data for analysis. When the LHC comes fully online, run data will become available as well. By using the web and GRID computing technology students are able to analyze these data types, and a virtual data portal enables students to share this data and associated analysis code with fellow students and other researchers.
-
-
+					Students can join a scientific collaboration in this series of studies of high-energy collisions from the Large Hadron Collider (LHC) at CERN. We are collaborating with the Compact Muon Solenoid (CMS) Experiment to produce a student-led, teacher-guided project. This e-Lab offers test beam data for analysis. In a separate CMS e-Lab, Monte Carlo (simulated) and run (actual experimental) data will be available for the full CMS detector. When the LHC starts producing collisions, students will be able to request run data from the CMS experiment with specific parameters. By using the web and GRID computing technology students will be able to analyze the data. A virtual data portal enables students to share this data and associated analysis code with fellow students and other researchers.
 </p><p>
-Students use a data base and analysis tool on the website. The Online Graphical ROOT Environment (OGRE) is the analysis tool used to analyze the data they have chosen for their study. Tutorials are available to build basic scientific skills, to explain the how the detector works, to increase students' understanding of subatomic particles, to direct them in using the analysis tools and to explain how to use plots to analyze data. Students post the results of their studies as online posters, and then review the results of other studies online, comparing data and analyses. Using online tools, they can correspond with other research groups, post comments and questions, prepare summary reports and in general, participate in an aspect of scientific research that is often left out of classroom experiments.				</p>
-				
-				<p>
-					Read about the <a href="web-guide.jsp">website features</a> that guide and support student research.
+Students use a data base and analysis tool on the website. The Online Graphical ROOT Environment (OGRE) is the analysis tool used to analyze the data they have chosen for their study. Tutorials are available to build basic scientific skills, to explain the how the detector works, to increase students' understanding of subatomic particles, to direct them in using the analysis tools and to explain how to use plots to analyze data. At the Test Beam level, students can then perform any of four studies: shower depth, lateral size, beam purity or detector resolution. Students post the results of their studies as online posters, and then review the results of other studies online, comparing data and analyses. Using online tools, they can correspond with other research groups, post comments and questions, prepare summary reports and in general, participate in an aspect of scientific research that is often left out of classroom experiments.
 				</p>
-					 
+				
 				
 				
 				<h2>Introduction to Research:</h2>
 				<p>
-				The CMS Project explores the potential of using virtual data grid tools and techniques for secondary science education. Like the Cosmic ray e-Lab, this e-Lab provides an opportunity for:</p>
-				<ul>
-					<li>Students to do authentic research using exploratory virtual data tools to access, process and publish data, report and share their results as online posters, and have online discussions with one another about their work.</li>
-					<li>Student researchers to experience membership in a scientific collaboration.</li>
-					<li>Student researchers to make contributions to the study of particle physics.</li>
-				</ul>
-					<p>Situated in the LHC, the CMS detector will be used to study proton-proton collisions, in search of the predicted Higgs boson that may be instrumental in explaining why particles have mass. Pions, muons, electrons, photons, neutrinos and other particles are produced in these collisions and subsequent decays. By exploring the various subdetectors arrayed to detect this myriad of collision products and by attending to the crucial roles played by conservation of mass, momentum and charge in event analysis, students are able to make sense of the same plots which particle physicists use in analyzing collision data. They can in turn produce their own plots and use these to set up and pursue questions they themselves put to the data.</p>
-					
+					The CMS Project explores the potential of using virtual data grid tools and techniques for secondary science education. Like the cosmic ray e-Lab, this e-Lab provides an opportunity for:
+					<ul>
+						<li>
+							Students to do authentic research using exploratory 
+							virtual data tools to access, process and publish data, report 
+							and share their results as online posters, and have online 
+							discussions with one another about their work.
+						</li>
+						<li>
+							Student researchers to experience membership in a 
+							scientific collaboration.
+						</li>
+						<li>
+							Student researchers to make real contributions to the 
+							study of  particle physics.
+						</li>
+					</ul>
+				</p>
+				<p>
+					When situated in the LHC, the CMS detector will be used to study proton-proton collisions, in search of the predicted Higgs boson that may be instrumental in explaining why particles have mass. Pions, muons, electrons, photons, neutrinos and other particles are produced in these collisions and subsequent decays. When a proton-proton collision takes place, these particles interact with the detector in ways particular to each particle. This way of interacting particular to each kind of particle are known as a particle signature in the detector. While the CMS detector in the LHC will produce much more complicated sets of particles, viewing Test Beam data provides a way for students to get an introductory feel for basic particle signatures, and to explore properties of the detector which will be important background for subsequent CMS research in the LHC.
+</p><p>
+By observing how particles interact with the detector, a researcher can determine which types of particles were produced in the collision. Because CMS will use a much higher energy beam than was previously available, higher mass particles will be able to be detected. Many top quarks are expected to be seen and the predicted Higgs boson may be discovered. The possibility of finding particles that were previously "un-seeable" with other detectors at other facilities is exciting.
+
+				</p>	
 				<h2>Prior Knowledge and Skills:</h2>
 				<p>
 					Before doing this project, students should know how to: 
@@ -80,10 +90,10 @@ Students use a data base and analysis tool on the website. The Online Graphical 
 					<ul>
 						<li>Content and Investigation:
 							<ul>
-								<li>Describe particles colliding in and emerging from collisions detected by CMS as predicted by the Standard Model.</li>
-								<li>List in order and describe the CMS subdetectors in terms of the properties of the particles they detect.</li>
-								<li>Explain the role that conservation of mass/energy, momentum, and charge play in analyzing events detected at CMS.</li>
-								<li>Design, conduct and report on an investigation of a testable hypothesis for which evidence can be provided using CMS data.</li> 								
+								<li>Describe how determination of particle signatures from the test beam contributes to the calibration of, and particle identification in, the CMS detector.</li>
+								<li>Describe the role of each sub-detector in data analysis.</li>
+								<li>Use data to measure and describe detector characteristics.</li>
+								<li>Design an investigation with a testable hypothesis that can be answered from CMS Test Beam data. Describe what you will learn about the CMS detector from carrying out the investigation.</li>
 							</ul>
 						</li>
 							<%@ include file="learner-outcomes.jsp" %>
@@ -123,8 +133,8 @@ Students use a data base and analysis tool on the website. The Online Graphical 
 							<li>
 							<b>e-Logbooks:</b> Track progress and provide feedback on student work.<br>
 							Review student evidence of what they know/understand and reflections on their research.<br> 
-							Review all student entries for a particular milestone&mdash;e.g., describe CMS physics&mdash;and make notes in your teacher's logbook for next year. 
-							Look at this <a href="#" onclick="javascript:window.open('../graphics/logbook-sample.gif', 'content', 'width=504,height=373, resizable=1, scrollbars=1');return false;">sample logbook</a>.
+							Review all student entries for a particular milestone, e.g., class cosmic ray descriptions, and make notes in your logbook for next year. 
+							Look at this <a href="#" onclick="javascript:window.open('../graphics/logbook-sample.gif', 'content', 'width=680,height=901, resizable=1, scrollbars=1');return false;">sample logbook</a>.
 							
 							</li>
 							<li>
@@ -133,6 +143,7 @@ Students use a data base and analysis tool on the website. The Online Graphical 
 					
 				</ul>
 			
+					 
 
 				<h2>Research Question:</h2>
 				<p>
@@ -152,9 +163,12 @@ Students use a data base and analysis tool on the website. The Online Graphical 
 					Many experiments have been investigating the smallest particles. 
 					For example, the top quark was discovered at the accelerator at 
 					Fermi National Accelerator Laboratory by the CDF and D0 collaborations. Students will be able 
-					to see the results of other researchers in this field. 
-					
-					Students can explore simulated data, and once the LHC comes on line they can enter into the CMS research effort by analyzing run data, comparing it to simulated data, and sharing it with a collaboration of their peers.
+					to see the results of other researchers in this field. At this 
+					time student will be looking at test beam data which will help 
+					them understand how particles interact  with the detector. When the LHC 
+					comes on line, students will be a part of this ongoing research 
+					by analyzing data and sharing it with a collaboration of their 
+					peers.
 				</p>
   
 				

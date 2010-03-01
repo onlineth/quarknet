@@ -61,9 +61,6 @@ function wfMyAssignAValue(&$parser, &$cache, &$magicWordId, &$ret) {
      elseif ($elab == 'cms') {
         $ret = 'CMS';
      }
-     elseif ($elab == 'cms-tb') {
-        $ret = 'CMS TB';
-     }
      elseif ($elab == 'ligo') {
         $ret = 'LIGO';
      }
