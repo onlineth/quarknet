@@ -6,7 +6,7 @@ public class ElabSurveyQuestionAnswer implements Comparable<ElabSurveyQuestionAn
 	private int number; 
 
 	public ElabSurveyQuestionAnswer(int id, String text, int response_no) {
-		this.id = Integer.valueOf(id);
+		this.id = new Integer(id);
 		this.text = text; 
 		this.number = response_no;
 	}
@@ -20,7 +20,7 @@ public class ElabSurveyQuestionAnswer implements Comparable<ElabSurveyQuestionAn
 	}
 
 	public void setId(int id) {
-		this.id = Integer.valueOf(id);
+		this.id = new Integer(id);
 	}
 
 	public Integer getId() {

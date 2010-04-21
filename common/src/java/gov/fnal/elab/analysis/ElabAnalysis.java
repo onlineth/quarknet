@@ -3,10 +3,6 @@
  */
 package gov.fnal.elab.analysis;
 
-import gov.fnal.elab.Elab;
-import gov.fnal.elab.ElabGroup;
-
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +11,7 @@ import java.util.Map;
  * Represents an abstract elab analysis
  * 
  */
-public interface ElabAnalysis extends Serializable {
+public interface ElabAnalysis {
     /**
      * 
      */
@@ -34,10 +30,10 @@ public interface ElabAnalysis extends Serializable {
      * can make sense of this type.
      */
     void setType(String type);
-
+    
     /**
-     * Returns a user-friendly name for the analysis. Typically this would be
-     * done by stripping the namespace off the type.
+     * Returns a user-friendly name for the analysis. Typically
+     * this would be done by stripping the namespace off the type.
      */
     String getName();
 
@@ -55,7 +51,7 @@ public interface ElabAnalysis extends Serializable {
      * Returns the value of a parameter
      */
     Object getParameter(String name);
-
+    
     /**
      * Retrieves the values of a vector parameter
      */
@@ -69,9 +65,9 @@ public interface ElabAnalysis extends Serializable {
     boolean isDefaultValue(String name, Object value);
 
     /**
-     * Returns <code>true</code> if the value of a parameter is valid. It is not
-     * necessary for such a value to be a non-default value in order for it to
-     * be valid.
+     * Returns <code>true</code> if the value of a parameter is valid. It is
+     * not necessary for such a value to be a non-default value in order for it
+     * to be valid.
      */
     boolean isParameterValid(String name);
 
@@ -93,12 +89,12 @@ public interface ElabAnalysis extends Serializable {
      * meaning of these, but in principle the following could are believed to be
      * true:<br>
      * <ol>
-     * <li>If this method returns <code>TYPE_LIST</code> for a parameter, its
+     * <li> If this method returns <code>TYPE_LIST</code> for a parameter, its
      * value should be a subclass of <code>java.util.List</code>
      * <li> <code>TYPE_ANY</code> means that the implementation cannot provide
      * sufficient information to differentiate between <code>TYPE_LIST</code>
-     * and <code>TYPE_SCALAR</code>, and that other means should be figured for
-     * finding out what exactly is a valid value for that parameter.
+     * and <code>TYPE_SCALAR</code>, and that other means should be figured
+     * for finding out what exactly is a valid value for that parameter.
      * Alternatively, the implementation may not care what the type of the value
      * is or it will automatically make sense of it.
      * </ol>
@@ -106,12 +102,13 @@ public interface ElabAnalysis extends Serializable {
     Class getParameterType(String name);
 
     /**
-     * Returns <code>true</code> if this analysis supports the given parameter.
+     * Returns <code>true</code> if this analysis supports the given
+     * parameter.
      */
     boolean hasParameter(String name);
 
     /**
-     * Returns a (typically immutable) Map of the parameters.
+     * Returns a (typically immutable) Map of the parameters. 
      */
     Map getParameters();
 
@@ -124,26 +121,18 @@ public interface ElabAnalysis extends Serializable {
      * Returns this analysis' parameter in URL form.
      */
     String getEncodedParameters();
-
+    
     void initialize(String param) throws InitializationException;
-
+    
     AnalysisParameterTransformer getParameterTransformer();
 
     void setParameterTransformer(AnalysisParameterTransformer parameterTransformerInstance);
-
+    
     void setAttribute(String name, Object value);
-
+    
     Object getAttribute(String name);
-
+    
     void setAttributes(Map attributes);
-
+    
     Map getAttributes();
-    
-    Elab getElab();
-    
-    ElabGroup getUser();
-    
-    void setElab(Elab elab);
-    
-    void setUser(ElabGroup user);
 }

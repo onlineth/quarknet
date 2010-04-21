@@ -30,8 +30,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import java.net.*; 
 
@@ -41,8 +39,6 @@ import javax.servlet.jsp.JspWriter;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.PNGTranscoder;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
 
 public class ElabUtil {
 
@@ -66,7 +62,7 @@ public class ElabUtil {
         }
     }
 
-    @Deprecated public static String fixQuotes(String param) {
+    public static String fixQuotes(String param) {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < param.length(); i++) {
             char c = param.charAt(i);
@@ -457,7 +453,7 @@ public class ElabUtil {
             }
         }
         catch (IOException e) {
-            throw new ElabJspException("Failed to run '" + Arrays.toString(fullcmd) + "'. "
+            throw new ElabJspException("Failed to run '" + fullcmd + "'. "
                     + e.getMessage(), e);
         }
     }
@@ -555,13 +551,13 @@ public class ElabUtil {
             year = year - 1;
         }
 
-        double r = (2 - Math.round(year / 100.0) + Math.round(year / 400.0) + day
-                + Math.round(365.25 * (year + 4716))
-                + Math.round(30.6001 * (month + 1)) - 1524.5);
+        double r = (2 - (year / 100) + (year / 400) + day
+                + (int) (365.25 * (year + 4716))
+                + (int) (30.6001 * (month + 1)) - 1524.5);
         return r + (hour + minute / 60.0 + second / 3600.0) / 24.0;
     }
 
-    @Deprecated public static String stripHTML(String text) {
+    public static String stripHTML(String text) {
         StringBuffer sb = new StringBuffer();
         boolean tag = false;
         for (int i = 0; i < text.length(); i++) {
@@ -582,24 +578,8 @@ public class ElabUtil {
         }
         return sb.toString();
     }
-    
-    @Deprecated public static String escapePoster(String unescaped) {
-    	String escaped = unescaped.replaceAll(Pattern.quote("\'"), "&#39;");
-    	escaped = escaped.replaceAll("%", "&#37;");
-    	return escaped;
-    }
-    
-    @Deprecated public static String unescapePoster(String escaped) {
-    	String unescaped = escaped.replaceAll("&#37;", "%");
-    	unescaped = unescaped.replaceAll("&#34;", Matcher.quoteReplacement("\""));
-    	unescaped = unescaped.replaceAll("&quot;", Matcher.quoteReplacement("\""));
-    	unescaped = unescaped.replaceAll("&#39;", Matcher.quoteReplacement("\'"));
-    	unescaped = unescaped.replaceAll("&amp;", "&");
-    	return unescaped;
-    }
 
-    
-    @Deprecated public static String whitespaceAdjust(String text) {
+    public static String whitespaceAdjust(String text) {
         text = text.replaceAll("\n", "<br />");
         // this should be changed to only allow <a> and <img> tags
         text = text.replaceAll("(?i)</?\\s*script[^>]*>", "");
