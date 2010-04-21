@@ -49,23 +49,11 @@
 	
 	// New survey/test handler is active by default. 
 	if (user.getNewSurveyId() == null) { 
-		if (StringUtils.equalsIgnoreCase(elab.getName(), "cosmic")) {
+		if (elab.getId().equals("1")) {
 			newSurveyId = Integer.parseInt(elab.getProperty("cosmic.newsurvey"));
 			user.setNewSurveyId(newSurveyId);
 		}
 		// set handlers for everything else. 
-		else if (StringUtils.equalsIgnoreCase(elab.getName(), "ligo")) {
-			newSurveyId = Integer.parseInt(elab.getProperty("ligo.newsurvey"));
-			user.setNewSurveyId(newSurveyId);
-		}
-		else if (StringUtils.equalsIgnoreCase(elab.getName(), "cms")) {
-			newSurveyId = Integer.parseInt(elab.getProperty("cms-tb.newsurvey"));
-			user.setNewSurveyId(newSurveyId);
-		}
-		else if (StringUtils.equalsIgnoreCase(elab.getName(), "cms")) {
-			newSurveyId = Integer.parseInt(elab.getProperty("cms-tb.newsurvey"));
-			user.setNewSurveyId(newSurveyId);
-		}
 	}
 	else {
 		newSurveyId = user.getNewSurveyId().intValue();
@@ -125,19 +113,19 @@
 				    group.setRole(ElabUser.ROLE_UPLOAD);
 				}
 				
-				if (StringUtils.equalsIgnoreCase(elab.getName(), "cosmic")) { // cosmic
+				if (elab.getId().equals("1")) { // cosmic
 					group.setSurvey(false); // old, deprecated handler is disabled
 					group.setStudy(teacherInStudy);
 					group.setNewSurvey(groupInSurvey);
 					group.setNewSurveyId(newSurveyId);
 				}
-				else if (StringUtils.equalsIgnoreCase(elab.getName(), "ligo") ||
-						 StringUtils.equalsIgnoreCase(elab.getName(), "cms") ||
-						 StringUtils.equalsIgnoreCase(elab.getName(), "cms-tb")) {
-					group.setSurvey(false);
-					group.setStudy(false);
-					group.setNewSurvey(groupInSurvey);
-					group.setNewSurveyId(newSurveyId);
+				else if (elab.getId().equals("2")) {
+					// TODO: LIGO 
+					// Anyone taking this test will be in the 'New Survey' system
+				}
+				else if (elab.getId().equals("3")) {
+					// TODO: CMS
+					// Anyone taking this test will be in the 'New Survey' system
 				}
 				students.add(newUser);
 				newGroups.add(Boolean.valueOf(isNewGroup));
@@ -201,7 +189,7 @@
 			<ul>
 				<li>
 					Register new students below.  To register more students, click on the&nbsp; 
-					<strong>+</strong> &nbsp;button.<br /><br />
+					<strong>+</strong> &nbsp;button.
 				</li>
 				<li>
 					We will create new groups and their associated passwords for you.

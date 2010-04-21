@@ -128,9 +128,6 @@ public class Analysis extends TagSupport {
                 analysis.setParameter(analysisParamName, request
                         .getParameter(name));
             }
-            else if (type.equals(Integer.class) || type.equals(int.class)) {
-            	analysis.setParameter(analysisParamName, Integer.valueOf(request.getParameter(name)));
-            }
             else if (type.equals(Boolean.class) || type.equals(boolean.class)) {
                 analysis.setParameter(analysisParamName, Boolean
                         .valueOf(request.getParameter(name)));

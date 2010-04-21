@@ -5,7 +5,6 @@
 
 <%
 	Elab elab = Elab.getElab(pageContext, "cosmic");
-	session.setAttribute("elab", elab);
 	request.setAttribute("elab", elab);
 	request.setAttribute("user", ElabGroup.getUser(session));
 %>

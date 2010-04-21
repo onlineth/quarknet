@@ -9,8 +9,6 @@ import gov.fnal.elab.util.ElabException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import javax.servlet.http.HttpSession;
 
@@ -23,18 +21,14 @@ public class ElabGroup implements Comparable {
     public static final String ROLE_UPLOAD = "upload";
 
     public static final String USER_SESSION_VARIABLE = "elab.user";
-    
-    private int teacherId, id; 
 
-    private String role, userArea, userDirURL, userDir, name,
-            webapp, email;
+    private String teacherId, role, userArea, userDirURL, userDir, name,
+            webapp, id, email;
     private boolean firstTime, guest, survey;
     private Elab elab;
     private String year, city, state, school, teacher;
     private String namelc;
-    private SortedMap<String, ElabGroup> groups; 
-    private SortedMap<Integer, ElabStudent> students;
-    private Map attributes;
+    private Map groups, students, attributes;
     
     // Used only if a group is in a study
     private boolean study = false;
@@ -60,8 +54,8 @@ public class ElabGroup implements Comparable {
         this.provider = provider;
         this.elab = elab;
         this.webapp = elab.getProperties().getProperty("elab.webapp", "elab");
-        this.groups = new TreeMap(String.CASE_INSENSITIVE_ORDER);
-        this.students = new TreeMap();
+        this.groups = new HashMap();
+        this.students = new HashMap();
         this.attributes = new HashMap();
     }
 
@@ -120,11 +114,11 @@ public class ElabGroup implements Comparable {
     /**
      * Returns the ID of the teacher that this user belongs to
      */
-    public int getTeacherId() {
+    public String getTeacherId() {
         return teacherId;
     }
 
-    public void setTeacherId(int teacherId) {
+    public void setTeacherId(String teacherId) {
         this.teacherId = teacherId;
     }
 
@@ -143,9 +137,7 @@ public class ElabGroup implements Comparable {
         if (elab != null) {
             this.userDirURL = elab.getProperties().getUsersDir() + '/'
                     + userArea + '/' + elab.getName();
-            if (elab.getServletContext() != null) {
-                this.userDir = elab.getServletContext().getRealPath(userDirURL);
-            }
+            this.userDir = elab.getServletContext().getRealPath(userDirURL);
         }
     }
 
@@ -297,11 +289,11 @@ public class ElabGroup implements Comparable {
         }
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -364,11 +356,11 @@ public class ElabGroup implements Comparable {
      * Retrieve a collection of <code>ElabGroup</code> objects containing
      * information about the groups associated with this teacher.
      */
-    public Collection<ElabGroup> getGroups() {
+    public Collection getGroups() {
         return groups.values();
     }
 
-    public Collection<String> getGroupNames() {
+    public Collection getGroupNames() {
         return groups.keySet();
     }
 
@@ -377,7 +369,7 @@ public class ElabGroup implements Comparable {
     }
 
     public ElabGroup getGroup(String name) {
-        return groups.get(name);
+        return (ElabGroup) groups.get(name);
     }
 
     public void addStudent(ElabStudent student) {
@@ -391,11 +383,11 @@ public class ElabGroup implements Comparable {
         students.remove(student.getId());
     }
 
-    public ElabStudent getStudent(int id) {
-        return students.get(id);
+    public ElabStudent getStudent(String id) {
+        return (ElabStudent) students.get(id);
     }
 
-    public Collection<ElabStudent> getStudents() {
+    public Collection getStudents() {
         return students.values();
     }
 
@@ -466,7 +458,7 @@ public class ElabGroup implements Comparable {
 	}
 	
 	public void setNewSurveyId(int id) {
-		this.newSurveyId = Integer.valueOf(id);
+		this.newSurveyId = new Integer(id);
 	}
 
 	public void setNewSurvey(boolean newSurvey) {

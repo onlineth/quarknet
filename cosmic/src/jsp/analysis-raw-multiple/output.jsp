@@ -12,44 +12,6 @@
 <%@ include file="../include/elab.jsp" %>
 <%@ include file="../login/login-required.jsp" %>
 
-<%
-// Process the output of the analysis if any and stick files in the VDC
-String id = request.getParameter("id");
-AnalysisRun results = null;
-if (id != null) {	    
-	results = AnalysisManager.getAnalysisRun(elab, user, id);
-	if (results == null) {
-	    throw new ElabJspException("Invalid analysis id: " + id);
-	}
-	request.setAttribute("results", results);
-    List outfs = (List) results.getAnalysis().getParameter("outFile");
-    
-    Iterator i = outfs.iterator();
-    while (i.hasNext()) {
-        String outf = (String) i.next();
-        
-		List meta = new ArrayList();
-	
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		meta.add("transformation string Quarknet.Cosmic::RawAnalyzeStudy");
-		meta.add("creationdate date " + timestamp.toString());
-		meta.add("source string " + results.getAnalysis().getParameter("inFile"));
-		meta.add("gatewidth int " + results.getAnalysis().getParameter("gatewidth"));
-		meta.add("name string " + new File(outf).getName());
-		
-		//path data
-		meta.add("city string " + user.getCity());
-		meta.add("group string " + user.getName());
-		meta.add("project string " + elab.getName());
-		meta.add("school string " + user.getSchool());
-		meta.add("state string " + user.getState());
-		meta.add("teacher string " + user.getTeacher());
-		meta.add("year string " + user.getYear());
-		elab.getDataCatalogProvider().insert(DataTools.buildCatalogEntry(new File(outf).getName(), meta));
-    }
-}
-%>
-
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -89,9 +51,6 @@ if (id != null) {
 	<c:import url="rawanalyzeMultiple.xsl" var="stylesheet" />
 	<%
 		String[] lfn = request.getParameterValues("f");
-		if (lfn == null && results != null) {
-		    lfn = (String[]) results.getAnalysis().getAttribute("f");
-		}
 		if (lfn == null) {
 		   	throw new ElabJspException("No files specified");
 		}
@@ -99,8 +58,7 @@ if (id != null) {
 		    String did = AnalysisParameterTools.getDetectorId(lfn[i]);
 			File analyze = new File(new File(elab.getProperties().getDataDir(), did), lfn[i] + ".analyze");
 			CatalogEntry entry = elab.getDataCatalogProvider().getEntry(analyze.getName());
-			CatalogEntry raw = elab.getDataCatalogProvider().getEntry(lfn[i]);
-		    if (!analyze.exists()) {
+		    if (entry == null || !analyze.exists()) {
 		        %>
 					<tr>
 						<td colspan="9"><%= lfn[i] %> has not been 
@@ -113,12 +71,11 @@ if (id != null) {
 		    else {
 	            BufferedReader br = new BufferedReader(new FileReader(analyze));
 	            request.setAttribute("entry", entry);
-	            request.setAttribute("raw", raw);
 					%>
 			            <tr>
                				<td align="left">${entry.tupleMap.school}</td>
-			                <td align="center">${raw.tupleMap.startdate}</td>
-							<td align="center">${raw.tupleMap.enddate}</td>
+			                <td align="center">${entry.tupleMap.startdate}</td>
+							<td align="center">${entry.tupleMap.enddate}</td>
 							<x:transform xslt="${stylesheet}">
 								<%
 									String str;

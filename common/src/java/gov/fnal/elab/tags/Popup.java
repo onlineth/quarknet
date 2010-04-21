@@ -16,7 +16,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 import org.apache.commons.lang.StringEscapeUtils; 
 
 public class Popup extends TagSupport {
-    private String href, width, height, target, now, toolbar, cclass;
+    private String href, width, height, target, now, toolbar;
 
     public int doEndTag() throws JspException {
         try {
@@ -61,13 +61,7 @@ public class Popup extends TagSupport {
                 if ("true".equals(toolbar)) {
                     out.write(", toolbar=1");
                 }
-                out.write("');return false;\"");
-                if (cclass != null) {
-                    out.write(" class=\"");
-                    out.write(cclass);
-                    out.write("\"");
-                }
-                out.write(">");
+                out.write("');return false;\">");
             }
         }
         catch (Exception e) {
@@ -89,7 +83,7 @@ public class Popup extends TagSupport {
     }
 
     public void setHref(String href) {
-    	this.href = StringEscapeUtils.escapeJavaScript(href);
+        this.href = StringEscapeUtils.escapeJavaScript(href);
     }
 
     public String getWidth() {
@@ -123,12 +117,6 @@ public class Popup extends TagSupport {
     public void setToolbar(String toolbar) {
         this.toolbar = toolbar;
     }
-
-    public String getCclass() {
-        return cclass;
-    }
-
-    public void setCclass(String cclass) {
-        this.cclass = cclass;
-    }
+    
+    
 }

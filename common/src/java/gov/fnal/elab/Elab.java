@@ -11,32 +11,28 @@ import gov.fnal.elab.usermanagement.AuthenticationException;
 import gov.fnal.elab.usermanagement.ElabUserManagementProvider;
 import gov.fnal.elab.util.DatabaseConnectionManager;
 import gov.fnal.elab.util.ElabException;
+import gov.fnal.elab.util.ElabUtil;
 import gov.fnal.elab.util.URLEncoder;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.PageContext;
 
 /**
  * This class provides a centralized access point for an elab, including
  * properties and providers.
  */
-public class Elab implements Serializable {
+public class Elab {
     private static Map elabs;
     private static Elab global;
 
@@ -146,11 +142,10 @@ public class Elab implements Serializable {
 
     private String name;
     private ElabProperties properties;
-    private int id;
+    private String id;
     private ElabFAQ faq;
     private ServletContext context;
     private ServletConfig config;
-    private PageContext pageContext;
     private Map attributes;
 
     /**
@@ -166,15 +161,10 @@ public class Elab implements Serializable {
     protected Elab(PageContext pc, String name) {
         this.name = name;
         this.properties = new ElabProperties(name);
-        this.pageContext = pc;
-        if (pc != null) {
-            this.context = pc.getServletContext();
-            this.config = pc.getServletConfig();
-        }
+        this.context = pc.getServletContext();
+        this.config = pc.getServletConfig();
         this.attributes = new HashMap();
     }
-    
-    
 
     /**
      * Retrieves the <code>ServletContext</code> in which this
@@ -212,16 +202,17 @@ public class Elab implements Serializable {
 
     protected void updateId() throws SQLException, ElabException {
         // this should perhaps be moved somewhere else?
-        PreparedStatement ps = null;
+        Statement s = null;
         Connection conn = null;
         try {
             conn = DatabaseConnectionManager.getConnection(properties);
-            ps = conn.prepareStatement("SELECT id FROM project WHERE name = ?;");
-            ps.setString(1, name);
-            ResultSet rs = ps.executeQuery();
+            s = conn.createStatement();
+            ResultSet rs;
+            rs = s.executeQuery("SELECT id from project where "
+                    + "project.name='" + ElabUtil.fixQuotes(name) + "';");
             if (rs.next()) {
-                this.id = rs.getInt(1);
-                int id = this.id;
+                this.id = rs.getString(1);
+                int id = Integer.parseInt(this.id);
                 sid = Math.max(sid, id + 1);
             }
             else {
@@ -233,50 +224,24 @@ public class Elab implements Serializable {
             System.out.println("Failed to update elab id for " + name
                     + ". Using elab name as ID.");
             e.printStackTrace();
-            this.id = sid++;
-        }
-        finally {
-            DatabaseConnectionManager.close(conn, ps);
-        }
-    }
-    
-    private static final Elab[] ELAB_ARRAY = new Elab[0];
-    
-    public Elab[] getAllElabs() {
-        List elabs = new ArrayList();
-        Statement s = null;
-        Connection conn = null;
-        try {
-            conn = DatabaseConnectionManager.getConnection(properties);
-            s = conn.createStatement();
-            ResultSet rs;
-            rs = s.executeQuery("SELECT name from project;");
-            while (rs.next()) {
-                String name = rs.getString(1);
-                elabs.add(getElab(null, name));
-            }
-        }
-        catch (Exception e) {
-            System.out.println("Failed to retrieve elab list");
-            e.printStackTrace();
+            this.id = String.valueOf(sid++);
         }
         finally {
             DatabaseConnectionManager.close(conn, s);
         }
-        return (Elab[]) elabs.toArray(ELAB_ARRAY);
     }
 
     /**
      * Returns this elab's ID.
      */
-    public int getId() {
+    public String getId() {
         return id;
     }
 
     /**
      * Sets the ID of this elab
      */
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -477,9 +442,5 @@ public class Elab implements Serializable {
             realPaths = new RealPathMap(this, context);
         }
         return realPaths;
-    }
-    
-    public HttpSession getSession() {
-        return pageContext.getSession();
     }
 }
