@@ -18,7 +18,12 @@
 			<div id="top">
 				<div id="header">
 					<%@ include file="../include/header.jsp" %>
-					<%@ include file="../include/nav-rollover.jspf" %>
+					<div id="nav">
+						<%@ include file="../include/nav.jsp" %>
+						<div id="subnav">
+							<%@ include file="../include/nav-data.jsp" %>
+						</div>
+					</div>
 				</div>
 			</div>
 			
@@ -30,7 +35,7 @@
 	<tr>
 		<td>
 			<div id="left"><p>
-			To view data for CMS studies, you need to <a href="${elab.properties['ogre']}" target="ogre">access OGRE</a> and click <b>Select Data</b>.  If it asks you to log in, use your research group name.
+			To view data for CMS studies, you need to <a href="http://129.74.67.184/~ogre/" target="ogre">access OGRE</a> and click <b>Select Data</b>.  If it asks you to log in, use your research group name.
 			</p>
 		</td>
 	</tr>

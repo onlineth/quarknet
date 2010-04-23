@@ -2,11 +2,8 @@
 <%@ include file="../include/elab.jsp" %>
 <%@ page import="java.io.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="java.util.regex.*" %>
 <%@ page import="org.apache.regexp.*" %>
-<%@ page import="org.apache.commons.lang.*" %>
 <%@ page import="gov.fnal.elab.*" %>
-<%@ page import="gov.fnal.elab.util.*" %>
 <%@ page import="gov.fnal.elab.datacatalog.*" %>
 <%@ page import="gov.fnal.elab.datacatalog.query.*" %>
 
@@ -99,9 +96,6 @@
 	catch (Exception e) {
 		throw new JspException("Error reading poster file " + e.getMessage());
 	}
-	
-	// Legacy handling
-	pdata = pdata.replaceAll("PARA:AUTHORS", Matcher.quoteReplacement("WORDS:AUTHORS"));
 
 	// Store poster data into hash table, keyed by "tagtype:tagname"
 
@@ -120,17 +114,25 @@
 	// Merge tag values into html template, by iterating over hash
 	// of tag values and inserting them into the template string;
 	// then write template into (user's) poster_mgb.html file
-	
+
 	Iterator it = tags.keySet().iterator();
 	String prevKey = null;
 	while (it.hasNext()) {
 		String key = (String) it.next();
 		StringBuffer sb = new StringBuffer((String) tags.get(key));
-		if ("paper".equals(type) && key.startsWith("WORDS:CAPTION")) { 
-			template = template.replaceAll("%" + key + "%", Matcher.quoteReplacement("Figure " + 
-				key.substring(key.length() - 1) + ". " + sb.toString())); 
+		// Have to write a down and dirty replace for the dollar-sign character. It will throw 
+		// an out of bounds exception if left to its own devices.
+		int i = sb.indexOf("$", 0);
+		while (i >= 0 && i < sb.length()) {
+			sb = sb.insert(i, '\\');
+			i += 2;
+			i = sb.indexOf("$", i);
 		}
-		template = template.replaceAll("%" + key + "%", Matcher.quoteReplacement(sb.toString()));
+		if ("paper".equals(type) && key.startsWith("WORDS:CAPTION")) { 
+			template = template.replaceAll("%" + key + "%", "Figure " + 
+				key.substring(key.length() - 1) + ". " + sb.toString()); 
+		}
+		template = template.replaceAll("%" + key + "%", sb.toString());
 	}
 
 	// Replace empty content fields with "not entered" and empty title fields with blank strings 
@@ -139,8 +141,7 @@
 	template = template.replaceAll("%PARA:RESULTS%", "Not entered"); 
 	template = template.replaceAll("%PARA:CONCLUSION%", "Not entered");
 	template = template.replaceAll("%PARA:BIBLIOGRAPHY%", "Not entered");
-	template = template.replaceAll("%PARA:INTRODUCTION%", "Not entered");
-	template = template.replaceAll("%WORDS:AUTHORS%", "");
+	template = template.replaceAll("%PARA:AUTHORS%", "");
 	template = template.replaceAll("%WORDS:TITLE%", ""); 
 	template = template.replaceAll("%WORDS:SUBTITLE%", ""); 
 	

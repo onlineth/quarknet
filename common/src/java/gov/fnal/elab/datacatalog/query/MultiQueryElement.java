@@ -15,10 +15,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class MultiQueryElement implements QueryElement {
-    private final QueryElement.TYPES type;
+    private final int type;
     private List children;
             
-    public MultiQueryElement(QueryElement.TYPES type) {
+    public MultiQueryElement(int type) {
         this.type = type;
         children = new LinkedList();
     }
@@ -31,7 +31,7 @@ public abstract class MultiQueryElement implements QueryElement {
         return children;
     }
 
-    public QueryElement.TYPES getType() {
+    public int getType() {
         return type;
     }
     
@@ -41,7 +41,7 @@ public abstract class MultiQueryElement implements QueryElement {
     
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append(type.toString());
+        sb.append(NAMES[type]);
         sb.append('(');
         Iterator i = children.iterator();
         while (i.hasNext()) {
