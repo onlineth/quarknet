@@ -51,7 +51,7 @@ public class AnalysisStats {
     private static Map eventKeys;
 
     private static void addEventKey(String key, int value) {
-        eventKeys.put(key, Integer.valueOf(value));
+        eventKeys.put(key, new Integer(value));
     }
 
     static {
@@ -152,7 +152,8 @@ public class AnalysisStats {
 
     public int getRuns(Date start, Date end) throws IOException {
         SortedMap[] m = getStats();
-        return getCount(m[VDS_START], start, end) + getCount(m[SWIFT_START], start, end);
+        return getCount(m[VDS_START], start, end)
+                + getCount(m[SWIFT_START], start, end);
     }
 
     private int getCount(SortedMap m, Date start, Date end) {
@@ -161,14 +162,16 @@ public class AnalysisStats {
             return 0;
         }
         else {
-            return ((Entry) m.get(m.lastKey())).count - ((Entry) m.get(m.firstKey())).count;
+            return ((Entry) m.get(m.lastKey())).count
+                    - ((Entry) m.get(m.firstKey())).count;
         }
     }
 
     private SortedMap[] getStats() throws IOException {
         SortedMap[] m;
         File f = new File(LOG);
-        if (stats == null || (m = (SortedMap[]) stats.get()) == null || f.lastModified() > timestamp) {
+        if (stats == null || (m = (SortedMap[]) stats.get()) == null
+                || f.lastModified() > timestamp) {
             m = load();
             stats = new WeakReference(m);
         }
@@ -205,8 +208,10 @@ public class AnalysisStats {
 
     private static final DateFormat DF2 = new SimpleDateFormat("yyyy-MM");
 
-    private int addRange(List l, int field, Calendar s, Calendar c, int max) throws IOException {
-        String key = (field == Calendar.YEAR ? String.valueOf(s.get(Calendar.YEAR)) : DF2.format(s.getTime()));
+    private int addRange(List l, int field, Calendar s, Calendar c, int max)
+            throws IOException {
+        String key = (field == Calendar.YEAR ? String.valueOf(s
+                .get(Calendar.YEAR)) : DF2.format(s.getTime()));
         int v = getRuns(s.getTime(), c.getTime());
         if (v != 0 || !l.isEmpty()) {
             l.add(new BarChartEntry(key, v));
@@ -273,7 +278,8 @@ public class AnalysisStats {
         Iterator i = sm.entrySet().iterator();
         while (i.hasNext()) {
             Map.Entry e = (Map.Entry) i.next();
-            l.add(new BarChartEntry((String) e.getKey(), ((Integer) e.getValue()).intValue()));
+            l.add(new BarChartEntry((String) e.getKey(), ((Integer) e
+                    .getValue()).intValue()));
         }
         percentize(l);
         return l;
@@ -287,7 +293,8 @@ public class AnalysisStats {
         Iterator i = sm.entrySet().iterator();
         while (i.hasNext()) {
             Map.Entry e = (Map.Entry) i.next();
-            l.add(new BarChartEntry((String) e.getKey(), ((Integer) e.getValue()).intValue()));
+            l.add(new BarChartEntry((String) e.getKey(), ((Integer) e
+                    .getValue()).intValue()));
         }
         percentize(l);
         return l;
@@ -320,10 +327,10 @@ public class AnalysisStats {
     private void increment(Map r, Object key) {
         Integer c = (Integer) r.get(key);
         if (c == null) {
-            c = Integer.valueOf(1);
+            c = new Integer(1);
         }
         else {
-            c = Integer.valueOf(c.intValue() + 1);
+            c = new Integer(c.intValue() + 1);
         }
         r.put(key, c);
     }
@@ -337,7 +344,8 @@ public class AnalysisStats {
         if (total == 0) {
             return "-";
         }
-        return failed + "/" + total + " (" + NF.format((double) failed / total * 100) + "%)";
+        return failed + "/" + total + " ("
+                + NF.format((double) failed / total * 100) + "%)";
     }
 
     public String getSwiftFailures() throws IOException {
@@ -347,7 +355,8 @@ public class AnalysisStats {
         if (success + failed == 0) {
             return "-";
         }
-        return failed + "/" + (success + failed) + " (" + NF.format((double) failed / (success + failed) * 100) + "%)";
+        return failed + "/" + (success + failed) + " ("
+                + NF.format((double) failed / (success + failed) * 100) + "%)";
     }
 
     public List getRawDataDistribution() throws IOException {
@@ -374,13 +383,6 @@ public class AnalysisStats {
         scale(l, max);
         return l;
     }
-    
-    public List getAvgDailyRawDataCountOverTime() throws IOException {
-        SortedMap[] m = getStats();
-        SortedMap sm = m[RAW_DATA].subMap(pstart, pend);
-        List l = new ArrayList();
-        return l;
-    }
 
     private String toInterval(Integer i) {
         if (i.intValue() < 3) {
@@ -395,13 +397,13 @@ public class AnalysisStats {
 
     private Integer logRange(int x) {
         if (false) {
-            return Integer.valueOf(x);
+            return new Integer(x);
         }
         if (x == 1) {
-            return Integer.valueOf(1);
+            return new Integer(1);
         }
         double l2 = Math.floor(log2(x)) + 1;
-        return Integer.valueOf((int) Math.pow(2, l2));
+        return new Integer((int) Math.pow(2, l2));
     }
 
     private static double log2(double x) {

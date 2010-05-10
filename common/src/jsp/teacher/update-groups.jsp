@@ -5,7 +5,6 @@
 <%@ page import="gov.fnal.elab.*" %>
 <%@ page import="gov.fnal.elab.usermanagement.*" %>
 <%@ page import="gov.fnal.elab.usermanagement.impl.*" %>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ page import="java.util.*" %>
 <%@ page errorPage="../include/errorpage.jsp" buffer="none" %>
 
@@ -39,7 +38,7 @@
 <%
 	String groupName = request.getParameter("group");
 	String ay = request.getParameter("ay");
-	String upload = request.getParameter("upload");
+	String role = request.getParameter("role");
 	String survey = request.getParameter("survey");
 	String detectorString = request.getParameter("detectorString");
 	String passwd1 = request.getParameter("passwd1");
@@ -49,7 +48,8 @@
 	String[] studentsToDelete = request.getParameterValues("deleteStudents");
 	
 	if ("Update Group Information".equals(submit)) {
-		if (groupName != null && ay != null && upload != null && survey != null) {
+		if (groupName != null && ay != null && role != null 
+		        && survey != null) {
 		    if (passwd1 != null && !passwd1.equals(passwd2) && passwd1.length() < 6) {
 				%>
 					<div class="error">Passwords do not match or are too short (must be at least six characters long)</div>
@@ -60,17 +60,10 @@
 				ElabGroup group = user.getGroup(groupName);
 				int newSurveyId = -1; 
 				boolean inSurvey = "yes".equals(survey);
-				boolean canUpload = "yes".equals(upload); 
 				if (group == null) {
 				    throw new ElabJspException("You are not the teacher for the specified group.");
 				}
-				
-				if (canUpload && !group.getRole().equals("teacher")) {
-					group.setRole("upload");
-				}
-				else if (!canUpload && !group.getRole().equals("teacher")) {
-					group.setRole("user");
-				}
+				group.setRole(role);
 				group.setYear(ay);
 				
 				if (group.getSurvey()) { // legacy handler, let the teacher remove them or do nothing. 
@@ -80,20 +73,12 @@
 					group.setSurvey(false);
 					group.setNewSurvey(true);
 					if (user.getNewSurveyId() == null) { 
-						if (StringUtils.equalsIgnoreCase(elab.getName(), "cosmic")) {
+						if (elab.getId().equals("1")) {
 							newSurveyId = Integer.parseInt(elab.getProperty("cosmic.newsurvey"));
 							user.setNewSurveyId(newSurveyId);
 						}
-						if (StringUtils.equalsIgnoreCase(elab.getName(), "ligo")) {
+						if (elab.getId().equals("3")) {
 							newSurveyId = Integer.parseInt(elab.getProperty("ligo.newsurvey"));
-							user.setNewSurveyId(newSurveyId);
-						}
-						if (StringUtils.equalsIgnoreCase(elab.getName(), "cms")) {
-							newSurveyId = Integer.parseInt(elab.getProperty("cms.newsurvey"));
-							user.setNewSurveyId(newSurveyId);
-						}
-						if (StringUtils.equalsIgnoreCase(elab.getName(), "cms-tb")) {
-							newSurveyId = Integer.parseInt(elab.getProperty("cms-tb.newsurvey"));
 							user.setNewSurveyId(newSurveyId);
 						}
 						// set handlers for everything else. 
@@ -109,14 +94,13 @@
 				}
 				
 				elab.getUserManagementProvider().updateGroup(group, passwd1);
-				if (studentsToDelete != null) {
-					for (String s : studentsToDelete) {
-						int studentToDelete = Integer.parseInt(s); 
-						elab.getUserManagementProvider().deleteStudent(group, studentToDelete);
+				if (studentsToDelete != null && studentsToDelete.length != 0) {
+					for (int j = 0; j < studentsToDelete.length; j++) {
+						elab.getUserManagementProvider().deleteStudent(group, studentsToDelete[j]);
 					}
 				}
 				out.write("<div class=\"results\">" + groupName + "'s information was successfully updated. ");
-				if (StringUtils.isNotBlank(prevPage) && !prevPage.endsWith("null")) {
+				if (prevPage != null && !prevPage.isEmpty()) {
 					out.write("<a href=\"" + java.net.URLDecoder.decode(prevPage) + "\">Click here to continue onto the e-lab</a>");
 				}
 				out.write("</div>");
@@ -166,39 +150,10 @@
 					<label for="role">Role:</label>
 				</td>
 				<td>
-					<c:choose>
-						<c:when test='${group.role == "admin"}'>
-							Administrator
-						</c:when>
-						<c:when test='${group.role == "teacher"}'>
-							Teacher
-						</c:when>
-						<c:otherwise>
-							User
-						</c:otherwise>
-					</c:choose>
-					
+					<e:trselect name="role" valueList="user, upload, teacher"
+						labelList="user, upload, teacher" value="${group.role}"/>
 				</td>
 			</tr>
-			<c:if test='${elab.name == "cosmic" }'>
-				<tr>
-					<td>
-						<label for="upload">Upload:</label>
-					</td>
-					<td>
-						<c:choose>
-							<c:when test='${group.role == "upload"}'>
-								<input type="radio" name="upload" value="no">No</input>
-								<input type="radio" name="upload" value="yes" checked>Yes</input>
-							</c:when>
-							<c:otherwise>
-								<input type="radio" name="upload" value="no" checked>No</input>
-								<input type="radio" name="upload" value="yes">Yes</input>
-							</c:otherwise>
-						</c:choose>
-					</td>
-				</tr>
-			</c:if>
 			<tr>
 				<td>
 					<label for="survey">In survey:</label>

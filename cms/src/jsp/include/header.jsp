@@ -2,22 +2,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="gov.fnal.elab.*" %>
 
-<script type="text/javascript" src="../include/jquery/js/jquery-1.4.min.js"></script>
-<script type="text/javascript" src="../include/json2.js"></script>
-<script type="text/javascript" src="../include/jquery/js/jquery-ui-1.7.2.custom.min.js"></script>
-<script type="text/javascript" src="../include/jquery/js/jquery.event.hover-1.0.js"></script>
-<script type="text/javascript" src="../include/jquery/js/css-gradients-via-canvas.js"></script>
 
-
-<%--
 <div id="header-image">
 	<img src="../graphics/cms_poster_horizontal_final.jpg" alt="Header Image" />
 </div>
---%>
-<div id="header-image">
-	<img src="../graphics/cms_logo.png" alt="CMS Logo" />
+<div id="header-image-teacher">
+	<img src="../graphics/blast.jpg" alt="Teacher Header Image" />
 </div>
-<div id="header-title">CMS e-Lab</div>
+<div id="header-title">CMS Test Beam e-Lab</div>
 <%
 	if (ElabGroup.isUserLoggedIn(session)) {
 		%>
