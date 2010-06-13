@@ -3,8 +3,6 @@
  */
 package gov.fnal.elab.analysis.impl.vds;
 
-import gov.fnal.elab.Elab;
-import gov.fnal.elab.ElabGroup;
 import gov.fnal.elab.analysis.AbstractAnalysis;
 import gov.fnal.elab.analysis.AnalysisParameterTransformer;
 import gov.fnal.elab.analysis.AnalysisTools;
@@ -51,8 +49,6 @@ public class VDSAnalysis extends ElabBean implements ElabAnalysis {
     private Map arguments, defaults, attributes;
     private int connected;
     private AnalysisParameterTransformer parameterTransformer;
-    private Elab elab;
-    private ElabGroup user;
 
     public VDSAnalysis() {
         defaults = new HashMap();
@@ -371,21 +367,5 @@ public class VDSAnalysis extends ElabBean implements ElabAnalysis {
     
     public Map getAttributes() {
         return attributes;
-    }
-
-    public Elab getElab() {
-        return elab;
-    }
-
-    public void setElab(Elab elab) {
-        this.elab = elab;
-    }
-
-    public ElabGroup getUser() {
-        return user;
-    }
-
-    public void setUser(ElabGroup user) {
-        this.user = user;
     }
 }

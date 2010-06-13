@@ -24,7 +24,7 @@
 					<%@ include file="../include/header.jsp" %>
 					<c:choose>
 						<c:when test="${user != null}">
-							<%@ include file="../include/nav-rollover.jspf" %>
+							<%@ include file="../include/nav-rollover.jsp" %>
 						</c:when>
 						<c:otherwise>
 							<div id="nav">

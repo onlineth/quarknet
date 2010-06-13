@@ -4,13 +4,12 @@
 package gov.fnal.elab.analysis;
 
 import gov.fnal.elab.Elab;
-import gov.fnal.elab.ElabProvider;
 
 /**
  * This interface describes the functionality required by elabs from a analysis
  * execution engine.
  */
-public interface AnalysisExecutor extends ElabProvider {
+public interface AnalysisExecutor {
     /**
      * Creates an analysis run object, which can later be started
      * 

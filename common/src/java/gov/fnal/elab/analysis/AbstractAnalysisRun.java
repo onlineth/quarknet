@@ -6,6 +6,7 @@ package gov.fnal.elab.analysis;
 import gov.fnal.elab.Elab;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,10 +20,6 @@ public abstract class AbstractAnalysisRun implements AnalysisRun {
     private static int sid = 0;
     private Map attributes;
     private Date startTime, endTime;
-    private AnalysisRunListener listener;
-    
-    public AbstractAnalysisRun() {
-    }
 
     public AbstractAnalysisRun(ElabAnalysis analysis, Elab elab,
             String outputDir) {
@@ -61,15 +58,7 @@ public abstract class AbstractAnalysisRun implements AnalysisRun {
     }
 
     public void setStatus(int status) {
-        boolean changed;
-        synchronized(this) {
-            changed = status != this.status;
-            this.status = status;
-        }
-
-        if (changed && getListener() != null) {
-            getListener().runStatusChanged(status);
-        }
+        this.status = status;
     }
 
     public boolean isFailed() {
@@ -100,7 +89,7 @@ public abstract class AbstractAnalysisRun implements AnalysisRun {
     }
 
     public Map getAttributes() {
-        return attributes;
+        return Collections.unmodifiableMap(attributes);
     }
 
     public ElabAnalysis getAnalysis() {
@@ -160,7 +149,7 @@ public abstract class AbstractAnalysisRun implements AnalysisRun {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    protected void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
@@ -168,7 +157,7 @@ public abstract class AbstractAnalysisRun implements AnalysisRun {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    protected void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
 
@@ -189,37 +178,5 @@ public abstract class AbstractAnalysisRun implements AnalysisRun {
         else {
             return "-";
         }
-    }
-
-    public void setAttributes(Map attributes) {
-        this.attributes = attributes;
-    }
-
-    public void setAnalysis(ElabAnalysis analysis) {
-        this.analysis = analysis;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-        synchronized (AnalysisRun.class) {
-            int aid;
-            try {
-                aid = Integer.parseInt(id);
-            }
-            catch (NumberFormatException e) {
-                aid = 0;
-            }
-            if (sid < aid) {
-                sid = aid;
-            }
-        }
-    }
-
-    public void setListener(AnalysisRunListener l) {
-        this.listener = l;
-    }
-
-    public AnalysisRunListener getListener() {
-        return listener;
     }
 }

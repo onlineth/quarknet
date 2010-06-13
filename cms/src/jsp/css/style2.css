@@ -16,28 +16,14 @@
 	width: 100%;
 	color: white;
 	text-align: center;
-	height: 6.25em;
-	background-color: black; 
-	
-	/* Rounded corners, Mozilla, Webkit, CSS3 */
-	-moz-border-radius-topleft: 8px;
-	-moz-border-radius-topright: 8px;
-	-webkit-border-radius-topleft: 8px;
-	-webkit-border-radius-topright: 8px;
-	border-top-left-radius: 8px;
-	border-top-right-radius: 8px;	
-	
-	/* Gradients: WebKit, Firefox 3.6+, IE8, IE7 */
-	background-image:-webkit-gradient(linear, left top, left bottom, from(#000), to(#fff));
-	background-image:-moz-linear-gradient(left top, left bottom, from(#000), to(#fff));
-	-ms-filter: "progid:DXImageTransform.Microsoft.Gradient(enabled='true', startColorstr='#00000000', endColorstr='#FFFFFFFF')";
-	filter: progid:DXImageTransform.Microsoft.Gradient(enabled='true', startColorstr='#00000000', endColorstr='#FFFFFFFF');
+	height: 160px;
 }
 
 #header {
 	position: relative;
 	width: 790px;
-	height: 100%;
+	/*border: 1px solid green;*/
+	height: inherit;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -57,12 +43,12 @@
 	display: none;
 }
 
+#header-image img {
+	width: 800px;
+}
+
 #header-title {
-	float: left;
-	font-family: Arial, sans-serif;
-	font-size: 200%;
-	margin-left: 20px;
-	padding-top: 4px;
+	display: none;
 }
 
 #header-current-user {
@@ -83,8 +69,8 @@
 	right: 0px;
 }
 
-/*
 #nav {
+	/*border: 1px solid red;*/
 	position: absolute;
 	width: 100%;
 	bottom: 0px;
@@ -92,7 +78,7 @@
 	margin-left: auto;
 	margin-right: auto;
 	text-align: right;
-	top: 140px;
+	top: 150px;
 }
 
 #nav #nav-list {
@@ -102,6 +88,7 @@
 #nav #nav-list tr {
 	background-image: url("../graphics/spacer_button.jpg");
 	background-repeat: repeat-x;
+	/*border: 1px dashed red;*/
 }
 
 #subnav table {
@@ -138,62 +125,8 @@
 	width: 99px;
 	height: 28px;
 	color: white;
+	/*the thing below is needed for the text shadow hack*/
 	position: relative;
-}
-*/
-
-#nav {
-	/*border: 1px solid red;*/
-	position: absolute;
-	width: 100%;
-	bottom: 0px;
-	right: 0px;
-	margin-left: auto;
-	margin-right: auto;
-	text-align: right;
-}
-
-#nav ul {
-	float: right;
-	text-align: right;
-	/*border: 1px dashed white;*/
-	position: relative;
-	right: 0px;
-	margin: 0px;
-	padding-right: 0px;
-	padding-bottom: 4px;
-}
-
-#subnav {
-	text-align: right;
-}
-
-#nav li {
-	display: inline;
-	text-align: center;
-	list-style: none;
-	padding-left: 0px;
-	padding-right: 0px;
-	padding-top: 0px;
-	padding-bottom: 0px;
-}
-
-#nav a {
-	display: block;
-	float: left;
-	text-align: center;
-	text-decoration: none;
-	font-size: 14px;
-	font-weight: bold;
-	margin-left: 4px;
-	margin-right: 0px;
-	padding-top: 0px;
-	padding-bottom: 0px;
-	padding-left: 3px;
-	padding-right: 3px;
-	width: 92px;
-	color: white;
-	border: 1px solid #666;
 }
 
 
@@ -203,11 +136,11 @@
 	width: 790px;
 	margin-left: auto;
 	margin-right: auto;
-	font-size: 10pt;
+	font-size: 100%;
 }
 
 #content h1 {
-	width: 100%;
+	width: 784px;
 	font-size: 17px;
 	font-weight: bold;
 	margin-top: 4px;
@@ -215,32 +148,6 @@
 	margin-left: 4px;
 	margin-right: 4px;
 	padding: 4px;
-	padding-left: 8px;
-	
-	/* Rounded corners, Mozilla, Webkit, CSS3 */
-	-moz-border-radius-topleft: 8px;
-	-moz-border-radius-topright: 8px;
-	-webkit-border-radius-topleft: 8px;
-	-webkit-border-radius-topright: 8px;
-	border-top-left-radius: 8px;
-	border-top-right-radius: 8px;	
-}
-
-h1.bottomheader, #content h1.bottomheader {
-	/* Rounded corners, Mozilla, Webkit, CSS3 */
-	-moz-border-radius-topleft: 0px;
-	-moz-border-radius-topright: 0px;
-	-webkit-border-radius-topleft: 0px;
-	-webkit-border-radius-topright: 0px;
-	border-top-left-radius: 0px;
-	border-top-right-radius: 0px;	
-	
-	-moz-border-radius-bottomleft: 8px;
-	-moz-border-radius-bottomright: 8px;
-	-webkit-border-radius-bottomleft: 8px;
-	-webkit-border-radius-bottomright: 8px;
-	border-bottom-left-radius: 8px;
-	border-bottom-right-radius: 8px;	
 }
 
 table#main {
@@ -480,24 +387,4 @@ label {
 
 a img {
 	border: none;
-}
-
-#log {
-	left: 0px;
-	right: 0px;
-	height: 106px;
-	border: thin solid black;
-	font-size: 8pt;
-	background-color: #e0e0e0;
-	padding: 4px;
-	color: black;
-	overflow: auto;
-	position: fixed;
-	bottom: 0px;
-	opacity: 0.9;
-}
-
-.plot-thumbnail-image {
-	width: 200px;
-	height: 100px;
 }

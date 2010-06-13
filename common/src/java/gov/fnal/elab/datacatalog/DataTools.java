@@ -19,7 +19,6 @@ import gov.fnal.elab.util.ElabException;
 import gov.fnal.elab.util.ElabUtil;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateFormatUtils;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -75,7 +74,11 @@ public class DataTools {
     public static final int ENDDATE = 10;
     public static final int DETECTORID = 11; 
 
-    public static final String MONTH_FORMAT = "MMMM yyyy";
+    public static final DateFormat MONTH_FORMAT;
+
+    static {
+        MONTH_FORMAT = new SimpleDateFormat("MMMM yyyy");
+    }
 
     /**
      * Organizes the search results in a hierarchical fashion and returns a
@@ -91,10 +94,14 @@ public class DataTools {
 
         StructuredResultSet srs = new StructuredResultSet();
         srs.setDataFileCount(rs.size());
-        for (CatalogEntry e : rs) {
+        Iterator i = rs.iterator();
+        while (i.hasNext()) {
+            CatalogEntry e = (CatalogEntry) i.next();
+            Iterator j = e.tupleIterator();
+
             Object[] data = new Object[KEYS.size()];
-            
-            for (Tuple t : e) {
+            while (j.hasNext()) {
+                Tuple t = (Tuple) j.next();
                 Integer index = (Integer) KEYS.get(t.getKey());
                 if (index != null) {
                     data[index.intValue()] = t.getValue();
@@ -131,7 +138,7 @@ public class DataTools {
             */
             
             Timestamp ts = (Timestamp) data[STARTDATE];
-            String startdate = DateFormatUtils.format(ts.getTime(), MONTH_FORMAT);
+            String startdate = MONTH_FORMAT.format(ts);
             Month month = school.getMonth(startdate);
             if (month == null) {
             	month = new Month(startdate, ts);
@@ -209,7 +216,7 @@ public class DataTools {
      * 
      * @return A figure caption
      */
-    public static String getFigureCaption(Elab elab, Collection<String> files)
+    public static String getFigureCaption(Elab elab, Collection files)
             throws ElabException {
         if (files == null || files.size() == 0) {
             return "";
@@ -302,14 +309,20 @@ public class DataTools {
      * @return A {@link Collection} of values
      * 
      */
-    public static Collection getUniqueValues(Elab elab, Collection<String> files,
+    public static Collection getUniqueValues(Elab elab, Collection files,
             String key) throws ElabException {
         ResultSet rs = elab.getDataCatalogProvider().getEntries(files);
         Set s = new HashSet();
-        for (CatalogEntry e : rs) {
-        	if (e != null && e.getTupleValue(key) != null) {
-        		s.add(e.getTupleValue(key));
-        	}
+        Iterator i = rs.iterator();
+        while (i.hasNext()) {
+            CatalogEntry e = (CatalogEntry) i.next();
+            if (e == null) {
+                continue;
+            }
+            Object v = e.getTupleValue(key);
+            if (v != null) {
+                s.add(v);
+            }
         }
         return s;
     }
@@ -387,9 +400,11 @@ public class DataTools {
      * @return A {@link CatalogEntry}
      */
     public static CatalogEntry buildCatalogEntry(final String lfn,
-            final Collection<String> metadata) {
-        final Map<String, Object> tuples = new HashMap();
-        for (String m : metadata) {
+            final Collection metadata) {
+        final Map tuples = new HashMap();
+        Iterator i = metadata.iterator();
+        while (i.hasNext()) {
+            String m = (String) i.next();
             int n = m.indexOf(' ');
             int t = m.indexOf(' ', n + 1);
             if (n == -1 || t == -1) {
@@ -429,7 +444,7 @@ public class DataTools {
                 throw new UnsupportedOperationException("setTupleValue");
             }
 
-            public Iterator<Tuple> tupleIterator() {
+            public Iterator tupleIterator() {
                 final Iterator i = tuples.entrySet().iterator();
 
                 return new Iterator() {
@@ -438,8 +453,8 @@ public class DataTools {
                     }
 
                     public Object next() {
-                        Map.Entry<String, Object> e = (Map.Entry) i.next();
-                        return new Tuple(e.getKey(), e.getValue());
+                        Map.Entry e = (Map.Entry) i.next();
+                        return new Tuple((String) e.getKey(), e.getValue());
                     }
 
                     public void remove() {

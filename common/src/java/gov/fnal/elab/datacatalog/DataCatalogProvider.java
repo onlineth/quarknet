@@ -3,7 +3,6 @@
  */
 package gov.fnal.elab.datacatalog;
 
-import gov.fnal.elab.ElabProvider;
 import gov.fnal.elab.analysis.ElabAnalysis;
 import gov.fnal.elab.datacatalog.query.CatalogEntry;
 import gov.fnal.elab.datacatalog.query.QueryElement;
@@ -16,7 +15,7 @@ import java.util.Collection;
 /**
  * Describes the interaction with a data catalog
  */
-public interface DataCatalogProvider extends ElabProvider {
+public interface DataCatalogProvider {
     /**
      * Runs a query in string format. This should not be used as it is
      * implementation specific, and there is no formal specification of what a
@@ -51,7 +50,7 @@ public interface DataCatalogProvider extends ElabProvider {
      * The number of returned entries may be smaller then the size of the
      * specified collection (if some entries are not found).
      */
-    ResultSet getEntries(Collection<String> lfns) throws ElabException;
+    ResultSet getEntries(Collection lfns) throws ElabException;
 
     /**
      * Returns a single entry from the catalog matching the specified logical

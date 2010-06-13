@@ -6,8 +6,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>Classroom Notes</title>
-		<link rel="stylesheet" type="text/css" href="../../cosmic/css/style2.css"/>
-		<link rel="stylesheet" type="text/css" href="../../cosmic/css/teacher.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/style2.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/teacher.css"/>
 	</head>
 
@@ -26,7 +25,7 @@
 			<div id="content">
 
 
-<h1>Learn how to do CMS Data studies in your classroom.</h1>
+<h1>Learn how to do CMS Test Beam studies in your classroom.</h1>
 
 <table border="0" id="main">
 	<tr>

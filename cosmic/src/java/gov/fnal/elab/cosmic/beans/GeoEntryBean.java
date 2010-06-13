@@ -4,8 +4,6 @@ import gov.fnal.elab.cosmic.Geometry;
 import gov.fnal.elab.util.ElabUtil;
 import gov.fnal.elab.util.NanoDate;
 
-import org.apache.commons.lang.time.DateFormatUtils;
-
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -21,12 +19,13 @@ import java.util.TimeZone;
 //made with: ./bean_skeleton.pl --scalar "stackedState latitude longitude altitude chan1X chan1Y chan1Z chan1Area chan1CableLength chan2X chan2Y chan2Z chan2Area chan2CableLength chan3X chan3Y chan3Z chan3Area chan3CableLength chan4X chan4Y chan4Z chan4Area chan4CableLength gpsCableLength" --list "" GeoEntryBean
 
 public class GeoEntryBean implements Serializable {
-    public static final String DATE_FORMAT = "MM/dd/yyyy hh:mm zzz";
+    public static final DateFormat FORMAT = new SimpleDateFormat(
+            "MM/dd/yyyy hh:mm zzz");
     public static final TimeZone UTC = TimeZone.getTimeZone("UTC");
 
     private String julianDay;
     private GregorianCalendar calendar;
-    private int detectorID;
+    private String detectorID;
     private String stackedState;
     private String latitude, longitude, altitude;
     private ChannelProperties[] channels;
@@ -92,18 +91,18 @@ public class GeoEntryBean implements Serializable {
     }
 
     public String getFormattedDate() {
-    	return DateFormatUtils.format(calendar.getTime(), DATE_FORMAT);
+        return FORMAT.format(calendar.getTime());
     }
 
     public Date getDate() {
         return getCalendar().getTime();
     }
 
-    public void setDetectorID(int detectorID) {
+    public void setDetectorID(String detectorID) {
         this.detectorID = detectorID;
     }
 
-    public int getDetectorID() {
+    public String getDetectorID() {
         return detectorID;
     }
 
@@ -721,15 +720,16 @@ public class GeoEntryBean implements Serializable {
      */
     public boolean equals(GeoEntryBean geb) {
         return julianDay != null && geb.getJulianDay() != null
-                && julianDay.equals(geb.getJulianDay()) 
-                && detectorID == geb.getDetectorID();
+                && julianDay.equals(geb.getJulianDay()) && detectorID != null
+                && geb.getDetectorID() != null
+                && detectorID.equals(geb.getDetectorID());
     }
 
     // reset all variables to defaults
     public void reset() {
         julianDay = null;
         calendar = null;
-        detectorID = -1;
+        detectorID = "";
         stackedState = "0";
         latitude = "0:0.0 N";
         longitude = "0:0.0 W";
@@ -823,7 +823,7 @@ public class GeoEntryBean implements Serializable {
         if (obj instanceof GeoEntryBean) {
             GeoEntryBean g = (GeoEntryBean) obj;
             return julianDay.equals(g.getJulianDay())
-                    && detectorID == g.getDetectorID();
+                    && detectorID.equals(g.getDetectorID());
         }
         else {
             return false;

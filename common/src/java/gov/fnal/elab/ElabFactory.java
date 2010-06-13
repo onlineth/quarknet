@@ -17,9 +17,8 @@ import gov.fnal.elab.analysis.InitializationException;
 import gov.fnal.elab.analysis.impl.vds.VDSAnalysis;
 import gov.fnal.elab.datacatalog.CachingDataCatalogProvider;
 import gov.fnal.elab.datacatalog.DataCatalogProvider;
-import gov.fnal.elab.notifications.ElabNotificationsProvider;
-import gov.fnal.elab.survey.ElabSurveyProvider;
 import gov.fnal.elab.test.ElabTestProvider;
+import gov.fnal.elab.survey.ElabSurveyProvider; 
 import gov.fnal.elab.usermanagement.ElabUserManagementProvider;
 
 import java.util.HashMap;
@@ -32,36 +31,36 @@ import java.util.Map;
  */
 public class ElabFactory {
     
-    private static Map<String, ElabProvider> providers = new HashMap();
+    private static Map providers = new HashMap();
     
-    private static ElabProvider get(Elab elab, String provider) {
+    private static Object get(Elab elab, String provider) {
         synchronized(providers) {
             return providers.get(elab.getName() + ":" + provider);
         }
     }
     
-    private static void set(Elab elab, String provider, ElabProvider value) {
+    private static void set(Elab elab, String provider, Object value) {
         synchronized(providers) {
             providers.put(elab.getName() + ":" + provider, value);
         }
     }
 
-    private static ElabProvider newInstance(Elab elab, String provider)
+    private static Object newInstance(Elab elab, String provider)
             throws ElabInstantiationException {
         String clsname = elab.getProperties().getProperty(
                 "provider." + provider.toLowerCase());
         return newInstance(elab, provider, clsname);
     }
 
-    private static ElabProvider newInstance(Elab elab, String provider, String clsname) {
+    private static Object newInstance(Elab elab, String provider, String clsname) {
         try {
         	clsname = clsname.trim();
             Class cls = ElabFactory.class.getClassLoader().loadClass(clsname);
-            ElabProvider ep = (ElabProvider) cls.newInstance();
-            if (ep instanceof ElabProviderHandled) {
-            	((ElabProviderHandled) ep).setElab(elab);
+            Object p = cls.newInstance();
+            if (p instanceof ElabProvider) {
+                ((ElabProvider) p).setElab(elab);
             }
-            return ep;
+            return p;
         }
         catch (Exception e) {
             throw new ElabInstantiationException(
@@ -82,7 +81,7 @@ public class ElabFactory {
      */
     public static synchronized ElabUserManagementProvider getUserManagementProvider(
             Elab elab) {
-    	ElabProvider p = get(elab, USERMANAGEMENT);
+        Object p = get(elab, USERMANAGEMENT);
         if (p == null) {
             p = newInstance(elab, USERMANAGEMENT);
             set(elab, USERMANAGEMENT, p);
@@ -98,7 +97,7 @@ public class ElabFactory {
      */
     public static synchronized DataCatalogProvider getDataCatalogProvider(
             Elab elab) {
-    	ElabProvider p = get(elab, DATACATALOG);
+        Object p = get(elab, DATACATALOG);
         if (p == null) {
             setVDSHome(elab);
             p = new CachingDataCatalogProvider((DataCatalogProvider) newInstance(elab, DATACATALOG));
@@ -115,7 +114,7 @@ public class ElabFactory {
      * This is for older survey implementations and is deprecated. 
      */
     public static synchronized ElabTestProvider getTestProvider(Elab elab) {
-    	ElabProvider p = get(elab, TEST);
+        Object p = get(elab, TEST);
         if (p == null) {
             p = newInstance(elab, TEST);
             set(elab, TEST, p);
@@ -130,7 +129,7 @@ public class ElabFactory {
      * survey provider implements functionality related to surveys. 
      */
     public static synchronized ElabSurveyProvider getSurveyProvider(Elab elab) {
-    	ElabProvider p = get(elab, SURVEY);
+    	Object p = get(elab, SURVEY);
     	if (p == null) { 
     		p = newInstance(elab, SURVEY);
     		set(elab, SURVEY, p);
@@ -145,7 +144,7 @@ public class ElabFactory {
      * provider is used to run analyses.
      */
     public static synchronized AnalysisExecutor getAnalysisProvider(Elab elab) {
-    	ElabProvider p = get(elab, ANALYSISEXECUTOR);
+        Object p = get(elab, ANALYSISEXECUTOR);
         if (p == null) {
             setVDSHome(elab);
             p = newInstance(elab, ANALYSISEXECUTOR);
@@ -202,17 +201,5 @@ public class ElabFactory {
     private static void setVDSHome(Elab elab) {
         System.setProperty("vds.home", elab.getProperties().getProperty(
                 "vds.home"));
-    }
-    
-    private static final String NOTIFICATIONS = "notifications";
-    
-    public static synchronized ElabNotificationsProvider getNotificationsProvider(
-            Elab elab) {
-    	ElabProvider p = get(elab, NOTIFICATIONS);
-        if (p == null) {
-            p = newInstance(elab, NOTIFICATIONS);
-            set(elab, NOTIFICATIONS, p);
-        }
-        return (ElabNotificationsProvider) p;
     }
 }

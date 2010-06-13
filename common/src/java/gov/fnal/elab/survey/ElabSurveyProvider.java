@@ -4,11 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import gov.fnal.elab.ElabGroup;
-import gov.fnal.elab.ElabProviderHandled;
 import gov.fnal.elab.ElabStudent;
 import gov.fnal.elab.util.ElabException;
 
-public interface ElabSurveyProvider extends ElabProviderHandled {
+public interface ElabSurveyProvider {
 	
 	public ElabSurvey getSurvey(int surveyId) throws ElabException;
 	
@@ -25,7 +24,7 @@ public interface ElabSurveyProvider extends ElabProviderHandled {
 	public Map<ElabGroup, Map<ElabStudent, List<ElabSurveyQuestion>>>  getStudentResultsForTeacher(String type, ElabGroup group) throws ElabException;
 	
 	public int getTotalStudents(ElabGroup group) throws ElabException;
-	
+
 	public Map<Integer, String> getElabSurveyListForProject(int projectId) throws ElabException; 
 	
 	public boolean hasTeacherAssignedSurvey(int teacherId) throws ElabException;
@@ -33,5 +32,4 @@ public interface ElabSurveyProvider extends ElabProviderHandled {
 	/* TODO: FOR LATER
 	 * public boolean teacherAssignedSurvey(int teacherId, int surveyId) throws ElabException;
 	 */
-	
 }

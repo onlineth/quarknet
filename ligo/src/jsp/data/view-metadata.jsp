@@ -4,7 +4,6 @@
 <%@ page errorPage="../include/errorpage.jsp" buffer="none" %>
 <%@ include file="../include/elab.jsp" %>
 <%@ include file="../login/login-required.jsp" %>
-<%@ page import="gov.fnal.elab.datacatalog.impl.vds.*" %>
 <%@ page import="gov.fnal.elab.datacatalog.*" %>
 <%@ page import="gov.fnal.elab.datacatalog.query.*" %>
 <%@ page import="gov.fnal.elab.*" %>
@@ -28,7 +27,7 @@
 				<div id="top">
 					<div id="header">
 						<%@ include file="../include/header.jsp" %>
-						<%@ include file="../include/nav-rollover.jspf" %>
+						<%@ include file="../include/nav-rollover.jsp" %>
 					</div>
 				</div>
 			</c:if>
@@ -43,8 +42,7 @@
 				if (filename == null) {
 				    throw new ElabJspException("Missing file name.");
 				}
-				VDSCatalogEntry entry = (VDSCatalogEntry) elab.getDataCatalogProvider().getEntry(filename);
-				entry.sort(); 
+				CatalogEntry entry = elab.getDataCatalogProvider().getEntry(filename);
 				if (entry == null) {
 				    throw new ElabJspException("No metadata about " + filename + " found.");
 				}

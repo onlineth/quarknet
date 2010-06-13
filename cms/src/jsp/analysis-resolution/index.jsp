@@ -18,7 +18,12 @@
 			<div id="top">
 				<div id="header">
 					<%@ include file="../include/header.jsp" %>
-					<%@ include file="../include/nav-rollover.jspf" %>
+					<div id="nav">
+						<%@ include file="../include/nav.jsp" %>
+						<div id="subnav">
+							<%@ include file="../include/nav-data.jsp" %>
+						</div>
+					</div>
 				</div>
 			</div>
 			
@@ -36,8 +41,8 @@
 					<span class="tab-title">Analysis</span>
 					<div class="tab-contents">
 						<p>
-							<a href="background.jsp">Detector Resolution Background</a> -
-							Read background information about the detector resolution.
+							<a href="tutorial.jsp">Detector Resolution Tutorial</a> -
+							Read background information about the shower study.
 						</p>
 						<p>
 							<a href="http://129.74.67.184/~ogre/" target="ogre">Access OGRE</a> -

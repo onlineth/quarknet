@@ -4,12 +4,11 @@
 package gov.fnal.elab.test;
 
 import gov.fnal.elab.ElabGroup;
-import gov.fnal.elab.ElabProviderHandled;
 import gov.fnal.elab.util.ElabException;
 
 import java.util.Map;
 
-public interface ElabTestProvider extends ElabProviderHandled {
+public interface ElabTestProvider {
     /**
      * Returns a test object for the given test type
      */

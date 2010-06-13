@@ -3,16 +3,12 @@
  */
 package gov.fnal.elab.datacatalog;
 
-import edu.emory.mathcs.backport.java.util.Collections;
 import gov.fnal.elab.datacatalog.query.ResultSet;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -45,7 +41,7 @@ public class StructuredResultSet {
         schools.put(new Triple<String, String, String>(school.getName().toLowerCase(), school.getCity().toLowerCase(), school.getState().toLowerCase()), school);
     }
 
-    public Collection<School> getSchools() {
+    public Collection getSchools() {
         return schools.values();
     }
 
@@ -53,7 +49,7 @@ public class StructuredResultSet {
         return schools.size();
     }
 
-    public synchronized Collection<School> getSchoolsSorted() {
+    public synchronized Collection getSchoolsSorted() {
     	return this.getSchools();
     }
 
@@ -109,11 +105,13 @@ public class StructuredResultSet {
         this.startDate = startDate;
     }
 
-    public static class School implements Comparable<School> {
+
+    public static class School implements Comparable {
         private String name, city, state;
         private int blessed, stacked, dataFiles;
         private long events;
-        private Map<String, Month> months;
+        private SortedMap monthsSorted;
+        private Map months;
 
         public School(String name, String city, String state) {
             this.name = name;
@@ -143,14 +141,14 @@ public class StructuredResultSet {
         }
 
         public Month getMonth(String month) {
-            return months.get(month);
+            return (Month) months.get(month);
         }
 
         public void addDay(Month month) {
             months.put(month.getMonth(), month);
         }
 
-        public Collection<Month> getMonths() {
+        public Collection getMonths() {
             return months.values();
         }
 
@@ -162,10 +160,16 @@ public class StructuredResultSet {
             return dataFiles;
         }
         
-        public synchronized Collection<Month> getMonthsSorted() {
-            List<Month> monthsSorted = new ArrayList(months.values()); 
-            Collections.sort(monthsSorted, new Month.DATE_ORDER()); 
-            return monthsSorted; 
+        public synchronized Collection getMonthsSorted() {
+            if (monthsSorted == null) {
+                monthsSorted = new TreeMap();
+                Iterator i = months.values().iterator();
+                while (i.hasNext()) {
+                    Month m = (Month) i.next();
+                    monthsSorted.put(m.getDate(), m);
+                }
+            }
+            return monthsSorted.values();
         }
 
         public String getCity() {
@@ -196,20 +200,25 @@ public class StructuredResultSet {
             return events;
         }
 		
-		public int compareTo(School s) {
+		public int compareTo(Object o) {
 			int retval = 0; 
-			retval = name.compareToIgnoreCase(s.getName());
-			if (retval == 0) {
-				retval = city.compareToIgnoreCase(s.getCity()); 
+			if (o instanceof School) {
+				retval = name.compareToIgnoreCase(((School) o).getName());
 				if (retval == 0) {
-					retval = state.compareToIgnoreCase(s.getState());
+					retval = city.compareToIgnoreCase(((School) o).getCity()); 
+					if (retval == 0) {
+						retval = state.compareToIgnoreCase(((School) o).getState());
+					}
 				}
 			}
 			return retval; 
 		}
 		
-		public boolean equals(School s) { 
-			return this.compareTo(s) == 0; 
+		public boolean equals(Object o) { 
+			if (o instanceof School) {
+				return (this.compareTo(o) == 0);
+			}
+			return false; 
 		}
     }
 
@@ -236,7 +245,7 @@ public class StructuredResultSet {
         }
 
         public void addFile(File f) {
-        	Integer d = Integer.valueOf(f.getDetector());
+        	Integer d = new Integer(f.getDetector());
         	if (!detectors.containsKey(d)) {
         		this.addDetector(d);
         	}
@@ -258,26 +267,19 @@ public class StructuredResultSet {
         public Date getDate() {
             return date;
         }
-        
-        public static class DATE_ORDER implements Comparator<Month> {
-    		@Override
-    		public int compare(Month o1, Month o2) {
-    			return o1.getDate().compareTo(o2.getDate());
-    		}
-        }
     }
     
-    public static class Detector implements Comparable<Detector> {
+    public static class Detector implements Comparable {
     	private Integer detectorID; 
     	private SortedSet<File> files; 
     	
     	public Detector(int detector) {
-    		this.detectorID = Integer.valueOf(detector);
+    		this.detectorID = new Integer(detector);
     		files = new TreeSet(); 
     	}
 
-		public int compareTo(Detector d) {
-			return this.detectorID.compareTo(d.getDetectorID()); 
+		public int compareTo(Object o) {
+			return this.detectorID.compareTo(((Detector) o).getDetectorID()); 
 		}
 
 		public void setDetectorID(Integer detectorID) {
@@ -302,7 +304,7 @@ public class StructuredResultSet {
 		
     }
 
-    public static class File implements Comparable<File> {
+    public static class File implements Comparable {
         private boolean blessed;
         private Boolean stacked;
         private final String lfn;
@@ -357,13 +359,14 @@ public class StructuredResultSet {
             this.startDate = startDate;
         }
 
-        public int compareTo(File f) {
-            int d = startDate.compareTo(f.startDate);
+        public int compareTo(Object o) {
+            File other = (File) o;
+            int d = startDate.compareTo(other.startDate);
             if (d != 0) {
                 return d;
             }
             else {
-                return lfn.compareTo(f.lfn);
+                return lfn.compareTo(other.lfn);
             }
         }
 

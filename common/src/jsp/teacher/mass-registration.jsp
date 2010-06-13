@@ -118,12 +118,17 @@
 				group.setStudy(false);
 				group.setNewSurvey("yes".equalsIgnoreCase(survey) || "true".equalsIgnoreCase(survey));
 				if (group.isNewSurvey() && group.getNewSurveyId() == null) {
-					group.setNewSurveyId(Integer.parseInt(elab.getProperty(elab.getName() + ".newsurvey")));
+					if (elab.getId().equals("1")) {
+						group.setNewSurveyId(Integer.parseInt(elab.getProperty("cosmic.newsurvey")));
+					}
+					if (elab.getId().equals("3")) {
+						group.setNewSurveyId(Integer.parseInt(elab.getProperty("ligo.newsurvey")));
+					}
 				}
 				students.add(newStudent);
 				//as far as I understand from the old code, with the mass registration, the 
 				//groups are always created
-				newGroups.add(true);
+				newGroups.add(Boolean.TRUE);
 			}
 			List passwords = elab.getUserManagementProvider().addStudents(user, students, newGroups);
 			List results = new ArrayList();

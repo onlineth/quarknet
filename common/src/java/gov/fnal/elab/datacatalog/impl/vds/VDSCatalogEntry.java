@@ -9,70 +9,106 @@
  */
 package gov.fnal.elab.datacatalog.impl.vds;
 
+import gov.fnal.elab.datacatalog.Tuple;
 import gov.fnal.elab.datacatalog.query.CatalogEntry;
 
-import java.util.AbstractCollection;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 public class VDSCatalogEntry extends CatalogEntry {
-    private List<org.griphyn.vdl.annotation.Tuple> tuples;
+    private List tuples;
     
-    protected void setTuples(List<org.griphyn.vdl.annotation.Tuple> tuples) {
-        this.tuples = tuples; 
+    protected void setTuples(List tuples) {
+        this.tuples = tuples;
     }
-    
+
     public Object getTupleValue(String key) {
-    	for (org.griphyn.vdl.annotation.Tuple t : tuples) {
-    		if (t.getKey().equals(key)) {
-    			return t.getValue();
-    		}
-    	}
-    	return null; 
+        Iterator i = tuples.iterator();
+        while (i.hasNext()) {
+            org.griphyn.vdl.annotation.Tuple t = (org.griphyn.vdl.annotation.Tuple) i.next();
+            if (t.getKey().equals(key)) {
+                return t.getValue();
+            }
+        }
+        return null;
     }
     
     public void setTupleValue(String key, Object value) {
-    	for (org.griphyn.vdl.annotation.Tuple t : tuples) {
-    		if (t.getKey().equals(key)) {
-    			t.setValue(value);
-    			return; 
-    		}
-    	}
+        Iterator i = tuples.iterator();
+        while (i.hasNext()) {
+            org.griphyn.vdl.annotation.Tuple t = (org.griphyn.vdl.annotation.Tuple) i.next();
+            if (t.getKey().equals(key)) {
+                t.setValue(value);
+            }
+        }
     }
     
-    public Iterator<gov.fnal.elab.datacatalog.Tuple> tupleIterator() {
+    public Iterator tupleIterator() {
         return new It(tuples.iterator());
     }
     
-    public AbstractCollection<org.griphyn.vdl.annotation.Tuple> getTuples() {
+    public Collection getTuples() {
         return new Col();
     }
     
-    public void sort() { 
-    	Collections.sort(tuples, new VDSTupleComparator()); 
-    }
-    
-    class Col extends AbstractCollection<org.griphyn.vdl.annotation.Tuple> {
-    	@Override 
+    class Col implements Collection {
+
+        public boolean add(Object o) {
+            throw new UnsupportedOperationException();
+        }
+
+        public boolean addAll(Collection c) {
+            throw new UnsupportedOperationException();
+        }
+
+        public void clear() {
+            throw new UnsupportedOperationException();
+        }
+
+        public boolean contains(Object o) {
+            throw new UnsupportedOperationException();
+        }
+
+        public boolean containsAll(Collection c) {
+            throw new UnsupportedOperationException();
+        }
+
         public boolean isEmpty() {
             return tuples.isEmpty();
         }
 
-    	@Override
         public Iterator iterator() {
             return new It(tuples.iterator());
         }
 
-    	@Override
+        public boolean remove(Object o) {
+            throw new UnsupportedOperationException();
+        }
+
+        public boolean removeAll(Collection c) {
+            throw new UnsupportedOperationException();
+        }
+
+        public boolean retainAll(Collection c) {
+            throw new UnsupportedOperationException();
+        }
+
         public int size() {
             return tuples.size();
         }
+
+        public Object[] toArray() {
+            throw new UnsupportedOperationException();
+        }
+
+        public Object[] toArray(Object[] a) {
+            throw new UnsupportedOperationException();
+        }
     }
     
-    class It implements Iterator<gov.fnal.elab.datacatalog.Tuple> {
-        private java.util.Iterator<org.griphyn.vdl.annotation.Tuple> it;
+    class It implements Iterator {
+        private java.util.Iterator it;
         
         public It(Iterator it) {
             this.it = it;
@@ -82,14 +118,14 @@ public class VDSCatalogEntry extends CatalogEntry {
             return it.hasNext();
         }
 
-        public gov.fnal.elab.datacatalog.Tuple next() {
-        	org.griphyn.vdl.annotation.Tuple t = (org.griphyn.vdl.annotation.Tuple) it.next();
-            return new gov.fnal.elab.datacatalog.Tuple(t.getKey(), t.getValue());
+        public Object next() {
+            org.griphyn.vdl.annotation.Tuple t = 
+                (org.griphyn.vdl.annotation.Tuple) it.next();
+            return new Tuple(t.getKey(), t.getValue());
         }
 
         public void remove() {
             it.remove();
         }
     }
-
 }

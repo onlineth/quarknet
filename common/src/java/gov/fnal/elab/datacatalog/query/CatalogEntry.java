@@ -9,7 +9,6 @@ import gov.fnal.elab.datacatalog.Tuple;
 import java.util.AbstractMap;
 import java.util.AbstractSet;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -18,7 +17,7 @@ import java.util.Set;
  * This class implements a single entry returned by a data catalog query
  * function.
  */
-public abstract class CatalogEntry implements Iterable<Tuple> {
+public abstract class CatalogEntry {
     private String lfn;
 
     /**
@@ -44,17 +43,13 @@ public abstract class CatalogEntry implements Iterable<Tuple> {
      * in this <code>CatalogEntry</code>. Each item returned by the
      * {@link Iterator.next} method is of type {@link Tuple}.
      */
-    public abstract Iterator<Tuple> tupleIterator();
+    public abstract Iterator tupleIterator();
 
     /**
      * To make JSP EL happy. This method is equivalent to {@link tupleIterator}.
      */
-    public Iterator<Tuple> getTupleIterator() {
+    public Iterator getTupleIterator() {
         return tupleIterator();
-    }
-    
-    public Iterator<Tuple> iterator() {
-    	return tupleIterator(); 
     }
 
     public abstract Collection getTuples();
@@ -126,64 +121,5 @@ public abstract class CatalogEntry implements Iterable<Tuple> {
         }
         sb.append('}');
         return sb.toString();
-    }
-    
-    public static class KEY_COMPARATOR_DESCENDING extends KEY_COMPARATOR {
-		public KEY_COMPARATOR_DESCENDING(String key) {
-			super(key, true);
-		}
-    }
-    
-    public static class KEY_COMPARATOR_ASCENDING extends KEY_COMPARATOR {
-    	public KEY_COMPARATOR_ASCENDING(String key) {
-    		super(key, false);
-    	}
-    }
-    
-    private static class KEY_COMPARATOR implements Comparator<CatalogEntry> {
-        private String key;
-        private boolean descending;
-        
-        public KEY_COMPARATOR(String key, boolean descending) {
-        	this.key = key; 
-        	this.descending = true; 
-        }
-
-        public int compare(CatalogEntry e1, CatalogEntry e2) {
-            Object v1 = e1.getTupleValue(key);
-            Object v2 = e2.getTupleValue(key);
-            int c;
-            //null < !null
-            if (v1 == null) {
-                if (v2 == null) {
-                    c = 0;
-                }
-                else {
-                    c = 1;
-                }
-            }
-            else {
-                if (v2 == null) {
-                    c = -1;
-                }
-                else {
-                    if (!v1.getClass().equals(v2.getClass())) {
-                        throw new RuntimeException("Tuple type error");
-                    }
-                    else {
-                        if (v1 instanceof Comparable) {
-                            c = ((Comparable) v1).compareTo(v2);
-                        }
-                        else {
-                            c = System.identityHashCode(v2) - System.identityHashCode(v1);
-                        }
-                    }
-                }
-            }
-            if (descending) {
-                c = -c;
-            }
-            return c;
-        }
     }
 }

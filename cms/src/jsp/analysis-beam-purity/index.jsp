@@ -18,7 +18,12 @@
 			<div id="top">
 				<div id="header">
 					<%@ include file="../include/header.jsp" %>
-					<%@ include file="../include/nav-rollover.jspf" %>
+					<div id="nav">
+						<%@ include file="../include/nav.jsp" %>
+						<div id="subnav">
+							<%@ include file="../include/nav-data.jsp" %>
+						</div>
+					</div>
 				</div>
 			</div>
 			
@@ -36,11 +41,11 @@
 					<span class="tab-title">Analysis</span>
 					<div class="tab-contents">
 						<p>
-							<a href="background.jsp">Beam Purity Tutorial</a> -
+							<a href="tutorial.jsp">Beam Purity Tutorial</a> -
 							Read background information about the shower study.
 						</p>
 						<p>
-							<a href="${elab.properties['ogre']}"  target="ogre">Access OGRE</a> -
+							<a href="http://129.74.67.184/~ogre/"  target="ogre">Access OGRE</a> -
 							Do your analysis with OGRE (Online Graphical ROOT Environment). Remember to save any good plots so you can upload
 							them when you make a poster.
 						</p>

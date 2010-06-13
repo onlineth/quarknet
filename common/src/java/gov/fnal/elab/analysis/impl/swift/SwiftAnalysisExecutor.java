@@ -11,7 +11,7 @@ import gov.fnal.elab.analysis.AnalysisParameterTransformer;
 import gov.fnal.elab.analysis.AnalysisRun;
 import gov.fnal.elab.analysis.ElabAnalysis;
 import gov.fnal.elab.analysis.NullAnalysisParameterTransformer;
-import gov.fnal.elab.estimation.EstimationHistoryTracker;
+import gov.fnal.elab.analysis.ProgressTracker;
 import gov.fnal.elab.estimation.Estimator;
 import gov.fnal.elab.tags.AnalysisRunTimeEstimator;
 
@@ -33,12 +33,6 @@ import org.globus.cog.karajan.SpecificationException;
 import org.globus.cog.karajan.stack.LinkedStack;
 import org.globus.cog.karajan.stack.VariableStack;
 import org.globus.cog.karajan.workflow.ElementTree;
-import org.globus.cog.karajan.workflow.ExecutionException;
-import org.globus.cog.karajan.workflow.events.Event;
-import org.globus.cog.karajan.workflow.events.EventClass;
-import org.globus.cog.karajan.workflow.events.EventListener;
-import org.globus.cog.karajan.workflow.events.NotificationEvent;
-import org.globus.cog.karajan.workflow.events.NotificationEventType;
 import org.globus.cog.karajan.workflow.nodes.FlowElement;
 import org.griphyn.vdl.karajan.Loader;
 import org.griphyn.vdl.karajan.VDL2ExecutionContext;
@@ -49,7 +43,7 @@ import org.griphyn.vdl.util.VDL2Config;
  * Runs analyses with Swift. Doble Yay!
  */
 public class SwiftAnalysisExecutor implements AnalysisExecutor {
-    private static final Map<String, DatedTree> trees;
+    private static final Map trees;
 
     static {
         trees = new HashMap();
@@ -57,7 +51,8 @@ public class SwiftAnalysisExecutor implements AnalysisExecutor {
 
     protected synchronized static ElementTree getTree(Elab elab, String file)
             throws SpecificationException, IOException, Exception {
-        DatedTree tree = trees.get(file);
+        DatedTree tree;
+        tree = (DatedTree) trees.get(file);
         if (tree == null) {
             tree = new DatedTree(elab, file);
             trees.put(file, tree);
@@ -72,18 +67,14 @@ public class SwiftAnalysisExecutor implements AnalysisExecutor {
         return run;
     }
 
-    public class Run extends AbstractAnalysisRun implements Serializable, EventListener {
+    public class Run extends AbstractAnalysisRun implements Serializable {
         private String runDir, runDirUrl, runID, runMode;
         private volatile transient double progress;
         private transient VDL2ExecutionContext ec;
-        private OutputChannel out;
+        private transient OutputChannel out;
         private boolean updated;
-        
-        public Run() {
-            super();
-        }
 
-        public Run(ElabAnalysis analysis, Elab elab, String outputDir) {
+        protected Run(ElabAnalysis analysis, Elab elab, String outputDir) {
             super(analysis, elab, outputDir);
         }
 
@@ -152,7 +143,7 @@ public class SwiftAnalysisExecutor implements AnalysisExecutor {
 
                 Estimator p = AnalysisRunTimeEstimator.getEstimator(getElab(), "swift",
                         runMode, getAnalysis().getType());
-                setAttribute("estimatedTime", Integer.valueOf(p.estimate(getElab(),
+                setAttribute("estimatedTime", new Integer(p.estimate(getElab(),
                         getAnalysis())));
 
                 stack.setGlobal(ConfigProperty.INSTANCE_CONFIG, conf);
@@ -163,7 +154,6 @@ public class SwiftAnalysisExecutor implements AnalysisExecutor {
                 createRunDir();
                 ec.setCwd(runDir);
 
-                ec.addEventListener(this);
                 ec.start(stack);
                 setStatus(STATUS_RUNNING);
             }
@@ -270,17 +260,13 @@ public class SwiftAnalysisExecutor implements AnalysisExecutor {
         public void setProgress(double progress) {
             this.progress = progress;
         }
-        
-        public void updateStatus() {
-            updateStatus(false);
-        }
 
-        public void updateStatus(boolean callerIsSureECisDone) {
+        public void updateStatus() {
             VDL2ExecutionContext ec = this.ec;
             if (ec == null) {
                 return;
             }
-            else if ((ec.done() || callerIsSureECisDone) && !updated) {
+            else if (ec.done() && !updated) {
                 setEndTime(new Date());
                 if (ec.isFailed()) {
                     log("SWIFT_FAILURE");
@@ -307,11 +293,6 @@ public class SwiftAnalysisExecutor implements AnalysisExecutor {
                         f[0].renameTo(new File(runDir, "dv.dot"));
                     }
                     setStatus(STATUS_COMPLETED);
-                    EstimationHistoryTracker hist = (EstimationHistoryTracker) 
-                            this.getAnalysis().getAttribute(EstimationHistoryTracker.KEY);
-                    if (hist != null) {
-                        hist.add(getElab(), this);
-                    }
                 }
                 updated = true;
                 this.ec = null;
@@ -352,21 +333,6 @@ public class SwiftAnalysisExecutor implements AnalysisExecutor {
                 }
             }
             return sb.toString();
-        }
-
-        public void event(Event e) throws ExecutionException {
-            try {
-                if (e.getEventClass().equals(EventClass.NOTIFICATION_EVENT)) {
-                    NotificationEvent ne = (NotificationEvent) e;
-                    if (ne.getType().equals(NotificationEventType.EXECUTION_COMPLETED) 
-                            || ne.getType().equals(NotificationEventType.EXECUTION_FAILED)) {
-                        updateStatus(true);
-                    }
-                }
-            }
-            catch (Exception ex) {
-                ex.printStackTrace();
-            }
         }
     }
 

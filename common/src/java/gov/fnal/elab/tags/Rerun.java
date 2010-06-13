@@ -12,7 +12,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
 public class Rerun extends TagSupport implements Param.Parent {
-    private String label, type, cclass;
+    private String label, type;
     private Object analysis;
     private String id;
     private Map params;
@@ -49,13 +49,7 @@ public class Rerun extends TagSupport implements Param.Parent {
                     }
                 }
             }
-            out.write("\"");
-            if (cclass != null) {
-                out.write(" class=\"");
-                out.write(cclass);
-                out.write("\"");
-            }
-            out.write(">");
+            out.write("\">");
             out.write(label);
             out.write("</a>");
         }
@@ -108,13 +102,5 @@ public class Rerun extends TagSupport implements Param.Parent {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public String getCclass() {
-        return cclass;
-    }
-
-    public void setCclass(String cclass) {
-        this.cclass = cclass;
     }
 }

@@ -16,10 +16,8 @@ public class VSwitch extends TagSupport {
     public static final String ATTR_ID = "elab:vSwitch.id";
     public static final String ATTR_CLS = "elab:vSwitch.class";
     public static final String ATTR_REVERT = "elab:vSwitch.revert";
-    public static final String ATTR_TITLE = "elab:vSwitch.title";
-    public static final String ATTR_TITLE_CLS = "elab:vSwitch.titleclass";
     
-    private String cls, title, titleclass, id;
+    private String cls;
     private Boolean revert;
     
     public int doEndTag() throws JspException {
@@ -27,22 +25,17 @@ public class VSwitch extends TagSupport {
     }
 
     public int doStartTag() throws JspException {
-        try {
-            if (id == null) {
-                Integer oldid = (Integer) pageContext.getAttribute(ATTR_ID);
-                int aid; 
-                if (oldid == null) {
-                    aid = 0;
-                }
-                else {
-                    aid = oldid.intValue() + 1;
-                }
-                id ="vsId-" + aid;
+        try {          
+            Integer oldid = (Integer) pageContext.getAttribute(ATTR_ID);
+            int id; 
+            if (oldid == null) {
+                id = 0;
             }
-            pageContext.setAttribute(ATTR_ID, id);
+            else {
+                id = oldid.intValue() + 1;
+            }
+            pageContext.setAttribute(ATTR_ID, new Integer(id));
             pageContext.setAttribute(ATTR_CLS, cls);
-            pageContext.setAttribute(ATTR_TITLE, title);
-            pageContext.setAttribute(ATTR_TITLE_CLS, titleclass);
             if (revert != null) {
                 pageContext.setAttribute(ATTR_REVERT, revert);
             }
@@ -67,29 +60,5 @@ public class VSwitch extends TagSupport {
 
     public void setRevert(Boolean revert) {
         this.revert = revert;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getTitleclass() {
-        return titleclass;
-    }
-
-    public void setTitleclass(String titleclass) {
-        this.titleclass = titleclass;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 }
