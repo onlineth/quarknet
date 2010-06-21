@@ -23,8 +23,6 @@ var data = { };
 
 var rows = 0; 
 
-var logCheckedY = false; 
-
 function samplingCB(index) {
 	var ptr = null; 
 	
@@ -125,7 +123,7 @@ function displayFilename(index) {
 }
 
 function logCheckboxCB() {
-	logCheckedY = $("#logYcheckbox:checked").val() != null;
+	var logCheckedY = $("#logYcheckbox:checked").val() != null;
 	var tx = null;
 	var itx = null;
 	var ty = null;
@@ -300,7 +298,7 @@ $(document).ready(function() {
 			url: "savechart.jsp", 
 			type: "GET",
 			dataType: "json",
-			data: { startTime: xminGPSTime, endTime: xmaxGPSTime, title: title, channels: channels, logScale: logCheckedY },
+			data: { startTime: xminGPSTime, endTime: xmaxGPSTime, title: title, channels: channels },
 			timeout: timeout,
 			success: onPlotSaved, 
 			error: onPlotError,

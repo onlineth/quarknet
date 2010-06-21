@@ -31,7 +31,6 @@
 	String channelParam = request.getParameter("channels");
 	String startTimeParam = request.getParameter("startTime");
 	String endTimeParam = request.getParameter("endTime");
-	String logScaleParam = request.getParameter("logScale");
 	
 	/* Metadata title parameter */ 
 	String titleParam = request.getParameter("title"); 
@@ -42,7 +41,6 @@
 	else { 
 		String[] channels = null;
 		String title = null; 
-		boolean logScale = false; 
 		double startTime = -1.0, endTime = -1.0; 
 		int width = 600, height = 600; 
 		try {
@@ -65,12 +63,6 @@
 		}
 		catch(NumberFormatException nfe) { 
 			// don't care, use default. 
-		}
-		try {
-			logScale = Boolean.parseBoolean(logScaleParam); 
-		}
-		catch(Exception ee) {
-			// don't care, use default 
 		}
 		title = request.getParameter("title");
 
@@ -126,14 +118,7 @@
 			title += StringUtils.join(channels, ", ");
 		}
 		
-		
-	    NumberAxis na = null;
-	    if (logScale) {
-	    	na = new LogarithmicAxis(unit); 
-	    }
-	    else { 
-	    	na = new NumberAxis(unit);
-	    }
+	    NumberAxis na = new NumberAxis(unit);
 	    DateAxis da = new DateAxis("Date"); 
 	    
 	    da.setRange((startTime + GPSCONVERSION) * 1000, (endTime + GPSCONVERSION) * 1000);
@@ -148,12 +133,6 @@
 		
 		String groupName = user.getGroup().getName();
 		String plotDir = user.getDir("plots");
-		
-		// check if the directory exist, create otherwise
-		File file = new File(plotDir); 
-		if (!file.exists()) {
-			file.mkdirs(); 
-		}
 		
 		GregorianCalendar gc = new GregorianCalendar();
 	    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy.MMdd.HHmmss.SSSS");
