@@ -45,27 +45,56 @@ public class CosmicDatabaseUserManagementProvider extends
     }
 
     protected String addStudent(Statement s, ElabGroup et, ElabStudent student,
-            ElabGroup group) throws SQLException, ElabException {
-        String pwd = super.addStudent(s, et, student, group);
-        ResultSet rs = s
-                .executeQuery("SELECT id FROM research_group WHERE name = '"
-                        + ElabUtil.fixQuotes(student.getGroup().getName()) + "'");
-        if (!rs.next()) {
-            throw new ElabException("Error retrieving the student's group from the database.");
-        }
-        String groupId = rs.getString("id");
-        if ("cosmic".equals(elab.getName())) {
-            // Connect the detector id from the teacher with the group
-            // if it exists.
-            s
-                    .executeUpdate("INSERT INTO research_group_detectorid (research_group_id, detectorid) "
-                            + "(SELECT '"
-                            + ElabUtil.fixQuotes(groupId)
-                            + "', detectorid FROM research_group_detectorid WHERE research_group_id = '"
-                            + ElabUtil.fixQuotes(et.getId()) + "');");
-        }
-        return pwd;
-    }
+			ElabGroup group) throws SQLException, ElabException {
+		String pwd = super.addStudent(s, et, student, group);
+		Connection c = s.getConnection(); 
+		PreparedStatement ps = c.prepareStatement(
+				"SELECT id FROM research_group WHERE name = ?;");
+		ps.setString(1, student.getGroup().getName());
+		ResultSet rs = ps.executeQuery();
+		if (!rs.next()) {
+			throw new ElabException("Error retrieving the student's group from the database.");
+		}
+		int groupId = rs.getInt("id");
+		if ("cosmic".equals(elab.getName())) { // shouldn't this only be called for cosmic? 
+			// Connect the detector id from the teacher with the group
+			// if it exists.
+			
+			boolean ac = c.getAutoCommit();
+			Savepoint svpt = c.setSavepoint(); 
+			try {
+				c.setAutoCommit(false);
+				
+				ps = c.prepareStatement("SELECT detectorid FROM research_group_detectorid WHERE research_group_id = ?;");
+				ps.setInt(1, Integer.parseInt(et.getId()));
+				rs = ps.executeQuery(); 
+				ps = c.prepareStatement("INSERT INTO research_group_detectorid (research_group_id, detectorid) VALUES (?, ?); "); 
+				int d; 
+				while (rs.next()) { // eww cursors 
+					d = rs.getInt(1);  
+					ps.setInt(1, groupId); 
+					ps.setInt(2, d);
+					try {
+						ps.executeUpdate(); 
+					}
+					catch(SQLException se) {
+						if (!se.getSQLState().startsWith("23")) {
+							throw se; 
+						}
+					}
+				}
+				c.commit(); 
+			}
+			catch (SQLException se) {
+				 c.rollback(svpt); 
+			}
+			finally {
+				c.setAutoCommit(ac);
+			}
+		}
+		ps.close();
+		return pwd;
+	}
 
     public Collection getDetectorIds(ElabGroup group) throws ElabException {
         Statement s = null;
