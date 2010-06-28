@@ -137,6 +137,7 @@ public class DataTools {
             	school.setState(stateName);
             */
             
+            
             Timestamp ts = (Timestamp) data[STARTDATE];
             String startdate = MONTH_FORMAT.format(ts);
             Month month = school.getMonth(startdate);
@@ -148,6 +149,26 @@ public class DataTools {
             File file = new File(e.getLFN());
             file.setStartDate((Timestamp) data[STARTDATE]);
             file.setEndDate((Timestamp) data[ENDDATE]);
+            
+            long totalEvents = 0;
+            try {
+            	totalEvents += (Long) data[CHAN1];
+            }
+            catch(Exception ee) {}
+            try {
+            	totalEvents += (Long) data[CHAN2]; 
+            }
+            catch(Exception ee) {}
+            try {
+            	totalEvents += (Long) data[CHAN3]; 
+            }
+            catch(Exception ee) {}
+            try {
+            	totalEvents += (Long) data[CHAN4]; 
+            }
+            catch(Exception ee) {}
+            
+            file.setTotalEvents(totalEvents);
             
             try {
                 file.setDetector(Integer.parseInt((String) data[DETECTORID]));
