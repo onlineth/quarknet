@@ -3,8 +3,8 @@
 <%@ page import="java.util.GregorianCalendar.*" %>
 <%@ taglib prefix="e" uri="http://www.i2u2.org/jsp/elabtl" %>
 <jsp:include page="../include/elab.jsp"/>
-<%@ include file="../login/teacher-login-required.jsp" %>
 <%@ include file="common.jsp" %>
+<%@ include file="../login/teacher-login-required.jsp" %>
 <html>
     <head>
         <title>Add Users</title>
@@ -442,6 +442,9 @@ String submit =  request.getParameter("submit");
                                         <option value="AY2005">2005-2006</option>
                                         <option value="AY2006">2006-2007</option>
                                         <option value="AY2007">2007-2008</option>
+                                        <option value="AY2008">2008-2009</option>
+                                        <option value="AY2009">2009-2010</option>
+                                        <option value="AY2010">2010-2011</option>
                                     </select>
                                     <%
 
@@ -454,6 +457,9 @@ String submit =  request.getParameter("submit");
                                         <option value="AY2005">2005-2006</option>
                                         <option value="AY2006">2006-2007</option>
                                         <option value="AY2007">2007-2008</option>
+                                        <option value="AY2008">2008-2009</option>
+                                        <option value="AY2009">2009-2010</option>
+                                        <option value="AY2010">2010-2011</option>
                                     </select>
                                     <%
 
@@ -625,7 +631,7 @@ String submit =  request.getParameter("submit");
                                             return;
                                         }
                                         if(!isDirectory){
-                                            mkdir = newDir.mkdir();
+                                            mkdir = newDir.mkdirs();
                                             if(mkdir == false){
                                                 warn(out, "Directory: " + newDir + " couldn't be created! (when trying to add the directory: " + newDirsArray[i] + ")");
                                                 return;
@@ -655,7 +661,7 @@ String submit =  request.getParameter("submit");
                                             return;
                                         }
                                         if(!isDirectory){
-                                            mkdir = newDir.mkdir();
+                                            mkdir = newDir.mkdirs();
                                             if(mkdir == false){
                                                 warn(out, "Directory: " + newDir + " couldn't be created! (when trying to add the directory: " + newSubdirsArray[i] + ")");
                                                 return;
@@ -707,7 +713,7 @@ String submit =  request.getParameter("submit");
                                         i=0;
                                         for(int j=0; j<detectorIDs.length; j++){
                                             SQLstatement = "INSERT INTO research_group_detectorid (research_group_id, detectorid) " +
-                                                "VALUES ('" + detectorIDs[j] + "', '" + researchGroupId + "');";
+                                                "VALUES ('" + researchGroupId + "', '" + detectorIDs[j] + "');";
                                             i = s.executeUpdate(SQLstatement);
                                             if(i != 1){
                                                 warn(out, "Weren't able to add your info to the database! " + i + " rows updated.\n<br>Please alert the database admin with this information:\n<br>SQLstatement: " + SQLstatement);
