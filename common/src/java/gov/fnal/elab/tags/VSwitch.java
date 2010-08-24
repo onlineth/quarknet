@@ -12,11 +12,8 @@ package gov.fnal.elab.tags;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.apache.commons.lang.StringUtils;
-
 public class VSwitch extends TagSupport {
     public static final String ATTR_ID = "elab:vSwitch.id";
-    public static final String ATTR_COUNTER = "elab:vSwitch.counter";
     public static final String ATTR_CLS = "elab:vSwitch.class";
     public static final String ATTR_REVERT = "elab:vSwitch.revert";
     public static final String ATTR_TITLE = "elab:vSwitch.title";
@@ -26,28 +23,21 @@ public class VSwitch extends TagSupport {
     private Boolean revert;
     
     public int doEndTag() throws JspException {
-    	// Flush bean state 
-    	id = null; 
-    	cls = null;
-    	title = null;
-    	titleclass = null; 
-    	revert = null; 
-    	return EVAL_PAGE;
+        return EVAL_PAGE;
     }
 
     public int doStartTag() throws JspException {
         try {
-            if (StringUtils.isBlank(id)) {
-                Integer oldid = (Integer) pageContext.getAttribute(ATTR_COUNTER);
+            if (id == null) {
+                Integer oldid = (Integer) pageContext.getAttribute(ATTR_ID);
                 int aid; 
                 if (oldid == null) {
                     aid = 0;
                 }
                 else {
-                    aid = oldid + 1;
+                    aid = oldid.intValue() + 1;
                 }
-                pageContext.setAttribute(ATTR_COUNTER, aid); 
-                id = "vsId-" + aid; 
+                id ="vsId-" + aid;
             }
             pageContext.setAttribute(ATTR_ID, id);
             pageContext.setAttribute(ATTR_CLS, cls);
@@ -96,10 +86,10 @@ public class VSwitch extends TagSupport {
     }
 
     public String getId() {
-        return this.id; 
+        return id;
     }
 
     public void setId(String id) {
-    	this.id = id; 
+        this.id = id;
     }
 }
