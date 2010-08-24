@@ -1,0 +1,597 @@
+#sub-library, #sub-data, #sub-posters, #sub-siteindex {
+	display: none; 
+}
+
+#container {
+	width: 900px;
+	font-family: Arial, sans-serif;
+	text-align: center;
+	margin: auto;
+}
+
+#main {
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+	border-collapse: collapse;
+}
+
+body {
+	padding: 0px;
+	margin: 0px;
+}
+
+/* Remove this once the Cascade is in the JSP code */
+
+/** file: ligo.css **/ 
+
+/*=========== e-Lab Header ===========*/
+
+#top {
+	position: relative;
+	background-color: black;
+	color: white;
+	height: 96px;
+	text-align: left;
+	border: 2px solid gray;
+}
+#header {
+	position: relative;
+	width: 100%;
+	/*border: 1px solid green;*/
+	height: inherit;
+	margin-left: auto;
+	margin-right: auto;
+	color: #b0b0b0;
+	font-weight: bold;
+	font-family: Tahoma, Arial, sans-serif;
+	font-size: 14px;
+}
+
+#header a {
+	color: #88bbff;
+	text-decoration: none;
+}
+
+#header a:hover {
+	text-decoration: underline;
+}
+
+#header-image {
+	position: relative;
+	float: left;
+	left: 0px;
+	margin-left: 0px;
+}
+
+#header-image img {
+}
+
+
+#header-title {
+	float: left;
+	font-family: Arial, sans-serif;
+	font-size: 200%;
+	margin-left: 20px;
+	padding-top: 4px;
+}
+
+#second-header-title {
+	position: absolute;
+	top: 0px;
+	right: 8px;
+}
+
+#header-toolbar a {
+	font-size: small;
+	font-weight: bold; 
+	text-decoration: none;
+}
+
+#header-toolbar {
+	position: absolute;
+	right: 5px;
+	top: 2px;
+}
+
+
+#header-current-user {
+	position: absolute;
+	top: 18px;
+	right: 160px;
+}
+
+#header-logout {
+	position: absolute;
+	top: 18px;
+	right: 8px;
+}
+
+#header-logbook {
+	position: absolute;
+	top: 38px;
+	right: 8px;
+}
+
+#header-logbook a {
+	color: white;  
+}
+
+
+
+#nav-footer {
+	height: 22px;
+	background-color: black;
+	border: double 3px #a0a0a0;
+	width: 760px;
+	float: right;
+	margin-top: 24px;
+}
+
+#nav {
+	/*position: absolute;
+	top: 50px;
+	left: 20px; */
+}
+
+#nav ul, #nav-footer ul {
+	position: relative;
+	width: 780px;
+	text-align: center;
+	margin: 0px;
+	margin-top: 2px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0px;
+}
+
+#nav-footer ul {
+	margin-top: 1px;
+}
+
+#subnav {
+	/*position: absolute;
+	top: 50px;
+	left: 148px;
+	right: 8px;
+	text-align: left;
+	height: 24px;
+	background-color: #999999;*/
+}
+
+#subnav ul {
+	width: 100%;
+	margin-top: 4px;
+}
+
+#nav #subnav a {
+	width: auto;
+	padding-left: 16px;
+	padding-right: 16px;
+}
+
+#nav li, #nav-footer li {
+	display: inline;
+	text-align: center;
+	list-style: none;
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+#nav a, #nav-footer a {
+	display: block;
+	float: left;
+	text-align: center;
+	text-decoration: none;
+	font-size: 14px;
+	font-weight: bold;
+	margin-left: 4px;
+	margin-right: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 3px;
+	padding-right: 3px;
+	width: 6.5em;
+	color: white;
+}
+
+#nav h1 {
+	font-size: 100%;
+	font-weight: bold;
+	margin: 0px;
+	padding: 2px;
+}
+
+a#nav1 {
+	color: #ff9933;
+}
+
+a#nav2 {
+	color: #33ffcc;
+}
+
+a#nav3 {
+	color: #3399ff;
+}
+
+a#nav4 {
+	color: #33cc33;
+}
+
+a#nav5 {
+	color: #ff0000;
+}
+
+a#nav6 {
+	color: #ffff00;
+}
+
+#nav-footer a {
+	border-right: 2px solid #333399;
+}
+
+#nav-footer a#nav6 {
+	border-right: none;
+}
+
+/** EOF ligo.css **/
+
+
+
+/*=========== Content ===========*/
+
+#left {
+	margin: 0px;
+	padding: 0px;
+	width: 144px;
+}
+
+#side-panel {
+	font-family: Arial, sans-serif;
+	padding: 0px;
+	padding-top: 2px;
+	padding-left: 6px;
+	background-color: black;
+	border: 2px solid gray;
+	width: 134px;
+	font-size: 14px;
+}
+
+#side-panel img {
+	padding: 4px;
+	padding-bottom: 8px;
+	padding-top: 8px;
+}
+
+#content {
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+/*	font-size: 15px; */
+	text-align: left;
+	font-family: sans-serif;
+	color: #333333;
+}
+
+td#center {
+	border: 0px;
+}
+
+#content #center {
+	padding-top: 8px;
+	padding-left: 8px;
+}
+
+#content a {
+	text-decoration: none;
+	color: #ff9933;
+	font-weight: bold;
+}
+
+#content a:hover {
+	text-decoration: underline;
+	color: #cf411d;
+}
+
+#content h1 {
+	display: inline;	
+	/*padding-bottom: 6px;*/
+	border-bottom: solid 2px #666666;
+	margin-left: 0px;
+	font-family: Arial, sans-serif;
+	font-weight: bold;
+	font-size: 130%;
+	color: #333399;
+}
+
+#content #center ul {
+	margin-left: 0px;
+	padding-left: 16px;
+}
+
+li {
+	padding-bottom: 0.5ex;
+}
+
+/*
+#content #center li {
+	padding-bottom: 12px;
+}
+
+*/
+
+#content #center ul ul {
+	margin-left: 16px;
+	padding-left: 8px;
+	
+}
+
+
+#center p {
+	padding-top: 4px;
+}
+
+#content blockquote {
+	font-size: 90%;
+	color: gray;
+}
+
+table#main {
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+
+#main td {
+	vertical-align: top;
+}
+
+.tab-title {
+	display: block;
+	width: 104px;
+}
+
+.centered {
+	text-align: center;
+}
+
+/*=========== Footer ===========*/
+
+
+#footertext {
+	font-size: 80%;
+	text-align: left;
+}
+
+#footertext p {
+	right: 100px;
+	padding: 0px;
+	margin: 0px;
+}
+
+.logogroup {
+	float: right;
+	vertical-align: middle;
+	width: 240px;
+}
+
+
+/*========== Login control =============*/
+
+#login h1 {
+	width: 100%;
+}
+
+#content #login-form h2 {
+	font-weight: bold;
+	text-align: center;
+	text-indent: 0px;
+	font-size: 100%;
+	border: none;
+}
+
+#login-form-text p {
+	margin-top: 0px;
+}
+
+
+#login-form-contents td {
+	vertical-align: top;
+}
+
+#login-form-contents table {
+	margin-bottom: 10px;
+	width: 100%;
+}
+
+#center td.form-label {
+	padding-right: 4px;
+	text-align: right;
+	width: 40%;
+}
+
+td.form-control {
+	text-align: left;
+}
+
+a > img {
+	border: none;
+	text-decoration: none;
+}
+
+/*===========  Search  ============*/
+
+.search-control {
+	text-align: center;
+}
+
+.image-search-results {
+	text-align: center;
+}
+
+/*=========== News box ============*/
+
+#news-box {
+	width: 180px;
+	border: 2px solid #303030;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #e0e0e0;
+	padding: 4px;
+}
+
+#news-box-header {
+	background-color: #c0c0c0;
+	padding: 4px;
+	font-weight: bold;
+}
+
+#news-box-contents {
+	padding: 4px;
+	font-weight: bold;
+}
+
+#news-box-footer {
+	padding: 4px;
+}
+
+
+/*============= Left links ==============*/
+
+#left-links {
+	list-style: none;
+	text-align: right;
+	padding-right: 10px;
+	padding-left: 0px;
+	margin-left: 0px;
+}
+
+#left-links li {
+	padding-top: 4px;
+}
+
+#left-links a {
+	text-decoration: none;
+	font-weight: bold;
+	color: #c0c0c0;
+}
+
+/*=========== Various things ============*/
+
+.bordered {
+	border: double 4px #8080af;
+	width: 280px;
+	padding-top: 16px;
+	padding-bottom: 16px;
+}
+
+.username {
+	font-weight: bold;
+}
+
+#postersample {
+	margin-top: 20px;
+	font-weight: bold;
+}
+
+#postersample img {
+	border: none;
+}
+
+#footer {
+	text-align: center;
+}
+
+ul.simple {
+	list-style-type: none;
+	padding-left: 0px;
+}
+
+ul.simple li {
+	margin-bottom: 12px;
+}
+
+ul.simple li:before {
+	display: none;
+	/*content: none;*/
+}
+
+h2 + ul.simple {
+	margin-left: 8px;
+}
+
+.warning {
+	width: 100%;
+	text-align: center;
+	background-color: yellow;
+	color: black;
+	font-size: 160%;
+}
+
+.error {
+	width: 100%;
+	text-align: center;
+	background-color: #ff5040;
+	color: black;
+	font-size: 160%;
+	padding-left: 32px;
+	padding-right: 32px;
+}
+
+label {
+	margin-left: 4px;
+}
+
+#deletion-results {
+	width: 790px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 8px;
+}
+
+#deletion-results td {
+	padding: 2px;
+}
+
+#deletion-results td.success {
+	background-color: #e0e0e0;
+}
+
+#deletion-results td.failure {
+	background-color: #ff8050;
+}
+
+a img {
+	border: none;
+}
+
+.link-list a {
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+.float-right {
+	text-align: center;
+	float: right;
+	margin-top: 16px;
+	padding-top: 16px;
+	margin-right: 16px;
+	margin-left: 8px;
+	padding-bottom: 16px;
+	clear: right;
+}
+
+tr, td {
+	padding: 0px;
+}
+
+#center td {
+	width: auto;
+	text-align: left;
+}
+
+.poster-search-control, .plot-search-control {
+	font-size: 85%;
+}
