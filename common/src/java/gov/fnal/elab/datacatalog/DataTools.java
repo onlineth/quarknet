@@ -424,10 +424,10 @@ public class DataTools {
             try {
             	tuples.put(name, coerce(type, value, name));
             }
-            catch (IllegalArgumentException iae) {
+            catch(IllegalArgumentException iae) {
             	// empty non-string values get ignored, all others get thrown (VDS cannot handle empty non-string metadata) 
             	if (!"string".equals(type) && StringUtils.isNotBlank(value)) {
-            		throw iae;
+            		throw iae; 
             	}
             }
         }
