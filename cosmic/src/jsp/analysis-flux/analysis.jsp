@@ -20,7 +20,6 @@
 			List geo = AnalysisParameterTools.getGeometryFiles(elab, rawData);
 			String ids = AnalysisParameterTools.getDetectorIds(rawData);
 			String cpldfreqs = AnalysisParameterTools.getCpldFrequencies(elab, rawData);
-			List firmwareVersions = AnalysisParameterTools.getFirmwareVersions(elab, rawData); 
 			
 			request.setAttribute("channels", AnalysisParameterTools.getValidChannels(elab, rawData));
 			//<trdefault> is equivalent to analysis.setParameterDefault()
@@ -34,7 +33,6 @@
 			<e:trdefault name="geoDir" value="${elab.properties['data.dir']}"/>
 			<e:trdefault name="geoFiles" value="<%= geo %>"/>
 			<e:trdefault name="cpldfreqs" value="<%= cpldfreqs %>"/>
-			<e:trdefault name="firmwares" value="<%= firmwareVersions %>" />
 			<%
 		}
 	%>
