@@ -21,7 +21,6 @@
 	String type = (String) entry.getTupleValue("type");  
 	String name = (String) entry.getTupleValue("name"); 
 	
-
 	String cuts = ""; 
 	int i = 0; 
 	while (StringUtils.isNotBlank((String) entry.getTupleValue("cutpath" + i))) {

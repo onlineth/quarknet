@@ -159,6 +159,7 @@ public class AnalysisParameterTools {
             throws ElabException {
         ResultSet rs = elab.getDataCatalogProvider().getEntries(files);
         List<Number> freqs = new ArrayList();
+        
         for (CatalogEntry e : rs) {
         	if (e == null) {
         		continue;
@@ -167,7 +168,7 @@ public class AnalysisParameterTools {
             if (freq == null) {
                 freq = DEFAULT_CPLD_FREQUENCY;
             }
-            freqs.add(freq.doubleValue());
+            freqs.add(freq);
         }
         
         return ElabUtil.join(freqs, " ");
