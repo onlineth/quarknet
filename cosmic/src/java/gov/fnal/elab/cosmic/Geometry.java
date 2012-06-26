@@ -58,7 +58,7 @@ public class Geometry {
      */
     public Geometry(String dataDirectory, int detectorID)
             throws ElabException {
-        orderedGeoEntries = new TreeMap();
+        orderedGeoEntries = new TreeMap<String, GeoEntryBean>();
         geoFile = dataDirectory + File.separator + detectorID + File.separator
                 + detectorID + ".geo";
         localGeoFile = detectorID + ".geo";
@@ -108,7 +108,7 @@ public class Geometry {
      * @see GeoEntry
      */
     public Iterator<GeoEntryBean> getDescendingGeoEntries() {
-        TreeMap tmp = new TreeMap(Collections.reverseOrder());
+        TreeMap<String, GeoEntryBean> tmp = new TreeMap<String, GeoEntryBean>(Collections.reverseOrder());
         tmp.putAll(orderedGeoEntries);
         return tmp.values().iterator();
     }
@@ -340,11 +340,11 @@ public class Geometry {
             return;
 
         try {
-        	PrintWriter pw = new PrintWriter(new FileWriter(new File(geoFile)));
-        	for (GeoEntryBean geb : orderedGeoEntries.values()) {
-        		pw.println(geb.writeForFile());
-        	}
-        	pw.close(); 
+            PrintWriter pw = new PrintWriter(new FileWriter(new File(geoFile)));
+            for (GeoEntryBean geb : orderedGeoEntries.values()) {
+            	pw.println(geb.writeForFile());
+            }
+            pw.close();
         }
         catch (Exception e) {
             throw new ElabException(
@@ -376,7 +376,7 @@ public class Geometry {
                 endDate = j.next().getDate();
             }
         }
-        
+
         // Update the stacked state of all files that use this geo entry
         DateFormat fmt = new SimpleDateFormat("MM/dd/yyyy HH:mm:SS");
 
@@ -388,7 +388,9 @@ public class Geometry {
                     fmt.format(endDate)));
         }
         else {
-            and.add(new GreaterThan("startdate", fmt.format(geoEntry.getDate())));
+            and
+                    .add(new GreaterThan("startdate", fmt.format(geoEntry
+                            .getDate())));
         }
 
         ResultSet rs = dcp.runQueryNoMetadata(and);
@@ -397,11 +399,11 @@ public class Geometry {
 
         boolean updated = true;
 
-        ArrayList meta = new ArrayList();
+        ArrayList<String> meta = new ArrayList<String>();
         meta.add("stacked boolean " + stacked);
         
-        for (CatalogEntry e : rs) {
-        	dcp.insert(DataTools.buildCatalogEntry(e.getLFN(), meta));
+        for (CatalogEntry ce : rs) {
+        	dcp.insert(DataTools.buildCatalogEntry(ce.getLFN(), meta));
         }
     }
 

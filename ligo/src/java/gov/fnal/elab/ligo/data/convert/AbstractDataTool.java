@@ -82,14 +82,6 @@ public abstract class AbstractDataTool {
             put("SEIS2Y", 256);
             put("SEIS2Z", 256);
             
-            put("SEIS1_X", 256);
-            put("SEIS1_Y", 256);
-            put("SEIS1_Z", 256);
-            
-            put("SEIS2_X", 256);
-            put("SEIS2_Y", 256);
-            put("SEIS2_Z", 256);
-            
             //there is no raw data for these, so 1 is as good as any value
             put("SEISX_0.03_0.1Hz", 1);
             put("SEISY_0.03_0.1Hz", 1);
@@ -114,8 +106,6 @@ public abstract class AbstractDataTool {
             put("SEISX_10_30Hz", 1);
             put("SEISY_10_30Hz", 1);
             put("SEISZ_10_30Hz", 1);
-            
-            put("DQ", 1);
         }
     };
 
@@ -126,7 +116,6 @@ public abstract class AbstractDataTool {
     }
 
     protected void loadChannelInfo(String pathToData) throws IOException {
-        new File(pathToData).mkdirs();
         types = new HashMap<ChannelName, String>();
         File[] infos = new File(pathToData).listFiles(new FileFilter() {
             public boolean accept(File pathname) {
@@ -295,11 +284,10 @@ public abstract class AbstractDataTool {
         double lentime = Double.parseDouble(info[2]);
 
         DataReader<?, ?> dp = getReader(channel, types.get(channel), this);
-        dp.clear();
         readData(dp, rmsbin, meanbin);
 
         if (nsamples != dp.size()) {
-            throw new RuntimeException("Size mismatch. Expected " + nsamples + " words, but " + dp.size()
+            throw new RuntimeException("Size mismatch. Expected " + nsamples + " words, but only " + dp.size()
                     + " were found in the data file");
         }
 
@@ -315,8 +303,7 @@ public abstract class AbstractDataTool {
     public static int getSamplingRateAdjust(ChannelName channel) {
         Integer i = SAMPLING_RATE_ADJUST.get(channel.getSubsystem());
         if (i == null) {
-            throw new IllegalArgumentException("No sampling rate adjustment for subsystem " + channel.getSubsystem() + 
-            		" in channel " + channel.originalName);
+            throw new RuntimeException("No sampling rate adjustement for subsystem " + channel.getSubsystem());
         }
         return i;
     }

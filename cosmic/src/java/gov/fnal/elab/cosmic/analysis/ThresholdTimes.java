@@ -18,7 +18,7 @@ import java.util.concurrent.Callable;
  * @author phongn, jordant, hategan 
  *
  */
-public class ThresholdTimes implements Callable {
+public class ThresholdTimes implements Runnable {
     private String[] inputFiles, outputFiles, detectorIDs;
     private double[] cpldFrequencies;
     private double[] retime, fetime;
@@ -31,7 +31,7 @@ public class ThresholdTimes implements Callable {
     private double cpldFrequency;
     
     public static final NumberFormat NF2F = new DecimalFormat("0.00");
-    public static final NumberFormat NF15F = new DecimalFormat("0.000000000000000");
+    public static final NumberFormat NF16F = new DecimalFormat("0.0000000000000000");
     
     /**
      * Class constructor for a single input file. 
@@ -64,7 +64,7 @@ public class ThresholdTimes implements Callable {
         this.cpldFrequencies = cpldFrequencies;
     }
 
-    public Object call() throws IOException {
+    public void run()  {
         lastSecString = "";
         retime = new double[4];
         fetime = new double[4];
@@ -72,30 +72,34 @@ public class ThresholdTimes implements Callable {
         rePPSCount = new long[4];
         reDiff = new long[4];
         reTMC = new int[4];
-        for (int i = 0; i < inputFiles.length; i++) {
-            BufferedReader br = new BufferedReader(new FileReader(inputFiles[i]));
-            BufferedWriter bw = new BufferedWriter(new FileWriter(outputFiles[i]));
-
-            bw.write("#$md5\n");
-            bw.write("#md5_hex(0)\n");
-            bw.write("#ID.CHANNEL, Julian Day, RISING EDGE(sec), FALLING EDGE(sec), TIME OVER THRESHOLD (nanosec)\n");
-
-            cpldFrequency = cpldFrequencies[i];
-            if (cpldFrequency == 0) {
-            	cpldFrequency = 41666667;
-            }
-            String line = br.readLine();
-            while (line != null) {
-                String[] parts = line.split("\\s"); // line validated in split.pl 
-                for (int j = 0; j < 4; j++) {
-                    timeOverThreshold(parts, j, detectorIDs[i], bw);
-                }
-                line = br.readLine();
-            }
-            bw.close();
-            br.close();
+        try {
+		    for (int i = 0; i < inputFiles.length; i++) {
+		        BufferedReader br = new BufferedReader(new FileReader(inputFiles[i]));
+		        BufferedWriter bw = new BufferedWriter(new FileWriter(outputFiles[i]));
+		
+		        bw.write("#$md5\n");
+		        bw.write("#md5_hex(0)\n");
+		        bw.write("#ID.CHANNEL, Julian Day, RISING EDGE(sec), FALLING EDGE(sec), TIME OVER THRESHOLD (nanosec)\n");
+		
+		        cpldFrequency = cpldFrequencies[i];
+		        if (cpldFrequency == 0) {
+		        	cpldFrequency = 41666667;
+		        }
+		        String line = br.readLine();
+		        while (line != null) {
+		            String[] parts = line.split("\\s"); // line validated in split.pl 
+		            for (int j = 0; j < 4; j++) {
+		                timeOverThreshold(parts, j, detectorIDs[i], bw);
+		            }
+		            line = br.readLine();
+		        }
+		        bw.close();
+		        br.close();
+		    }
         }
-        return null; 
+        catch (IOException ioe) {
+        	// abort?
+        }
     }
 
     private void timeOverThreshold(String[] parts, int channel, String detector, BufferedWriter bw) throws IOException {
@@ -181,9 +185,9 @@ public class ThresholdTimes implements Callable {
             wr.write('\t');
             wr.write(String.valueOf(jd));
             wr.write('\t');
-            wr.write(NF15F.format(retime[channel]));
+            wr.write(NF16F.format(retime[channel]));
             wr.write('\t');
-            wr.write(NF15F.format(fetime[channel]));
+            wr.write(NF16F.format(fetime[channel]));
             wr.write('\t');
             wr.write(NF2F.format(nanodiff));
             wr.write('\n');
@@ -301,12 +305,9 @@ public class ThresholdTimes implements Callable {
 			return; 
     	}
     	
-        try {
-            tt.call();
-        }
-        catch (IOException e) {
-            System.out.println("File I/O Error: " + e.getMessage()); 
-        }
+        
+        tt.run();
+
     }
     
     
