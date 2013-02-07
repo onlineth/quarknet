@@ -13,11 +13,18 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.StringUtils.*; 
 
 public class AnalysisParameterTools {
     
@@ -78,7 +85,7 @@ public class AnalysisParameterTools {
     
     public static final Map<String, String> CHANNELS;
     static {
-        CHANNELS = new HashMap();
+        CHANNELS = new HashMap<String, String>();
         CHANNELS.put("chan1", "1");
         CHANNELS.put("chan2", "2");
         CHANNELS.put("chan3", "3");
@@ -133,7 +140,7 @@ public class AnalysisParameterTools {
     public static List<String> getValidChannels(Elab elab, Collection<String> files)
             throws ElabException {
         ResultSet rs = elab.getDataCatalogProvider().getEntries(files);
-        SortedSet<String> channels = new TreeSet();
+        SortedSet<String> channels = new TreeSet<String>();
         
         for (CatalogEntry e : rs) {
         	if (e == null) {
@@ -155,7 +162,8 @@ public class AnalysisParameterTools {
     public static String getCpldFrequencies(Elab elab, Collection<String> files)
             throws ElabException {
         ResultSet rs = elab.getDataCatalogProvider().getEntries(files);
-        List<Number> freqs = new ArrayList();
+        List<Number> freqs = new ArrayList<Number>();
+        
         for (CatalogEntry e : rs) {
         	if (e == null) {
         		continue;
@@ -164,13 +172,13 @@ public class AnalysisParameterTools {
             if (freq == null) {
                 freq = DEFAULT_CPLD_FREQUENCY;
             }
-            freqs.add(freq.doubleValue());
+            freqs.add(freq);
         }
         
         return ElabUtil.join(freqs, " ");
     }
     
-    public static String getFirmwareVersions(Elab elab, Collection<String> files) throws ElabException {
+    public static List<String> getFirmwareVersions(Elab elab, Collection<String> files) throws ElabException {
     	ResultSet rs = elab.getDataCatalogProvider().getEntries(files);
     	List<String> l = new ArrayList<String>();
     	
@@ -180,12 +188,23 @@ public class AnalysisParameterTools {
     		}
     		String firmwareVersion = (String) e.getTupleValue("DAQFirmware");
     		if (firmwareVersion == null) {
-    			firmwareVersion = "0";
+    			firmwareVersion = "";
     		}
-    		l.add(firmwareVersion);
+    		l.add(firmwareVersion); 
     	}
     	
-    	return ElabUtil.join(l, " "); 
+    	return l; 
     }
 
+    /*  Swift expects space-delimited files, so we can't use null or space as a placeholder. 
+     *  Cosmic ray perl code can interpret "0" as null so this is our hacky fix.
+     */
+    public static List<String> getFirmwareVersionsNullAsZero(Elab elab, Collection<String> files) throws ElabException {
+    	List<String> l = getFirmwareVersions(elab, files);
+    	
+    	Collections.replaceAll(l, "", "0");
+    	
+    	return l; 
+    }
+    
 }

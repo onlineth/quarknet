@@ -18,7 +18,7 @@
 		<title>Blessing/Unblessing data...</title>
 		<meta http-equiv=Content-Type content="text/html; charset=iso-8859-1">
 	</head>
-	<body style="background-color: lightGray;">
+	<body>
 		<table width="100%" cellpadding="0" cellspacing="0" align="center">
 			<%	
 			String blessed = request.getParameter("blessed");
@@ -32,7 +32,7 @@
 			dcp.insert(entry);
 
 			%>
-			<tr><td>You have successfully <%= newvalue %> your data.</td></tr>
+			<TR><TD>You have successfully <%= newvalue %> your data.<TD></TR>
 		</table>			
 		<a href=# onclick="window.close();">Close</A>
 	</body>

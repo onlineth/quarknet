@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page errorPage="../include/errorpage.jsp" buffer="none" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.io.*" %>
 <%@ page import="java.text.*" %>
@@ -16,7 +15,6 @@
 <%@ page import="gov.fnal.elab.datacatalog.query.*" %>
 <%@ page import="gov.fnal.elab.*" %>
 <%@ page import="gov.fnal.elab.cosmic.bless.*" %>   
-
 <%
 String file = request.getParameter("file");
 
@@ -43,7 +41,13 @@ request.setAttribute("owner", owner);
 
 //format registers
 BlessRegister br0 = new BlessRegister((String) entry.getTupleValue("ConReg0"));
+BlessRegister br1 = new BlessRegister((String) entry.getTupleValue("ConReg1"));
+BlessRegister br2 = new BlessRegister((String) entry.getTupleValue("ConReg2"));
+BlessRegister br3 = new BlessRegister((String) entry.getTupleValue("ConReg3"));
 request.setAttribute("CR0", br0.getRegisterValue());
+request.setAttribute("CR1", br1.getRegisterValue());
+request.setAttribute("CR2", br2.getRegisterValue());
+request.setAttribute("CR3", br3.getRegisterValue());
 
 %>
    
@@ -51,7 +55,7 @@ request.setAttribute("CR0", br0.getRegisterValue());
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>Blessing Charts</title>
+		<title>Analysis List</title>
 		<link rel="stylesheet" type="text/css" href="../css/style2.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/data.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/one-column.css"/>
@@ -59,7 +63,7 @@ request.setAttribute("CR0", br0.getRegisterValue());
 
 		<title>Data Blessing</title>
 	</head>
-	<body class="upload" style="text-align: center;">
+	<body class="upload">
 		<!-- entire page container -->
 		<div id="container">
 			<div id="top">
@@ -93,32 +97,28 @@ request.setAttribute("CR0", br0.getRegisterValue());
 					window.location.reload();
 				}
 				</script>
-				<h1>Data Blessing Test for ${param.file} -
-				<%= entry.getTupleValue("school") %>, <%= entry.getTupleValue("city") %> - <%= entry.getTupleValue("state") %> -
-			    <fmt:formatDate value="${e.tupleMap.creationdate}" pattern="MM-dd-yyyy" />
+	
+				<h1>Data Blessing Test -
+				<%= entry.getTupleValue("school") %>, <%= entry.getTupleValue("city") %> - <%= entry.getTupleValue("state") %>
 				</h1>
-				<div style="text-align: center;">
-					<a href="../data/view-metadata.jsp?filename=${param.file}">Show metadata</a> |
-					<c:if test="${e.tupleMap.detectorid != null}">
-						<a href="../geometry/view.jsp?filename=${param.file}">Show Geometry</a> |
-					</c:if>
-					<a href="../data/download?filename=${param.file}&elab=${elab.name}&type=split">Download</a> |
-					<e:popup href="../references/Reference_bless_data.html" target="Data Blessing" width="900" height="800">Data blessing documentation</e:popup>
-				</div>
 				<h2>Control Registers</h2>
 				CR0: <strong><%= entry.getTupleValue("ConReg0") != null? entry.getTupleValue("ConReg0") : "Unknown" %></strong>,
 				CR1: <strong><%= entry.getTupleValue("ConReg1") != null? entry.getTupleValue("ConReg1") : "Unknown" %></strong>,
 				CR2: <strong><%= entry.getTupleValue("ConReg2") != null? entry.getTupleValue("ConReg2") : "Unknown" %></strong>,
 				CR3: <strong><%= entry.getTupleValue("ConReg3") != null? entry.getTupleValue("ConReg3") : "Unknown" %></strong><br />
-				CR0: <strong>${CR0}</strong><br /><br />
-				<div style="text-align: center;"><strong>Owners of data files can bless data based on their interpretation of these charts</strong></p></div>
-				<% if (owner) { %>							
-				<table witdh="100%"  style="border: 1px solid black;">
-					<tr><td style="text-align: center;">Look at these charts and bless your data if it is of high quality </td>
-						<td>
+				CR0: <strong>${CR0}</strong><br />
+				CR1: <strong>${CR1}</strong><br />
+				CR2: <strong>${CR2}</strong><br />
+				CR3: <strong>${CR3}</strong><br />	
+				<div id="xAxesControl">
+					<table id="xAxesControlTable">
+						<tr>
+							<td>Custom X-axes scale: </td>
+							<td style="background-color: lightGray">Max X: <input type="text" id="maxX" /><input type="button" value="Set" id="maxXButton" onclick='javascript:redrawPlotX(maxX.value);' /></td>
 							<!-- Need to check if user is related to this detector in order to be able to bless/unbless -->
-							<td style="text-align: right;">
-							 	<form name="blessForm" action="blessdata.jsp" method="post" target="blessWindow" onsubmit="window.open('',this.target,'width=300,height=100,top=200,left=500 resizable=1');" align="center"> 
+							<% if (owner) { %>							
+							<td style="background-color: lightGray">
+							 	<form name="blessForm" action="blessdata.jsp" method="post" target="blessWindow" onsubmit="window.open('',this.target,'width=500,height=200,resizable=1');" align="center"> 
 									<input type="hidden" name="blessed" value="${e.tupleMap.blessed}"/>
 									<input type="hidden" name="filename" value="${e.tupleMap.source}"></input>
 									<c:choose>
@@ -131,15 +131,7 @@ request.setAttribute("CR0", br0.getRegisterValue());
 									</c:choose>	
 								</form>
 							</td>
-						</td>
-					</tr>
-				</table><br />
-				<% } %>						
-				<div id="xAxesControl">
-					<table id="xAxesControlTable">
-						<tr>
-							<td>Custom X-axes scale: </td>
-							<td style="background-color: lightGray">Max X: <input type="text" id="maxX" /><input type="button" value="Set" id="maxXButton" onclick='javascript:redrawPlotX(maxX.value);' /></td>
+							<% } %>
 						</tr>
 					</table>
 				</div>

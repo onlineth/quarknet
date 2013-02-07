@@ -84,15 +84,15 @@ public class Geometries implements Serializable {
     }
 
     public void reset() {
-        geometries = new TreeMap();
-        changedGeometries = new HashSet();
+        geometries = new TreeMap<Integer, Geometry>();
+        changedGeometries = new HashSet<Geometry>();
     }
 
-    public void setChangedGeometries(HashSet h) {
+    public void setChangedGeometries(HashSet<Geometry> h) {
         changedGeometries = h;
     }
 
-    public HashSet getChangedGeometries() {
+    public HashSet<Geometry> getChangedGeometries() {
         return changedGeometries;
     }
 
