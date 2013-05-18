@@ -104,6 +104,12 @@ public class PlotTool {
             maxy = Double.parseDouble(options.get("maxy"));
         }
         
+        /* Parse binWidth; temporarily disable since it seems to not be working :(
+        if (options.containsKey("binwidth")) {
+        	binWidth = Double.parseDouble(options.get("binwidth"));
+        }
+        */ 
+        
         boolean logx = "true".equals(options.get("logx"));
         boolean logy = "true".equals(options.get("logy"));
 

@@ -73,10 +73,7 @@ function zoomButtonSet() {
 }
 
 function datePickerSelected(dateText, inst) {
-	//EPeronja-03/20/2013: Added null check
-	if (plot != null) {
-		plot.clearSelection(false);
-	}
+	plot.clearSelection(false);
 	var d = new Date(inst.currentYear, inst.currentMonth, inst.currentDay, 0, 0, 0)
 	
 	if (inst.id == "xmin") {
@@ -85,7 +82,7 @@ function datePickerSelected(dateText, inst) {
 	else if (inst.id == "xmax") {
 		xmaxGPSTime = convertTimeUNIXtoGPS(d.getTime() / 1000);
 	}
-	//getDataAndPlotCB();
+	getDataAndPlotCB();
 }
 
 function centerElement(id) {
@@ -122,16 +119,14 @@ $(document).ready(function() {
 		xminGPSTime = series.minTime; 
 		ligoMinTime = series.minTime; 
 		xmaxGPSTime = series.maxTime; 
-		ligoMaxTime = series.maxTime;
+		ligoMaxTime = series.maxTime; 
 		$("#xmin").val((new Date(convertTimeGPSToUNIX(parseFloat(xminGPSTime)) * 1000.0)).toDateString()); 
 		$("#xmax").val((new Date(convertTimeGPSToUNIX(parseFloat(xmaxGPSTime)) * 1000.0)).toDateString());
-		//console.log(document.getElementById("xmin").value);
-		//console.log(document.getElementById("xmax").value);		
 		ligoMaxRange = ligoMaxTime - ligoMinTime; 
 
 		$("#slider").slider( { min: 0, max: 1200, value: 600} );
 		
-		//getDataAndPlotCB();
+		getDataAndPlotCB();
 	}
 
 	function onTimeRangeCompleted() {
@@ -153,7 +148,7 @@ $(document).ready(function() {
 		if (c == "placeholder") {
 			return;
 		}
-		//console.log("getdataparms: " + c);
+
 		var url = dataServerUrl + '?fn=getData&params=' + c + ',0,' + xminGPSTime + ',' + xmaxGPSTime;
 
 		// Get the data via AJAT call
@@ -168,7 +163,6 @@ $(document).ready(function() {
 		});
 
 		function onChannelDataReceived(series) { 
-			//console.log("series: " + series);
 			var s = series.split(" ");
 			var a = new Array();
 			var num = s[0];
@@ -176,7 +170,7 @@ $(document).ready(function() {
 				a.push([convertTimeGPSToUNIX(parseFloat(s[i * 2 + 1])) * 1000.0, s[i * 2 + 2]]);
 			}
 			data = [{data: a, shadowSize: 0}];
-			//console.log("data: " + data);
+
 			plot = $.plot(placeholder, data, options); 
 
 			updateSliderPositionCB(plot); 

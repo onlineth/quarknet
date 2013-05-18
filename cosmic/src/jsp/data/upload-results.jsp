@@ -54,9 +54,9 @@
 	String detectorId = (String) results.getAnalysis().getParameter("detectorid");
 	String comments = (String) results.getAnalysis().getParameter("comments");
 	String dataDir = elab.getProperties().getDataDir();
-	int channels[] = new int[4];
+	long channels[] = new long[4];
 
-	List splits = new ArrayList();  //for both the split name and the channel validity information
+	List<String> splits = new ArrayList<String>();  //for both the split name and the channel validity information
 
 	boolean c = true;
 	String splitPFNs = "";
@@ -65,7 +65,7 @@
 	CatalogEntry entry;
 	
 	//get metadata which contains the lfns of the raw filename AND the split files
-	ArrayList meta = null;
+	ArrayList<String> meta = null;
 	boolean metaSuccess = false;
 	boolean totalSuccess = true;        //false if there are any rc.data or meta errors
 	File fmeta = new File(f.getAbsolutePath() + ".meta");     //depends on Split.pl writing the meta to rawName.meta
@@ -91,7 +91,7 @@
                 }
 
                 //start a new metadata array
-                meta = new ArrayList();
+                meta = new ArrayList<String>();
                 currPFN = temp[1];
 	            currLFN = temp[1].substring(temp[1].lastIndexOf('/') + 1);
     	        if(temp[0].equals("[RAW]")) {
@@ -126,9 +126,9 @@
                 else if (tmp[0].equals("julianstartdate")) {
                 	Geometry geometry = new Geometry(elab.getProperties().getDataDir(), Integer.parseInt(detectorId));
 					if (geometry != null && !geometry.isEmpty()) {
-						SortedMap geos = geometry.getGeoEntriesBefore(tmp[2]);
+						SortedMap<String, GeoEntryBean> geos = geometry.getGeoEntriesBefore(tmp[2]);
 						if (!geos.isEmpty()) {
-							GeoEntryBean g = (GeoEntryBean) geos.get(geos.lastKey());
+							GeoEntryBean g = geos.get(geos.lastKey());
 							meta.add("stacked boolean " + ("0".equals(g.getStackedState()) ? "false" : "true"));	
 						}
                 	}
@@ -150,16 +150,18 @@
     else {
         throw new ElabJspException("Error reading metadata file: " + f.getAbsolutePath() + ".meta");
     }
-
-	Iterator l = splits.iterator();
-	List entries = new ArrayList();
-	while (l.hasNext()) {
-	    CatalogEntry s = elab.getDataCatalogProvider().getEntry((String) l.next());
-	    entries.add(s);
-	    for (int k = 0; k < 4; k++) {
-	        channels[k] += ((Long) s.getTupleValue("chan" + (k + 1))).intValue();
+	
+	List<CatalogEntry> entries = new ArrayList<CatalogEntry>();
+	for (String s : splits) {
+		CatalogEntry ce = elab.getDataCatalogProvider().getEntry(s);
+		entries.add(ce);
+		for (int k = 0; k < 4; k++) {
+	    	if (ce.getTupleValue("chan" + (k+1)) != null) {
+	        	channels[k] += ((Long) ce.getTupleValue("chan" + (k + 1))).longValue(); 
+	    	}
 	    }
 	}
+	
 	request.setAttribute("channels", channels);
 	request.setAttribute("splitEntries", entries);
 	CatalogEntry e = elab.getDataCatalogProvider().getEntry(rawName);
@@ -194,7 +196,7 @@
     
     	Your data was split into ${lfnssz} ${lfnssz == 1 ? 'day' : 'days'} spanning from:<br/>
     	${entry.tupleMap.startdate} to ${entry.tupleMap.enddate}<br/>
-    	The uploaded file contained ${entry.tupleMap.totalDataLines} accepted data lines. We ignored ${entry.tupleMap.GPSSuspects} line(s) due to a suspect GPS date.
+    	The uploaded file contained ${entry.tupleMap.totalDataLines} accepted data lines. We ignored ${entry.tupleMap.GPSSuspectsTotal} line(s) due to a suspect GPS date.
     	
     	<table id="channels-table">
     		<tr>
@@ -216,8 +218,8 @@
 		<c:choose>
 			<c:when test="${entry.tupleMap.avglatitude == '0'}">
 				<%--if it were truly 0, it would be 0.0.0 in the metadata --%>
-				No valid GPS information found in your data.<br/>
-				Either the "DG" command was not run or the GPS did not see enough satellites.<br/><br/>
+				We found no reliable GPS location information in your data.<br/>
+				<br/>
 			</c:when>
 			<c:otherwise>
 				Average latitude: ${entry.tupleMap.avglatitude}<br/>

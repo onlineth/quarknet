@@ -26,10 +26,9 @@
 # jordant changed 11-01-10: checking to see if user is doing ST2 or ST3 when writing raw data. Knowing which one is crucial to data blessing.
 # jordant changed 5 Oct 11: fixing bug 372
 # jordant changed 4 Jan 13: fixing bug 517
-# EPeronja changed 9 Apr 13: adding the benchmark parameter
 
 if($#ARGV < 2){
-	die "usage: Split.pl [filename to parse] [output DIRECTORY] [board ID] \n";
+	die "usage: Split.pl [filename to parse] [output DIRECTORY] [board ID]\n";
 }
 
 use Time::Local 'timegm_nocheck';
@@ -61,7 +60,6 @@ $today_time = sprintf("%02d:%02d:%02d", $hour, $min, $sec);
 $raw_filename = $ARGV[0];
 $output_dir=$ARGV[1];
 $ID = $ARGV[2];
-
 open IN, $raw_filename;
 
 # Create and/or ensure output directory is writeable
@@ -202,7 +200,6 @@ while(<IN>){
 	if(/$reData/o){
 		#$non_datalines++;
 		@dataRow = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16);
-		#print "$. \t", substr($dataRow[10],0,2), "\t",substr($lastTime,0,2) ,"\t", $dataRow[11],"\t", $date,"\n";
 		if (substr($dataRow[10],0,2) == substr($lastTime,0,2) && $dataRow[11] != $date && $dataRow[12] eq "V"){
 			$GPSSuspects++;
 			#print "$GPSSuspects", "\t", "$data_line","\n";
@@ -388,8 +385,7 @@ while(<IN>){
 		#}
 		$lastDate = $date;
 		$date = $dataRow[11];
-		$time = $dataRow[10];
-		#print "$. made it through all of the filters.\n"; 
+		$time = $dataRow[10]; 
 	}#end of if /$reData/o)
 
 	#the current line is not a data line or has passed the rollover tests. Proceed.
@@ -743,8 +739,7 @@ if ($rollover_flag == 0){ #proceed with this line if it doesn't raise a flag.
 					}
 
 					close $blessFile;	
-
-				
+					
 					#Empty all of the status arrays so that they can start over with the new split file.
 					@stTime = @StCoutTemp = @stCount0 = @stRate0 = @stCount1 = @stRate1 = @stCount2 = @stRate2 = @stCount3 = @stRate3 = @stEvents = @stRateEvents = @stType = @stPress = @stTemp = @StVcc = @stGPSSats = @stRow =  @cpld_frequency1 = @cpld_frequency2 = @stCountTemp = ();
 					#reset any scalars in use
@@ -761,7 +756,6 @@ if ($rollover_flag == 0){ #proceed with this line if it doesn't raise a flag.
 			#open a NEW split file
 			$index = 0;				#incremented if a split file of this name already exists
 			$fn = "$ID.$year.$month$day.$index";
-			#print "$fn\n";
 			#Need a bless file as well with the same file naming scheme
 			$sfn = $fn.".bless";
 
@@ -773,9 +767,8 @@ if ($rollover_flag == 0){ #proceed with this line if it doesn't raise a flag.
 			} #end while(-e "$output...
 				
 			open(SPLIT,'>>', "$output_dir/$fn");
-			#print "$output_dir/$fn\n";
 			open($blessFile,'>>', "$output_dir/$sfn");
-			#print "$output_dir/$sfn\n";
+			
 			$jd = jd($day, $month, $year, $hour, $min, $sec);	#GPS offset already taken into account from above
 
 			# Write initial metadata for lfn that was just opened
@@ -995,7 +988,6 @@ else{
 	}
 					
 	close $blessFile;	
-	
 	#write the channel counts for the last split file
 	#Why is this here? Do we print this on the line confiming the upload? If so, it's wrong--it only holds the counts for the _last_ file.
 	#print "$chan0 $chan1 $chan2 $chan3\n";
@@ -1032,6 +1024,7 @@ else{
 		print META "Average altitude: $avg_alt\n";
 	}
 }
+
 
 sub gps_check{
     #thanks to Nick Dettman for his research into this
