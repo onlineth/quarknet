@@ -81,11 +81,10 @@
 	
 	
 	File ecFile = new File((String) analysis.getParameter("eventCandidates"));
-	String ecPath = ecFile.getAbsolutePath();
 	EventCandidates ec = EventCandidates.read(ecFile, csc, dir, eventStart, eventNum);
-	Collection rows = ec.getRows();
-	request.setAttribute("eventDir", ecPath);
+	Collection rows = ec.getRows(); 
 	request.setAttribute("rows", rows);
+	request.setAttribute("eventNum", ec.getEventNum());
 	request.setAttribute("crtEventRow", ec.getCurrentRow());
 %>
 
@@ -119,7 +118,7 @@
 				<c:forEach items="${rows}" begin="${start}" end="${end}" var="row" varStatus="li">
 					<tr bgcolor="${row.eventNum == eventNum ? '#aaaafc' : (li.count % 2 == 0 ? '#e7eefc' : '#ffffff')}">
 						<td>
-							<a href="../analysis-shower/event-choice.jsp?id=${param.showerId}&eventNum=${row.eventNum}&eventDir=${eventDir}&submit=true">${row.dateF}</a>
+							<a href="../analysis-shower/event-choice.jsp?id=${param.showerId}&eventNum=${row.eventNum}&submit=true">${row.dateF}</a>
 						</td>
 						<td>
 							${row.eventCoincidence}
@@ -141,7 +140,7 @@
 			<p>
 				Click on image for a larger view
 			</p>
-			<e:popup href="../analysis-shower/show-plot.jsp?showerId=${showerResults.id}&id=${results.id}&eventDir=${eventDir}" target="showerPopup" width="650" height="750">
+			<e:popup href="../analysis-shower/show-plot.jsp?showerId=${showerResults.id}&id=${results.id}" target="showerPopup" width="650" height="750">
 				<img src="${results.outputDirURL}/plot_thm.png"/>
 			</e:popup>
 			<p>

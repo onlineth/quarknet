@@ -45,8 +45,8 @@
 			<div id="content">
 				<noscript><b>This page requires Javascript</b><br /><br /></noscript>
 				<%-- Scripts need to be loaded after nav-rollover since that is where the js pages live --%>
-				<script language="javascript" type="text/javascript" src="../include/jquery/flot/jquery.flot.min.js"></script>
-			    <script language="javascript" type="text/javascript" src="../include/jquery/flot/jquery.flot.selection.min.js"></script>
+				<script language="javascript" type="text/javascript" src="../include/jquery/flot/jquery.flot.js"></script>
+			    <script language="javascript" type="text/javascript" src="../include/jquery/flot/jquery.flot.selection.js"></script>
 			    <script src="general.js" type="text/javascript"></script> <%-- General common stuff --%>
 			    <script src="advanced.js" type="text/javascript"></script> <%-- Advanced Mode --%>
 				
@@ -68,10 +68,8 @@
 					<tr>
 						<td colspan="2">
 							<table id="plot">
-									<tr>
-									  <td id="yAxisLabeltd"><span id="yAxisLabel">&nbsp;</span></td>
-									</tr>
 								<tr>
+									<td id="yAxisLabeltd"><span class="rotate-text-left" id="yAxisLabel">&nbsp;</span></td>
 									<td width="850">
 										<div id="resizablecontainer" style="margin-bottom: 10px; margin-right: 10px;" >
 											<div id="chart" style="width:100%; height:250px; text-align: left;"></div>
@@ -79,6 +77,7 @@
 									</td>
 								</tr>
 								<tr>
+									<td>&nbsp;</td>
 									<td align="center"><span id="xAxisLabel">Date/Time (GMT)</span></td>
 								</tr>
 							</table>
@@ -195,12 +194,9 @@
 					</table>
 					
 				</div>
-				<table>
-					<tr>
-						<td><button id="plotButtonBottom" class="plotButton" value="Plot">Plot</button></td>
-						<td><div id="messages" name="messages"></div></td>
-					</tr>
-				</table>
+				
+				<%-- <button id="plotButtonBottom" class="plotButton" value="Plot">Plot</button> --%>
+				
 				<h2>Data Export</h2>
 				
 				<table class="toolbox">
