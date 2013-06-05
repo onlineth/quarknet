@@ -1,7 +1,0 @@
-# Local configuration of /usr/local/apache
-#
-# @(#) Last changed: -EAM 19Mar2009
-
-pidfile="/usr/local/apache/logs/httpd.pid"
-
-##
