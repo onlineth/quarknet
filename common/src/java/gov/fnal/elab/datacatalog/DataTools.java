@@ -66,13 +66,7 @@ public class DataTools {
         KEYS.put("ConReg0", 13);
         KEYS.put("ConReg1", 14);
         KEYS.put("ConReg2", 15);
-        KEYS.put("ConReg3", 16);      
-        //EPeronja-04/25/2013: Benchmark File attributes
-        KEYS.put("benchmarkfile", 17);
-        KEYS.put("benchmarkdefault", 18);
-        KEYS.put("benchmarklabel", 19);
-        KEYS.put("benchmarkreference", 20);
-        KEYS.put("benchmarkfail", 21);
+        KEYS.put("ConReg3", 16);       
     }
 
     public static final int SCHOOL = 0;
@@ -93,12 +87,6 @@ public class DataTools {
     public static final int CONREG1 = 14;
     public static final int CONREG2 = 15;
     public static final int CONREG3 = 16;
-    //EPeronja-04/25/2013: Benchmark File attributes
-    public static final int BENCHMARKFILE = 17;
-    public static final int BENCHMARKDEFAULT = 18;
-    public static final int BENCHMARKLABEL = 19;
-    public static final int BENCHMARKREFERENCE = 20;
-    public static final int BENCHMARKFAIL = 21;
     
     public static final String MONTH_FORMAT = "MMMM yyyy";
 
@@ -226,37 +214,7 @@ public class DataTools {
             	System.out.println("WARNING: File " + e.getLFN() + " does not have register 3 conf. Skipping.");
             	continue;
             }
-            //EPeronja-04/25/2013: Golden File attributes
-            try {
-            	file.setBenchmarkFile((Boolean) data[BENCHMARKFILE]);
-            } catch (Exception ex) {
-            	System.out.println("WARNING: File " + e.getLFN() + " does not have a benchmark file. Skipping.");
-            	continue;
-            }
-            try {
-            	file.setBenchmarkDefault((Boolean) data[BENCHMARKDEFAULT]);
-            } catch (Exception ex) {
-            	System.out.println("WARNING: File " + e.getLFN() + " does not have a benchmark file. Skipping.");
-            	continue;
-            }  
-            try {
-            	file.setBenchmarkLabel((String) data[BENCHMARKLABEL]);
-            } catch (Exception ex) {
-            	System.out.println("WARNING: File " + e.getLFN() + " does not have a benchmark label. Skipping.");
-            	continue;
-            }  
-            try {
-            	file.setBenchmarkReference((String) data[BENCHMARKREFERENCE]);
-            } catch (Exception ex) {
-            	System.out.println("WARNING: File " + e.getLFN() + " does not have a benchmark reference. Skipping.");
-            	continue;
-            }  
-            try {
-            	file.setBenchmarkFail((String) data[BENCHMARKFAIL]);
-            } catch (Exception ex) {
-            	System.out.println("WARNING: File " + e.getLFN() + " does not have a benchmark failure. Skipping.");
-            	continue;
-            }  
+
             if (file.getStartDate() == null) {
             	System.out.println("WARNING: File " + e.getLFN() + " is missing the start date. Skipping.");
             	continue;

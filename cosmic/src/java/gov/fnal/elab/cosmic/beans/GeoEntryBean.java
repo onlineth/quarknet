@@ -96,37 +96,9 @@ public class GeoEntryBean implements Serializable {
     }
 
     public Date getDate() {
-        //return getCalendar().getTime();
-    	//EPeronja-06/06/2013:Bug 349 GEO time defaults selects wrong zone
-    	Date dateUTC = StringDateToDate(GetUTCdatetimeAsString());
-    	return dateUTC;
-    }
-    
-	//EPeronja-06/06/2013:Bug 349 GEO time defaults selects wrong zone
-    public static String GetUTCdatetimeAsString()
-    {
-        final SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        final String utcTime = sdf.format(new Date());
-        return utcTime;
+        return getCalendar().getTime();
     }
 
-	//EPeronja-06/06/2013:Bug 349 GEO time defaults selects wrong zone
-    public static Date StringDateToDate(String StrDate)
-    {
-        Date dateToReturn = null;
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-        try
-        {
-            dateToReturn = (Date)dateFormat.parse(StrDate);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return dateToReturn;
-    }
-    
     public void setDetectorID(int detectorID) {
         this.detectorID = detectorID;
     }
@@ -593,15 +565,7 @@ public class GeoEntryBean implements Serializable {
             addError("channel" + channel + "-area");
             return false;
         }
-        else { 
-        	boolean needCheck = getChannel(channel).needToCheckArea();
-        	if (needCheck) {
-        		//EPeronja-06/06/2013:Bug 378 GEO: default area value
-        		if(getChannel(channel).getArea().equals("0.0")) {
-        			addError("channel"+channel+"-area-zero");
-        			return false;
-        		}
-        	}
+        else {
             return true;
         }
     }
@@ -773,7 +737,7 @@ public class GeoEntryBean implements Serializable {
         for (int i = 0; i < 4; i++) {
             channels[i] = new ChannelProperties();
         }
-        gpsCableLength = "0.0";
+        gpsCableLength = "0";
     }
 
     public String writeForFile() {
@@ -877,7 +841,7 @@ public class GeoEntryBean implements Serializable {
             y = "0";
             z = "0";
             area = "0.0";
-            cableLength = "0.0";
+            cableLength = "0";
         }
 
         public ChannelProperties(String length, String area, String x,
@@ -934,12 +898,6 @@ public class GeoEntryBean implements Serializable {
                     || !"0.0".equals(area) || !"0.0".equals(cableLength);
         }
 
-		//EPeronja-06/06/2013:Bug 378 GEO: default area value
-        public boolean needToCheckArea() {
-        	//only check when the others are not zeros
-            return !"0".equals(x) || !"0".equals(y) || !"0".equals(z) || !"0.0".equals(cableLength);
-        }
-       
         public String toString() {
             double a = Double.parseDouble(area);
             a = a / 100 / 100;
