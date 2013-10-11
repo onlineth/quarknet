@@ -18,8 +18,7 @@ type AxisParams {
 	}
 }
 
-(File wireDelayData) WireDelay(File thresholdData, string geoDir, File geoFile, string detector, string firmware)
- {
+(File wireDelayData) WireDelay(File thresholdData, string geoDir, File geoFile, string detector, string firmware) {
 	app {
 		WireDelay @filename(thresholdData) @filename(wireDelayData) @filename(geoDir) detector firmware;
 	}
@@ -141,7 +140,6 @@ string sort_sortKey2 = @arg("sort_sortKey2");
 //the actual workflow
 thresholdAll = ThresholdTimesMultiple(rawData, detectors, cpldfreqs);
 wireDelayData = WireDelayMultiple(thresholdAll, geoDir, geoFiles, detectors, firmwares);
-
 combineOut = Combine(wireDelayData);
 sortOut = Sort(combineOut, sort_sortKey1, sort_sortKey2);
 eventCandidates = EventSearch(sortOut, gate, detectorCoincidence, channelCoincidence,

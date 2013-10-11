@@ -265,8 +265,9 @@
 								- Cosmic rays and upper atmospheric temperatures from Symmetry Magazine
 							</li>
 							<li><a href="http://ed.fnal.gov/pdf/leo.pdf">Leo's Logbook</a> - Tips for keeping a logbook</il>
-						
-							
+						    <li><a href="http://www.space.dtu.dk/English/Research/Research_divisions/Sun_Climate/Experiments_SC/SKY.aspx">The SKY experiment</a>, from Denmark.</li>
+							<li><a href="http://www.space.dtu.dk/English/Research/Research_divisions/Sun_Climate/Experiments_SC/CLOUD.aspx">The CLOUD experiment</a> - The role of cosmic rays in CLOUD function, an atmospheric research at CERN.</li>
+							<li><a href="http://www.space.dtu.dk/English/Research/Research_divisions/Sun_Climate.aspx">Center for Sun-Climate Research</a> - Investigation of the connection between solar activity and climatic changes on Earth.</li>
 						</ul>
 						<h2>Cosmic Ray Simulations (need
   QuickTime plugin)</h2>
@@ -311,6 +312,8 @@ Simulation</a>, from Goethe Universitat Frankfurt am Main</li>
 						<div class="tab" id="tab-online">
 					<span class="tab-title">Grid Computing</span>
 					<div class="tab-contents-sublevel">
+						<p>The e-Lab uses <a href="http://en.wikipedia.org/wiki/Distributed_computing">distributed computing</a> where multiple computers,networked
+						together, perform the analysis of the data.  Many scientists use the grid &mdash; one form of distributed computing.  Learn more about the grid.</p>
 						<ul  class="simple">
 							<li>
 								<a href="http://gridcafe.web.cern.ch/gridcafe/">The Grid Cafe</a>

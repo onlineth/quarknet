@@ -33,7 +33,7 @@ import java.util.Map;
  */
 public class ElabFactory {
     
-    private static Map<String, ElabProvider> providers = new HashMap<String, ElabProvider>();
+    private static Map<String, ElabProvider> providers = new HashMap();
     
     private static ElabProvider get(Elab elab, String provider) {
         synchronized(providers) {

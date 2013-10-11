@@ -39,15 +39,17 @@ $(window).scroll(function(){
 </script>
 		
 <div class="search-quick-links">Quick Searches: 
-	<e:quicksearch key="school" value="${user.group.school}"/>
-	<e:quicksearch key="city" value="${user.group.city}"/>
-	<e:quicksearch key="state" value="${user.group.state}"/>
+	<e:quicksearch key="group" value="${user.name}"  />,
+	<e:quicksearch key="teacher" value="<%= user.getTeacher() %>"  />,
+	<e:quicksearch key="school" value="${user.group.school}"/>,
+	<e:quicksearch key="city" value="${user.group.city}"/>,
+	<e:quicksearch key="state" value="${user.group.state}"/>,
 	<e:quicksearch key="all" value="" label="All"/>
 </div>
 
 <form name="search" method="get">
 	<e:select name="key" id="selectOptions" valueList="city, group, school, state, teacher, detectorid"
-		        labelList="City, Group, School, State, Teacher, Detector ID"
+		        labelList="City, Group, School, State/Country, Teacher, Detector ID"
 		        default="${param.key}"/>
 	<input name="value" id="name" size="40" maxlength="40" value="${param.value}" />
 	<input type="submit" name="submit" value="Search Data" />
@@ -78,7 +80,7 @@ $(window).scroll(function(){
 						<e:trinput name="date2" id="date2" size="10" maxlength="15" class="datepicker"/>
 					</td>
 				</tr>
-				<%-- Sort field and search-within-data don't work. 
+				<!-- 
 				<tr>
 					<td align="right">
 						<e:select name="sortDirection" valueList="sortAsc, sortDesc" labelList="Sort Ascending, Sort Descending"/>
@@ -89,16 +91,16 @@ $(window).scroll(function(){
 							labelList="City, State, Geometry, Blessed, Group, Academic Year, Detector ID, Upload Date, Channel 1 events, Channel 2 events, Channel 3 events, Channel 4 events"/>
 					</td>
 				</tr>
+				-->
 				<tr>
 					<td align="right" valign="middle">
 					    Search:
 					</td>
 					<td>
 				    	<input type="radio" name="searchIn" value="all" checked="true" />All data
-					    <input type="radio" name="searchIn" value="within"/ >Within results
+					    <input type="radio" name="searchIn" value="within"/ >Refine results with extra parameters
 					</td>
 				</tr>
-				--%>
 				<tr>
 					<td>
 						Stacked:
@@ -158,11 +160,15 @@ $(window).scroll(function(){
 		    
 		    and.add(new Equals("project", elab.getName()));
 		    and.add(new Equals("type", "split"));
-		    /* This parameter is never set 
-			   if ("within".equals(request.getParameter("searchIn"))) {
-				   and.add((QueryElement) session.getAttribute("previousSearch"));
+		    //EPeronja-08/05/2013 284: Data search within results don't have any hooks --> fixed
+			if ("within".equals(request.getParameter("searchIn"))) {
+				MultiQueryElement ql = (MultiQueryElement) session.getAttribute("previousSearch");
+				Collection elements =  ql.getAll();
+				Iterator iterator = elements.iterator();
+				while (iterator.hasNext()) {
+					and.add((QueryElement) iterator.next());
+				}
 			}
-		    */
 			
 			if ("yes".equals(stacked)) {
 		    	and.add(new Equals("stacked", Boolean.TRUE));
@@ -226,6 +232,7 @@ $(window).scroll(function(){
 			}
 		    
 			searchResults = elab.getDataCatalogProvider().runQuery(and);
+			session.setAttribute("previousSearch", and);
 			searchResultsStructured = DataTools.organizeSearchResults(searchResults);
 			searchResultsStructured.setKey(key);
 			searchResultsStructured.setValue(value);
