@@ -1,1 +1,0 @@
-<%@ include file="../maps/ligo-diagram.jsp" %> 
