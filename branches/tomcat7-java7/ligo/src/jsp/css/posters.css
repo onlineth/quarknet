@@ -1,0 +1,93 @@
+#sub-library {
+	display: none; 
+}
+
+#sub-data {
+	display: none; 
+}
+
+#sub-posters {
+	display: block; 
+}
+
+#sub-siteindex {
+	display: none; 
+}
+
+a#nav-posters {
+	font-style: italic;
+}
+
+#sub-home {
+	display: none;
+}
+
+.posters #center em {
+	color: #333399;
+	font-weight: bold;
+	font-style: normal;
+}
+
+.posters #center p {
+	font-weight: normal;
+	margin-left: 10px;
+}
+
+.posters #center tr td {
+	font-weight: normal;
+	margin-left: 10px;
+  font-size: 95%;
+  padding: 5px;
+}
+
+
+a.button {
+	background-color: #ff6600;
+	border-top: #ffa76c 1px solid;
+	border-left: #ffa76c 1px solid;
+	border-bottom: #b54800 1px solid;
+	border-right: #b54800 1px solid;
+	padding-left: 6px;
+	padding-right: 6px;
+	color: black;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.posters dt {
+	font-weight: bold;
+}
+
+.posters dd {
+	padding-bottom: 6px;
+}
+
+
+/*
+	Italicisize corresponding subnav item
+*/
+#posters		 	#subnav a[href="../posters/"],
+#new-poster		 	#subnav a[href="../posters/new.jsp"],
+#edit-posters	 	#subnav a[href="../posters/edit.jsp"],
+#search-posters	 	#subnav a[href="../posters/view.jsp"],
+#delete-posters	 	#subnav a[href="../posters/delete.jsp"],
+#dummy			 	#subnav a[href="../plots?submit=true&key=group&value=guest&uploaded=true"],
+#uploadImage		#subnav a[href="../jsp/uploadImage.jsp"] {
+	font-style: italic;
+}
+ 
+
+#nav #subnav ul li:first-child a {
+	border-left: none;
+}
+
+
+.float {
+	float: left;
+	padding-right: 8px;
+}
+
+#image-preview {
+	border: solid 1px #606060;
+	background-color: white;
+}
