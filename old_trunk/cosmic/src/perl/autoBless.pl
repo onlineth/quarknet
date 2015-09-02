@@ -15,6 +15,7 @@
 #               2.4.2 If those rates are within one standard deviation of each other, than go to the next line in the .bless file and check again.
 #               2.4.3 If all the lines pass, indicate so in the output report file
 #     3. Read the next line in the meta report, open the associated file and start checking.
+#
 
 $i = $infile = $ofile = $pathToBlessFiles = $duration = $elements = 0; 	#define these so strict is happy
 @row = @splitFile = @blessFile = @chan0Rate = @chan1Rate = @chan2Rate = @chan3Rate = @triggerRate = (); #define these so strict is happy
