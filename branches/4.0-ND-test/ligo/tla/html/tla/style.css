@@ -1,0 +1,479 @@
+/***********************************************************************
+ * CSS Style for Bluestone, the LIGO Analysis Tool
+ */
+
+
+/* e-Lab Page style */
+
+body {
+	background: white;
+}
+
+.wikibody {
+	width: 910px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.header-title {
+  color: white;
+  font-size: 2em;
+  font-weight: bold;
+  font-family: helvetica,sans-serif;
+  text-align: left;
+}
+
+
+.header-subtitle {
+  color: white;
+  font-family: helvetica,sans-serif;
+  text-align: left;
+}
+
+
+.second-header-title {
+  color: grey;
+  font-family: helvetica,sans-serif;
+  font-weight: bold;
+  text-align: right;
+  vertical-align: top;
+}
+
+
+.third-header-title {
+  color: grey;
+  font-family: helvetica,sans-serif;
+  font-weight: bold;
+  text-align: left;
+  vertical-align: top;
+}
+
+.user-tools {
+	color: lightgray;
+	padding-top: 8px;
+}
+
+.user-tools img {
+	vertical-align: middle;
+}
+
+#user-level-control {
+	margin-top: 4px;
+}
+
+
+/*** Clock boxes ***/
+
+.clock_box {
+    display: inline;
+    border: inset 1px #aeb2c3;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+
+#gps_clock_field {
+    color: blue;
+}
+
+#gmt_clock_field {
+    color: green;
+}
+
+
+
+
+/******* Block Diagrams **************/ 
+
+
+*.block-list {
+    color: black;
+    font: caption;
+    font-weight: bold;
+    text-align: center;
+    border: 2px;
+    padding-right: 2em;
+    padding-left: 2em;
+}
+
+table.block {
+    background-color: transparent;
+    width: 98%;
+    border: 2px;
+    border-style: outset;
+    margin: 0px;
+    text-align: center;
+}
+
+td.block-new {
+    background-color: wheat;
+    border: outset 1px #aeb2c3;
+    height: 3em;
+    margin: 0;
+    padding-right: 1em;
+    padding-left: 1em;
+    text-align: center;
+}
+
+
+td.block-this {
+    background-color: lightblue;
+    border: inset 1px #aeb2c3;
+    height: 3em;
+    padding-right: 1em;
+    padding-left: 1em;
+    text-align: center;
+}
+
+
+td.block-ok {
+    background-color: lightgreen;
+    border: outset 1px #aeb2c3;
+    height: 3em;
+    padding-right: 1em;
+    padding-left: 1em;
+    text-align: center; 
+}
+
+td.block-fail {
+    background-color: pink;
+    border: outset 1px #aeb2c3;
+    height: 3em;
+    padding-right: 1em;
+    padding-left: 1em;
+}
+
+td.block-arrow {
+    border: 0px;
+    height: 3em;
+    border-style: none;
+    padding-right: 0.2em;
+    padding-left: 0.2em;
+}
+
+a.block:link { 
+	text-decoration: underline;
+    color: blue; 
+}
+a.block:visited {
+    text-decoration: underline;
+    color: blue;
+    }
+a.block:hover   {
+    text-decoration: underline; 
+    color: darkblue;
+}
+
+
+
+/******* Signal block **************/ 
+
+td.signal-block{ vertical-align: middle;} 
+
+
+/******* Message Area **************/ 
+
+*.message-area {
+      color: blue;
+      background-color: white;
+      font-family: monospace;
+      width: 100%;
+      text-align: left;
+}
+
+
+/******* Control Panel Items**************/
+
+#frame {
+	width: 900px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#frame-top-left {
+	width: 5px;
+	height: 25px;
+	background: url("img/frame-top-left.gif");
+}
+
+#frame-top-left-inner {
+	width: 20px;
+	height: 25px;
+	background: url("img/frame-top-left-inner.gif");
+}
+
+#frame-top {
+	font-family: Helvetica, Arial, Verdana, Sans Serif;
+	height: 24px;
+	background: url("img/frame-top.gif");
+	background-repeat: repeat-x;
+	text-align: center;
+	color: white;
+	font-size: 9pt;
+	padding-top: 0px;
+	vertical-align: middle;
+	width: 831px;
+}
+
+#title {
+	padding-top: 2px;
+}
+
+#frame-top-right-inner {
+	width: 39px;
+	height: 25px;
+	background: url("img/frame-top-right-inner.gif");
+}
+
+#frame-top-right {
+	width: 5px;
+	height: 25px;
+	background: url("img/frame-top-right.gif");
+}
+
+#frame-left {
+	width: 5px;
+	background: url("img/frame-left.gif");
+	background-repeat: repeat-y;
+}
+
+#frame-right {
+	width: 5px;
+	background: url("img/frame-right.gif");
+	background-repeat: repeat-y;
+}
+
+#frame-bottom-left {
+	width: 5px;
+	height: 25px;
+	background: url("img/frame-bottom-left.gif");
+}
+
+#frame-bottom-left-inner {
+	width: 20px;
+	height: 25px;
+	background: url("img/frame-bottom-left-inner.gif");
+}
+
+#frame-bottom {
+	height: 25px;
+	background: url("img/frame-bottom.gif");
+	background-repeat: repeat-x;
+}
+
+#frame-bottom-right-inner {
+	width: 39px;
+	height: 25px;
+	background: url("img/frame-bottom-right-inner.gif");
+}
+
+#frame-bottom-right {
+	width: 5px;
+	height: 25px;
+	background: url("img/frame-bottom-right.gif");
+}
+
+
+*.control {
+	font-family: Verdana, Arial, Sans Serif ;
+	color: black;             
+	background-color: #aeb2c3;
+	border: outset 1px #aeb2c3;
+	padding: 6px;
+}
+
+.textarea {
+	font-family: Verdana, Arial, Sans Serif ;
+	width: 100%;
+	background-color: white;
+	border: inset 1px #aeb2c3;
+}
+
+.textfield {
+	font-family: Verdana, Arial, Sans Serif ;
+	background-color: white;
+	border: inset 1px #aeb2c3;
+}
+
+.vindent {
+	margin-left: 4px;
+}
+
+.control hr {
+	border: none;
+	border-top: 1px solid #5d6069;
+	border-bottom: 1px solid #dcdee5;
+}
+
+.control select {
+	border: outset 1px #aeb2c3;
+	padding: 2px;
+	background-color: #aeb2c3;
+}
+
+.control input.button {
+	border: outset 1px #aeb2c3;
+	background-color: #aeb2c3;
+	margin: 4px;
+}
+
+.control input.radio {
+	border: inset 1px #aeb2c3;
+	background-color: #aeb2c3;
+	border: thick solid red;
+}
+
+a.radio {
+	border: none;
+	text-decoration: none;
+	color: black;
+}
+
+a.radio img {
+	border: none;
+	vertical-align: middle;
+	padding-bottom: 2px;
+}
+
+a.radio:active {
+	border: none;
+}
+
+a.radio:focus {
+	border: none;
+}
+
+a.checkbox {
+	border: none;
+	text-decoration: none;
+	color: black;
+}
+
+a.checkbox img {
+	border: none;
+	vertical-align: middle;
+	padding-bottom: 4px;
+}
+
+.buttons {
+	display: inline;
+	padding-left: 2px;
+}
+
+.buttons-v {
+	display: block;
+	padding-left: 24px;
+}
+
+.control input.text {
+	border: inset 1px #aeb2c3;
+	background-color: white;
+}
+
+td.input-item-beginnner {
+    font-weight: bold;
+    text-align: right;
+}
+
+.subsys td {
+	padding-top: 4px;
+	border-top: inset 1px #aeb2c3;
+}
+
+.site {
+	border-right: inset 1px #aeb2c3;
+}
+
+.input td {
+	padding: 4px;
+}
+
+
+
+
+/*******Menu Tabs**************/ 
+
+td.tab {
+      color: black;
+      font-weight: bold;
+      font: caption;
+      background-color: lightgray;
+      text-align: center;
+      margin-left: 0px;
+      margin-right: 0px;
+      border-top:   1px solid gray;
+      border-left: 2px solid gray;
+      border-right: 2px solid gray;
+      border-bottom: 2px solid gray;
+}
+
+td.sub-tab {
+      color: black;
+      font-weight: bold;
+      font: caption;
+      background-color: lightgray;	
+      text-align: center;
+      border-left: 2px solid gray;
+      border-right: 2px solid gray;
+      border-top:   0px solid gray;
+      border-bottom: 2px solid gray;
+}
+
+td.selected{
+      background-color: lightgray;	
+      border-bottom: 0px;
+}
+
+
+a.tab:link    { text-decoration: none;  color: black; }
+a.tab:visited { text-decoration: none;  color: black; }
+a.tab:hover   { text-decoration: underline; }
+a.button      { text-decoration: none; }
+
+input.button  { text-decoration: none; }
+#input.button:hover  { text-decoration: underline; }
+
+
+/* Tutorial pages and other transclusions */
+
+.editsection {
+	display: none;
+}
+
+table.tutorial tr td {
+       font-size: 80%;
+}
+
+table.tutorial tr td.screenshot {
+       border: 3px outset;
+       text-align: center;
+}
+
+.printfooter, .printfooter a {
+   display: none;
+}
+
+.edit_link a {
+  font-size: small;
+  color: gray;
+  text-decoration: none;
+}
+
+#catlinks {
+   display: none;
+}
+
+#sub-library, #sub-home, #sub-posters, #sub-siteindex {
+	display: none; 
+}
+
+#sub-data {
+	display: block; 
+}
+
+#data #subnav a[href="/ligo/tla/"] {
+	font-style: italic; 
+}
+
+
+/**EOF**/
