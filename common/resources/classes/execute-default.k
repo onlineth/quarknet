@@ -1,6 +1,7 @@
-element([tr, optional(arguments, stdin, stdout, stderr, attributes, deperror, mdeperror), channel(stagein), channel(stageout), channel(restartout)]
+element([tr, optional(arguments, stdin, stdout, stderr, deperror, mdeperror), channel(stagein), channel(stageout), channel(restartout)]
 
 	vdl:initprogressstate()
+	vdl:setprogress("Initializing")
 
 	done := isDone(restartout)
 	derr := try(deperror, false)
@@ -10,21 +11,21 @@ element([tr, optional(arguments, stdin, stdout, stderr, attributes, deperror, md
 		derr == false then(
 			if(
 				sys:not(done) try(
-					throttled(
-						log(LOG:INFO, "START thread={#thread} tr={tr}")
+					sequential(
+						log(LOG:INFO, "START thread={#thread} tr={tr}") 
 						vdl:setprogress("Selecting site")
 						restartOnError(".*", vdl:configProperty("execution.retries"),
 							replicationChannel := channel()
 							discard(append(replicationChannel, true)) //trigger the first job
 							replicationGroup := uid()
 							parallelFor(i, replicationChannel
-								ignoreErrors(match = "^Abort$"
+								try(
 									execute2(
-										tr, maybe(arguments=unwrapClosedList(arguments)),
-										maybe(stdin=stdin), maybe(stdout=stdout), maybe(stderr=stderr),
-                    maybe(attributes=attributes),
+										tr, maybe(arguments=arguments), 
+										maybe(stdin=stdin), maybe(stdout=stdout), maybe(stderr=stderr), 
 										stagein, stageout, restartout, replicationGroup, replicationChannel
 									)
+									catch("^Abort$")
 								)
 							)
 						)
@@ -44,22 +45,18 @@ element([tr, optional(arguments, stdin, stdout, stderr, attributes, deperror, md
 							else (
 								to(errors, exception)
 								log(LOG:INFO, exception)
-								echo(exception)
 								mark(restartout, err=true, mapping=false)
 								graphStuff(tr, stagein, stageout, err=true, maybe(args=arguments))
 							)
 						)
 					)
 				)
-				else (
-					vdl:setprogress("Finished in previous run")
-				)
 			)
 		)
 		else (
 			if(
 				merr == true then(
-					exception := exception(concat("VDL2: Application ", str:quote(tr),
+					exception := exception(concat("VDL2: Application ", str:quote(tr), 
 						" not executed due to errors in mapping dependencies"))
 					to(errors, exception)
 					log(LOG:INFO, exception)
