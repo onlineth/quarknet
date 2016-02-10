@@ -95,15 +95,58 @@
 				<script type="text/javascript" src="../analysis/analysis-plot.js"></script>
 				<script type="text/javascript" src="timeofflight-singles.js"></script>
 				<script type="text/javascript">
-				$(document).ready(function() {
-					$.ajax({
-						type: "GET",
-						success: onDataLoad1
-					});
-				}); 	
+				function ajax1() {
+					  return $.ajax({
+						  type: "GET",
+		          success: onDataLoad1
+				    });					
+				}
+        function ajax2() {
+            return $.ajax({
+              type: "GET",
+              success: onDataLoad2
+            });
+        }
+        function ajax3() {
+            return $.ajax({
+              type: "GET",
+              success: onDataLoad3
+            });
+        }
+        function ajax4() {
+            return $.ajax({
+              type: "GET",
+              success: onDataLoad4
+            });
+        }
+        function ajax5() {
+            return $.ajax({
+              type: "GET",
+              success: onDataLoad5
+            });
+        }
+        function ajax6() {
+            return $.ajax({
+              type: "GET",
+              success: onDataLoad6
+            });
+        }
+
+        var deferred = $.Deferred();
+        
+				$(document).ready(function() {	
+					$.when(ajax1(), ajax2(), ajax3(), ajax4(), ajax5(), ajax6())
+				     .done(function (response1, response2, response3, response4, response5, response6) {
+				    	    var feedback = document.getElementById("feedback");
+				    	    feedback.innerHTML = "";
+				     });
+				    return deferred.promise();
+        }); 	
+								
 				</script>			
 
 	<h1>Time of flight study result</h1>
+	<div id="feedback"></div>
 	<a href="output-combined.jsp?id=${timeofflightResults.id}">View all charts combined</a>
 	<div class="graph-container-timeofflight">
 		<div class="row">
@@ -157,6 +200,7 @@
 <p>
 	<e:rerun type="timeofflight" id="${timeofflightResults.id}" label="Change"/> your parameters
 </p>
+
 			<input type="hidden" name="outputDir" id="outputDir" value="${results.outputDirURL}"/>
 			<e:commonMetadataToSave rawData="${timeofflightResults.analysis.parameters['rawData']}"/>
 			<e:creationDateMetadata/>
@@ -175,7 +219,6 @@
 			<input type="hidden" name="eventNum" value="${timeofflightResults.analysis.parameters['eventNum']}" />
 			<input type="hidden" name="id" value="${timeofflightResults.id}"/>
 			<input type="hidden" name="rundirid" value="${results.id}"/>
-
 			</div>
 			<!-- end content -->	
 	
