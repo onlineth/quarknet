@@ -631,10 +631,16 @@ public class DatabaseUserManagementProvider implements
         if (groupToCreate != null) {
         	rp = new GeneratePassword();
         	pass = rp.getPassword();
-        	
-            File tua = new File(et.getUserArea());
-            group.setUserArea(new File(tua.getParentFile(), group.getName())
-                    .getPath());
+        	File tua = null;
+        	if (et.getUserArea() != null) {
+        		tua = new File(et.getUserArea());
+        	} 
+        	if (tua != null) {
+        		group.setUserArea(new File(tua.getParentFile(), group.getName())
+        			.getPath());
+        	} else {
+        		group.setUserArea(new File("/tmp", group.getName() ).getPath());
+        	}
             // Generated a default academic year. LQ - 7-24-06
             Calendar calendar = new GregorianCalendar();
             int year = calendar.get(Calendar.YEAR);
@@ -1176,7 +1182,7 @@ public class DatabaseUserManagementProvider implements
     public String sendEmail(String to, String subject, String message) throws ElabException {
     	String result = "";
 		//Sender's email ID 
-		final String from = "elabs@i2u2.org";
+		final String from = elab.getProperty("retrieveResetEmail");
 		final String password = "";
 	    //Get system properties object
 	    Properties properties = System.getProperties();

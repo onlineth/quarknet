@@ -31,9 +31,9 @@ public class ThresholdTimes {
     private long[] rePPSTime, rePPSCount, reDiff;
     private int[] reTMC;
     private long lastRePPSTime, lastRePPSCount;
-    private int lastGPSDay, jd;
+    private int lastGPSDay, jd, startJd, nextJd;
     private String lastSecString;
-    private double lastEdgeTime, lastjdplustime;
+    private double lastEdgeTime, lastjdplustime, firstRE;
     private double cpldFrequency, firmware;
     private int currentDetector;
     Elab elabReference;
@@ -42,7 +42,8 @@ public class ThresholdTimes {
     public static final NumberFormat NF2F = new DecimalFormat("0.00");
     public static final NumberFormat NF16F = new DecimalFormat("0.0000000000000000");
     public final int detectorSeriesChange = 6000;
-    
+    public final double upperFirstHalfDay = 0.9999999999999999;
+    public final double lowerFirstHalfDay = 0.5;    
     /**
      * Constructor arguments: Elab elab, String[] inputFiles, String detectorId
      */   
@@ -92,15 +93,18 @@ public class ThresholdTimes {
 		        lastRePPSTime = 0;
 		        lastRePPSCount = 0;
 		        lastjdplustime = 0;
+		        startJd = 0;
+		        nextJd = 0;
+		        firstRE = -1.0;
 		        
 				String inputFile = elabReference.getProperties().getDataDir() + File.separator + detectorIDs[i] +File.separator + inputFiles[i];
 				String outputFile = elabReference.getProperties().getDataDir() + File.separator + detectorIDs[i] +File.separator + outputFiles[i];
 	    		//check if the .thresh exists, if so, do not overwrite it
-	    		File tf = new File(outputFile);
-	    		if (tf.exists()) {
-	    			System.out.println("File exists: "+outputFiles[i]+" - not overwriting it");
-	    			continue;
-	    		}
+	    		//File tf = new File(outputFile);
+	    		//if (tf.exists()) {
+	    		//	System.out.println("File exists: "+outputFiles[i]+" - not overwriting it");
+	    		//	continue;
+	    		//}
 		        BufferedReader br = new BufferedReader(new FileReader(inputFile));
 		        BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
 		
@@ -141,7 +145,7 @@ public class ThresholdTimes {
         	// abort?
         }
     }
-
+    
     private void timeOverThreshold(String[] parts, int channel, String detector, BufferedWriter bw) throws IOException {
     	double edgetimeSeconds = 0;
     	long exp = Double.valueOf("1.0E+11").longValue();   	
@@ -230,26 +234,35 @@ public class ThresholdTimes {
                 msecOffset = sign * Integer.parseInt(parts[15].substring(1));            	
             }
             double offset = reDiff[channel] / cpldFrequency + reTMC[channel] / (cpldFrequency * 32) + msecOffset / 1000.0;
-            //Bug 469: the rollover of the julian day and the RE needs be in sync
-            //		   to check that, the new julian day + rising edge needs to be larger than the prior one
-            if (lastjdplustime > 0) {
-            	double tempjdplustime = currLineJD(offset, parts) + retime[channel];
-            	double tempdiff = tempjdplustime - lastjdplustime;
-            	if (tempdiff < 1.0) {
-                    jd = currLineJD(offset, parts);           		
-            	}
-            } else {
-                jd = currLineJD(offset, parts);           		            	
-            }
- 
+            jd = currLineJD(offset, parts);           		            	
             lastGPSDay = currGPSDay;
             lastEdgeTime = retime[channel];
+        }
+        //Bug 469: the rollover of the julian day and the RE needs be in sync
+        //		   the following code is an attempt to keep them in sync.                  
+        if (startJd == 0) {
+        	startJd = jd;
+        	nextJd = jd+1;
+        }
+
+        if (firstRE == -1.0) {
+        	firstRE = retime[channel];
+        }
+        
+        if (retime[channel] >= lowerFirstHalfDay && retime[channel] <= upperFirstHalfDay ){
+        	jd = startJd;
+        } else {
+        	if (firstRE >= lowerFirstHalfDay && firstRE <= upperFirstHalfDay) {
+        		jd = nextJd;
+        	} else {
+        		jd = startJd;
+        	}
         }
 
         double nanodiff = (fetime[channel] - retime[channel]) * 1e9 * 86400;
         String id = detector + "." + (channel + 1);
 
-        if (nanodiff >= 0 && nanodiff < 10000) {
+        if (nanodiff >= 0 && nanodiff < 10000 && retime[channel] > 0) {
         	lastjdplustime = jd + retime[channel];        	
             wr.write(id);
             wr.write('\t');
